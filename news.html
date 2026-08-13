@@ -1,0 +1,2414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stockopedia — Today&rsquo;s news</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet">
+<style>
+/* ── ICONS ─────────────────────────────────────────────────────────────────
+   Material Symbols is the Stockopedia icon standard. Use <span class="msym">name</span>
+   with the ligature name, never a hand-drawn path. Size with font-size; colour with
+   color. Weight/fill are set per-instance via font-variation-settings if needed. */
+.msym { font-family:'Material Symbols Outlined'; font-weight:normal; font-style:normal;
+        font-size:20px; line-height:1; letter-spacing:normal; text-transform:none;
+        display:inline-block; white-space:nowrap; word-wrap:normal; direction:ltr;
+        -webkit-font-feature-settings:'liga'; -webkit-font-smoothing:antialiased;
+        font-variation-settings:'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20; }
+.msym.is-filled { font-variation-settings:'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 20; }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --brand-blue-dark:       #3D66A1;
+  --brand-blue:            #4776BA;
+  --rail-accent:           #EF9F27;
+  --brand-blue-light:      #DAE4F1;
+  --cornflower-blue:       #C3D6F5;
+  --cornflower-blue-light: #F0F5FC;
+  --charcoal-black:        #293140;
+  --slate-black:           #39455D;
+  --steel-grey-dark:       #B8C1D8;
+  --steel-grey:            #D8DEEB;
+  --steel-grey-light:      #E8EBF3;
+  --stone-grey:            #EFF2F9;
+  --stone-grey-light:      #F5F7FB;
+  --brilliant-white:       #FFFFFF;
+  --border-standard:       rgba(0,0,0,0.10);
+  --border-subtle:         rgba(0,0,0,0.06);
+  --border-input:          rgba(0,0,0,0.25);
+  --text-primary:          rgba(0,0,0,0.87);
+  --text-secondary:        rgba(0,0,0,0.60);
+  --text-tertiary:         rgba(0,0,0,0.38);
+  --text-inv-primary:      rgba(255,255,255,0.87);
+  --text-inv-secondary:    rgba(255,255,255,0.73);
+  --text-inv-tertiary:     rgba(255,255,255,0.38);
+  --super-green-dark:      #1B6E38;
+  --super-green:           #228745;
+  --super-green-light:     #D1E2D7;
+  --strong-green:          #4AA843;
+  --sucker-red-dark:       #AD2833;
+  --sucker-red:            #CC4752;
+  --sucker-red-light:      #EFD4D6;
+  --neutral-grey:          #A9ADB3;
+  --cautious-amber:        #D97D30;
+  --warm-yellow:           #F0C54B;
+  --value-teal:            #58C5CF;
+  --bargain-purple:        #9478AB;
+  --income-gold:           #CA9C5B;
+  --rating-amber-green:    var(--warm-yellow);
+
+  /* Rating semantic aliases */
+  --rating-green-bg:   var(--super-green-light);
+  --rating-green-text: var(--super-green-dark);
+  --rating-green-border: var(--super-green);
+  --rating-amber-bg:   #FEF3DC;
+  --rating-amber-text: #7A4F00;
+  --rating-amber-border: var(--cautious-amber);
+  --rating-red-bg:     var(--sucker-red-light);
+  --rating-red-text:   var(--sucker-red-dark);
+  --rating-red-border: var(--sucker-red);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  background: var(--stone-grey);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── SHELL ── */
+.shell { display: flex; min-height: 100vh; }
+
+/* ── HEADER ── */
+.site-header {
+  background: var(--brilliant-white);
+  border-bottom: 1px solid var(--border-standard);
+  position: fixed;
+  top: 0; left: 272px; right: 0;
+  z-index: 300;
+  height: 48px;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px 0 0;
+  height: 48px;
+}
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  padding: 0 16px;
+  flex-shrink: 0;
+}
+.header-wordmark {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--charcoal-black);
+  letter-spacing: -0.01em;
+}
+.header-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--stone-grey);
+  border: 1px solid var(--border-input);
+  border-radius: 24px;
+  padding: 7px 16px;
+  flex: 1;
+  max-width: 360px;
+  color: var(--text-secondary);
+}
+.header-search svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; flex-shrink: 0; }
+.header-search input { background: none; border: none; outline: none; font-family: 'Lato', sans-serif; font-size: 14px; color: var(--text-primary); width: 100%; }
+.header-search input::placeholder { color: var(--text-tertiary); }
+.header-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.region-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: none; border: 1px solid var(--border-standard);
+  border-radius: 24px; padding: 5px 12px;
+  font-family: 'Lato', sans-serif; font-size: 13px;
+  color: var(--text-secondary); cursor: pointer;
+}
+.header-icon-btn {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--border-standard);
+  background: none; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--text-secondary);
+}
+.header-icon-btn svg { width: 17px; height: 17px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; }
+.header-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--brand-blue);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: white; cursor: pointer;
+}
+
+/* ── GLOBAL RAIL ── */
+.global-rail {
+  width: 72px;
+  background: var(--charcoal-black);
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+  gap: 2px;
+}
+.rail-item {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 10px 6px; width: 60px; border-radius: 8px;
+  cursor: pointer; position: relative; transition: background 0.15s;
+}
+.rail-item:hover { background: var(--slate-black); }
+.rail-item.active { background: rgba(255,255,255,0.1); }
+.rail-accent-bar {
+  position: absolute; left: -6px; top: 8px; bottom: 8px;
+  width: 3px; background: var(--rail-accent);
+  border-radius: 0 3px 3px 0;
+}
+.rail-item svg { width: 22px; height: 22px; stroke: rgba(255,255,255,0.45); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.rail-item.active svg { stroke: rgba(255,255,255,0.95); }
+.rail-item:hover svg { stroke: rgba(255,255,255,0.75); }
+.rail-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: rgba(255,255,255,0.5); text-align: center; }
+.rail-item.active .rail-label { color: rgba(255,255,255,0.95); }
+
+/* ── LOCAL NAV ── */
+.local-nav {
+  width: 200px;
+  background: var(--slate-black);
+  position: fixed;
+  top: 0; bottom: 0; left: 72px;
+  z-index: 190;
+  display: flex; flex-direction: column;
+  overflow-y: auto;
+}
+.local-nav-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+.local-nav-title { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.95); text-transform: uppercase; letter-spacing: 0.06em; }
+.local-nav-icon-btn {
+  width: 30px; height: 30px; border-radius: 6px; flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.15); background: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: rgba(255,255,255,0.65); transition: background 0.1s, color 0.1s;
+}
+.local-nav-icon-btn:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.95); }
+.local-nav-icon-btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.local-nav-body { padding: 8px 0; }
+.local-nav-group { margin-bottom: 16px; }
+.local-nav-group-label {
+  display: block; padding: 6px 16px 4px;
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: rgba(255,255,255,0.35);
+}
+.local-nav-link {
+  display: block; padding: 7px 16px;
+  font-size: 13px; color: rgba(255,255,255,0.65);
+  text-decoration: none; transition: background 0.1s, color 0.1s;
+}
+.local-nav-link:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.95); }
+.local-nav-link.active { color: rgba(255,255,255,0.95); background: rgba(255,255,255,0.08); font-weight: 700; }
+.local-nav-sublink {
+  display: block; padding: 7px 16px 7px 28px;
+  font-size: 13px; color: rgba(255,255,255,0.5);
+  text-decoration: none; transition: background 0.1s, color 0.1s;
+}
+.local-nav-sublink:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.9); }
+.local-nav-sublink.active { color: rgba(255,255,255,0.95); background: rgba(255,255,255,0.08); font-weight: 700; }
+.local-nav-divider { height: 1px; background: rgba(255,255,255,0.07); margin: 4px 16px 12px; }
+
+/* ── MAIN ── */
+.app-main {
+  margin-left: 272px;
+  margin-top: 48px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── PROTOTYPE STATE SELECT (in header) ── */
+.proto-state-select {
+  font-family: 'Lato', sans-serif;
+  font-size: 12px; font-weight: 700;
+  color: var(--charcoal-black);
+  background: var(--steel-grey-dark) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23293140' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;
+  background-size: 11px;
+  border: 1px solid var(--border-standard);
+  border-radius: 20px;
+  padding: 0 28px 0 12px;
+  height: 32px;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* ── PAGE CANVAS ── */
+.page-canvas {
+  padding: 24px 24px 60px;
+  display: flex;
+  justify-content: center;
+}
+
+/* ── CONTENT CARD ── */
+.content-card {
+  background: var(--brilliant-white);
+  border: 1px solid var(--border-standard);
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 1250px;
+}
+
+/* ── PAGE CANVAS ── */
+.page-canvas {
+  padding: 24px 24px 60px;
+  display: flex;
+  justify-content: center;
+}
+
+/* ── CONTENT CARD ── */
+.content-card {
+  background: var(--brilliant-white);
+  border: 1px solid var(--border-standard);
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 1250px;
+}
+
+/* ── ARTICLE ── */
+/* The card keeps the site's 1250px width. Inside it, one column wide enough to
+   hold the reading measure AND the agenda's signal column, so nothing hangs out
+   past anything else. Two consistent edges: the column at 944px, and the text
+   measure at 744px within it. */
+.article-wrap { padding: 0 0 48px; }
+.rwrap { max-width: 1076px; margin: 0 auto; padding: 0 56px; }
+/* Same box in every state: the live version only adds a background, so the
+   header cannot change height when the report completes. */
+.report-head { padding: 26px 0 22px; }
+
+/* Text measure. The agenda row spans the full column so its 176px signal
+   column lands to the right of the same 744px of text. */
+.report-meta, .report-byline,
+.report-head .article-title-row,
+.article-h2, .article-body, .article-list,
+.agenda-header-main, .agenda-sub,
+.morenews-h2, .morenews-sub,
+.authors-h2 { max-width: 744px; }
+
+/* The discussion spans the full column so it lines up with the agenda rows
+   rather than sitting short with dead space beside it. Only the reading text
+   inside it is measured. */
+.comment-text, .compose-label, .discussion-sync-note { max-width: 744px; }
+
+/* Meta bar */
+.article-meta-bar {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 14px; flex-wrap: wrap;
+}
+.live-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--sucker-red); color: white;
+  font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  padding: 3px 8px; border-radius: 3px;
+}
+.live-dot { width: 6px; height: 6px; border-radius: 50%; background: white; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+.article-kicker { font-size: 13px; line-height: 20px; font-weight: 700; color: var(--text-secondary); }
+.article-date { font-size: 13px; line-height: 20px; color: var(--text-secondary); }
+.article-updated { font-size: 13px; line-height: 20px; color: var(--text-secondary); }
+.meta-right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+.meta-stat { display: flex; align-items: center; gap: 5px; font-size: 13px; line-height: 20px; color: var(--text-secondary); cursor: pointer; text-decoration: none; }
+.meta-stat svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; }
+.meta-stat:hover { color: var(--brand-blue); }
+
+/* Header row: vote column + meta/H1 */
+/* Vote hangs in the margin so the headline starts on the same left edge as the
+   meta row, the byline and every other line of text on the page. */
+.article-title-row { position: relative; }
+.article-title-row .article-vote { position: absolute; left: -54px; top: 5px; }
+.article-vote {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  flex-shrink: 0;
+}
+.vote-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; background: none; border: none; padding: 0;
+  color: var(--brand-blue); cursor: pointer; transition: color 0.15s;
+}
+.vote-btn:hover { color: var(--brand-blue-dark); }
+.vote-btn svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.vote-btn.active svg { fill: var(--brand-blue); }
+.vote-count { font-size: 14px; font-weight: 700; color: var(--text-secondary); }
+
+/* H1 */
+.article-h1 {
+  font-size: 32px; line-height: 42px; font-weight: 700;
+  color: var(--text-primary); margin-bottom: 0;
+}
+
+/* Analyst cards strip */
+.analyst-strip {
+  display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.analyst-card {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--stone-grey-light);
+  border: 1px solid var(--border-standard);
+  border-radius: 8px; padding: 10px 14px;
+  flex: 1; min-width: 160px;
+}
+.analyst-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--brand-blue); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: white; overflow: hidden;
+}
+.analyst-info { min-width: 0; }
+.analyst-name { font-size: 13px; line-height: 20px; font-weight: 700; color: var(--text-primary); }
+.analyst-cred { font-size: 13px; line-height: 18px; color: var(--text-secondary); margin-top: 1px; }
+
+/* Coverage strip */
+.coverage-wrap {
+  margin-bottom: 24px;
+  position: relative;
+  margin-left: -32px; margin-right: -32px;
+  padding: 14px 32px;
+  border-top: 1px solid var(--border-standard);
+  border-bottom: 1px solid var(--border-standard);
+}
+.coverage-strip {
+  display: flex; gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+.coverage-strip::-webkit-scrollbar { display: none; }
+.coverage-chip {
+  display: inline-flex; align-items: center;
+  font-size: 12px; font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border-standard);
+  border-left-width: 3px;
+  background: var(--brilliant-white);
+  color: var(--text-secondary);
+  cursor: pointer; flex-shrink: 0;
+  transition: background 0.12s;
+  text-decoration: none;
+}
+.coverage-chip:hover { background: var(--steel-grey-dark); color: var(--text-primary); }
+.coverage-chip.rating-green { border-left-color: var(--super-green); }
+.coverage-chip.rating-amber { border-left-color: var(--cautious-amber); }
+.coverage-chip.rating-amber-green { border-left-color: var(--rating-amber-green); }
+.coverage-chip.rating-red   { border-left-color: var(--sucker-red); }
+.coverage-chip.rating-none  { border-left-color: var(--steel-grey-dark); }
+
+/* Pinned strip */
+.coverage-pinned {
+  position: fixed;
+  top: 48px;
+  left: 0; right: 0;
+  z-index: 150;
+  display: none;
+  pointer-events: none;
+}
+.coverage-pinned-inner {
+  background: var(--brilliant-white);
+  border-bottom: 1px solid var(--border-standard);
+  border-top: 1px solid var(--border-standard);
+  padding: 8px 32px;
+  pointer-events: all;
+  /* left/width set by JS to align with content card */
+  position: absolute;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.coverage-pinned .coverage-strip { padding-bottom: 0; }
+.coverage-pinned-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-secondary); margin-bottom: 6px; }
+
+/* Scroll offset — compensate for fixed header (48px) + pinned coverage strip (~60px) */
+.atomic-block { scroll-margin-top: 124px; }
+
+/* Article body */
+.article-section { margin-bottom: 28px; }
+.article-h2 { font-size: 24px; line-height: 31px; font-weight: 700; color: var(--text-primary); margin-bottom: 13px; }
+.article-body { font-size: 15px; line-height: 23px; color: var(--text-primary); margin-bottom: 12px; }
+.article-list { font-size: 15px; line-height: 23px; color: var(--text-primary); padding-left: 20px; }
+.article-list li { margin-bottom: 4px; }
+
+/* ── KEY NEWS TABLE ── */
+.key-news-section {
+  background: var(--brilliant-white);
+  border: 1px solid var(--border-standard);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+.key-news-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-standard);
+  cursor: pointer;
+}
+.key-news-title {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 17px; font-weight: 700; color: var(--text-primary);
+}
+.chevron-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: 6px;
+  border: 1px solid var(--cornflower-blue);
+  background: var(--cornflower-blue-light);
+  cursor: pointer;
+  font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 700; color: var(--brand-blue);
+  transition: background 0.15s, border-color 0.15s;
+}
+.chevron-btn:hover { background: var(--cornflower-blue); }
+.chevron-btn svg { width: 14px; height: 14px; stroke: var(--brand-blue); fill: none; stroke-width: 2; stroke-linecap: round; transition: transform 0.2s; }
+.key-news-section.collapsed .chevron-btn svg { transform: rotate(180deg); }
+.chevron-btn .expand-label { display: none; }
+.key-news-section.collapsed .chevron-btn .expand-label { display: inline; }
+.key-news-section.collapsed .chevron-btn .collapse-label { display: none; }
+.key-news-body { display: block; }
+.key-news-section.collapsed .key-news-body { display: none; }
+
+/* Filter bar */
+.filter-bar {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  padding: 10px 18px;
+  border-bottom: 1px solid var(--steel-grey-light);
+  background: var(--stone-grey-light);
+}
+.filter-label { font-size: 13px; color: var(--text-secondary); font-weight: 700; flex-shrink: 0; }
+.filter-chip {
+  font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 700;
+  padding: 4px 12px; border-radius: 20px;
+  border: 1px solid var(--border-standard);
+  background: var(--brilliant-white); color: var(--text-secondary);
+  cursor: pointer; transition: all 0.12s;
+}
+.filter-chip.active { background: var(--brand-blue); border-color: var(--brand-blue); color: white; }
+.filter-chip:hover:not(.active):not(.disabled) { border-color: var(--brand-blue); color: var(--brand-blue); }
+.filter-chip.disabled { opacity: 0.35; cursor: not-allowed; }
+.filter-chip-pending {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 700;
+  padding: 4px 12px; border-radius: 20px;
+  border: 1px dashed var(--steel-grey-dark);
+  color: var(--text-tertiary);
+  cursor: default; white-space: nowrap;
+}
+.filter-chip-pending svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; flex-shrink: 0; }
+.pending-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cautious-amber); flex-shrink: 0; }
+.chip-count { font-size: 12px; font-weight: 700; margin-left: 4px; opacity: 0.7; }
+.chip-tooltip-wrap { position: relative; display: inline-flex; }
+.chip-tooltip {
+  display: none; position: absolute; bottom: calc(100% + 6px); left: 50%;
+  transform: translateX(-50%); white-space: nowrap;
+  background: var(--charcoal-black); color: rgba(255,255,255,0.9);
+  font-size: 12px; line-height: 18px; padding: 5px 10px; border-radius: 5px;
+  pointer-events: none; z-index: 100;
+}
+.chip-tooltip::after {
+  content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: var(--text-secondary);
+}
+.chip-tooltip-wrap:hover .chip-tooltip { display: block; }
+.filter-bar-divider { width: 1px; height: 20px; background: var(--steel-grey); flex-shrink: 0; }
+.sort-wrap { display: flex; align-items: center; gap: 6px; }
+.sort-label { font-size: 13px; color: var(--text-secondary); }
+.sort-select { font-family: 'Lato', sans-serif; font-size: 13px; color: var(--text-primary); border: 1px solid var(--border-standard); border-radius: 4px; padding: 4px 8px; background: var(--brilliant-white); cursor: pointer; }
+
+/* Sortable column headers */
+.th-sortable { cursor: pointer; user-select: none; }
+.news-table thead th.th-sortable:hover { color: var(--brand-blue); }
+.news-table thead th.th-sort-active { color: var(--brand-blue); }
+.sort-caret { display: inline-flex; align-items: center; margin-left: 3px; vertical-align: middle; }
+.sort-caret svg { width: 9px; height: 9px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Company sort dropdown */
+.th-company-wrap { position: relative; }
+.company-sort-menu {
+  display: none; position: absolute; top: calc(100% + 2px); left: -2px; z-index: 300;
+  background: var(--brilliant-white); border: 1px solid var(--border-standard);
+  border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  min-width: 152px; padding: 4px 0; cursor: default;
+}
+.company-sort-menu.open { display: block; }
+.company-sort-item {
+  padding: 8px 14px; font-size: 12px; font-weight: 700; letter-spacing: 0.05em;
+  text-transform: uppercase; color: var(--text-secondary); cursor: pointer;
+  transition: background 0.1s; display: flex; align-items: center; gap: 8px;
+}
+.company-sort-item:hover { background: var(--steel-grey-dark); color: var(--text-primary); }
+.company-sort-item.csm-active { color: var(--brand-blue); }
+.company-sort-item.csm-active::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--brand-blue); flex-shrink: 0; }
+
+/* News table */
+.news-table { width: 100%; border-collapse: collapse; }
+.news-table thead th {
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--text-secondary);
+  padding: 9px 14px; text-align: left;
+  border-bottom: 1px solid var(--steel-grey-light);
+  background: var(--stone-grey-light);
+  white-space: nowrap;
+}
+.news-table thead th.center { text-align: center; }
+.news-table tbody tr { border-bottom: 1px solid var(--steel-grey-light); transition: background 0.1s; }
+.news-table tbody tr:last-child { border-bottom: none; }
+.news-table tbody tr:hover { background: none; }
+.news-table tbody td { padding: 10px 14px; vertical-align: middle; font-size: 13px; }
+.news-table tbody td:nth-child(1), .news-table tbody td:nth-child(2) { vertical-align: top; }
+
+.co-name { font-size: 13px; font-weight: 700; color: var(--brand-blue); }
+.co-meta { font-size: 12px; line-height: 18px; color: var(--text-primary); margin-top: 2px; }
+.rns-title { font-size: 13px; font-weight: 700; color: var(--brand-blue); margin-bottom: 3px; }
+.rns-summary { font-size: 13px; color: var(--text-primary); line-height: 20px; }
+.ai-tag {
+  display: inline-block; font-size: 9px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--text-secondary);
+  background: var(--stone-grey); border: 1px solid var(--border-standard);
+  border-radius: 3px; padding: 1px 5px; margin-bottom: 4px;
+}
+
+/* Earnings chips */
+.earn-chip {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 24px; box-sizing: border-box;
+  font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+  padding: 0 8px; border-radius: 4px; white-space: nowrap;
+}
+.earn-beat   { background: var(--super-green-light); color: var(--super-green-dark); }
+.earn-miss   { background: var(--sucker-red-light);  color: var(--sucker-red-dark); }
+.earn-inline { background: var(--steel-grey-light);  color: var(--text-secondary); }
+
+/* Price change */
+.price-chg { font-size: 13px; font-weight: 700; text-align: center; display: block; white-space: nowrap; }
+.up  { color: var(--super-green); }
+.dn  { color: var(--sucker-red); }
+.fl  { color: var(--text-primary); }
+
+/* StockRank circle */
+.sr-wrap { display: flex; justify-content: center; }
+.sr {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; border-radius: 50%;
+  font-size: 12px; font-weight: 400;
+}
+.sr-super    { background: var(--super-green-dark); color: white; }
+.sr-strong   { background: var(--super-green); color: white; }
+.sr-neutral  { background: var(--neutral-grey); color: white; }
+.sr-weak     { background: var(--sucker-red); color: white; }
+.sr-low      { background: var(--sucker-red-dark); color: white; }
+
+/* Analyst rating cell */
+.analyst-cell { text-align: left; }
+
+/* AM pending state */
+.analyst-pending {
+  display: flex; align-items: center; gap: 6px;
+  justify-content: flex-start;
+}
+.pending-avatar {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--steel-grey); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700; color: var(--text-secondary); overflow: hidden;
+}
+.pending-text { font-size: 13px; line-height: 18px; color: var(--text-secondary); text-align: left; }
+.pending-name { color: var(--text-primary); font-weight: 700; }
+
+/* PM rated state */
+.analyst-rated {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 5px;
+}
+.rating-pill {
+  display: inline-flex; align-items: center;
+  height: 24px; box-sizing: border-box;
+  padding: 0 9px; border-radius: 4px;
+  font-size: 12px; font-weight: 700; white-space: nowrap;
+}
+.rating-pill.r-green { background: var(--super-green); color: white; }
+.rating-pill.r-amber { background: var(--cautious-amber); color: white; }
+.rating-pill.r-amber-green { background: var(--rating-amber-green); color: var(--text-secondary); }
+.rating-pill.r-red   { background: var(--sucker-red); color: white; }
+.analyst-attr {
+  display: flex; align-items: center; gap: 5px;
+}
+.analyst-thumb {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--brand-blue); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px; font-weight: 700; color: white; overflow: hidden;
+}
+.analyst-attr-name { font-size: 12px; color: var(--text-primary); white-space: nowrap; }
+.pending-name { white-space: nowrap; }
+
+/* View all */
+.view-all-row {
+  display: flex; align-items: center; justify-content: center;
+  padding: 14px; border-top: 1px solid var(--steel-grey-light);
+  gap: 6px; cursor: pointer;
+  font-size: 13px; font-weight: 700; color: var(--brand-blue);
+  text-decoration: none; transition: background 0.1s;
+}
+.view-all-row:hover { background: var(--cornflower-blue-light); }
+.view-all-row svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+
+/* ── Atomic block rating color-coding — full border ── */
+.atomic-block.block-rating-green { border: 1px solid var(--super-green); }
+.atomic-block.block-rating-amber { border: 1px solid var(--cautious-amber); }
+.atomic-block.block-rating-amber-green { border: 1px solid var(--rating-amber-green); }
+.atomic-block.block-rating-red   { border: 1px solid var(--sucker-red); }
+
+/* Price change chip in block header */
+.price-chip { font-size: 12px; line-height: 18px; font-weight: 700; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+.price-chip.up { background: var(--super-green-light); color: var(--super-green-dark); }
+.price-chip.dn { background: var(--sucker-red-light);  color: var(--sucker-red-dark); }
+
+/* ── Section dividers ── */
+.content-divider {
+  /* Falls exactly where the live header's background would have ended, and the
+     26px below matches that block's margin. The old -32px inset was written for
+     card padding that no longer exists. */
+  margin: 0 0 26px;
+  height: 0;
+  border: none;
+  border-top: 1px solid var(--border-standard);
+}
+
+/* ── STOCKOPEDIA ANALYSIS ── */
+.analysis-section { margin-bottom: 28px; }
+.analysis-h2 { font-size: 20px; line-height: 26px; font-weight: 700; color: var(--text-primary); margin-bottom: 14px; }
+
+/* AM pending notice */
+.analysis-pending {
+  background: #FEF9EC;
+  border: 1px solid #F0C54B;
+  border-radius: 8px;
+  padding: 16px 20px;
+  display: flex; gap: 14px; align-items: flex-start;
+}
+.analysis-pending-icon svg { width: 24px; height: 24px; stroke: var(--cautious-amber); fill: none; stroke-width: 1.5; stroke-linecap: round; flex-shrink: 0; }
+.analysis-pending-text { font-size: 15px; line-height: 23px; color: var(--text-secondary); }
+.analysis-pending-text strong { color: var(--text-primary); font-weight: 700; }
+.analysis-pending-sub { font-size: 13px; line-height: 20px; color: var(--text-secondary); margin-top: 6px; }
+
+/* PM atomic blocks */
+.atomic-block {
+  background: var(--brilliant-white);
+  border: 1px solid var(--border-standard);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.block-header { padding: 14px 18px 12px; border-bottom: 1px solid var(--steel-grey-light); }
+.block-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.block-company-headline { font-size: 17px; font-weight: 700; color: var(--text-primary); line-height: 22px; }
+.block-company-headline a { color: var(--brand-blue); text-decoration: none; }
+.block-company-headline a:hover { text-decoration: underline; }
+.block-headline-sep { color: var(--text-secondary); font-weight: 400; margin: 0 4px; }
+.block-chips { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.block-meta-row { display: flex; align-items: center; gap: 10px; }
+.block-mktcap { font-size: 12px; line-height: 18px; color: var(--text-primary); }
+.block-meta-sep { font-size: 12px; color: var(--text-secondary); margin: 0 2px; }
+.sr-label { font-size: 12px; color: var(--text-primary); }
+.sr-group { display: flex; align-items: center; gap: 4px; }
+
+/* AI summary block */
+.ai-summary-block {
+  background: none;
+  border-top: none;
+  padding: 12px 18px 10px;
+}
+.ai-summary-label {
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.07em; color: var(--text-secondary);
+  display: inline; margin-right: 4px;
+}
+.ai-summary-label span { display: none; }
+.ai-summary-text { font-size: 13px; line-height: 20px; color: var(--text-secondary); }
+.rns-link { font-size: 12px; color: var(--brand-blue); text-decoration: none; display: inline-flex; align-items: center; gap: 3px; vertical-align: middle; margin-left: 3px; white-space: nowrap; }
+.rns-link:hover { text-decoration: underline; }
+.rns-link svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+/* Analyst commentary */
+.analyst-commentary { padding: 14px 18px; border-top: none; }
+.analyst-commentary-text {
+  font-size: 15px; line-height: 23px; color: var(--text-primary); font-weight: 700;
+}
+
+/* Block footer */
+.block-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 18px;
+  border-top: 1px solid var(--steel-grey-light);
+  background: none;
+}
+.block-analyst-attr { display: flex; align-items: center; gap: 8px; }
+.block-analyst-avatar {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--brand-blue); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: white; overflow: hidden;
+}
+.block-analyst-name { font-size: 12px; line-height: 18px; font-weight: 700; color: var(--text-secondary); }
+.block-footer-right { display: flex; align-items: center; gap: 12px; }
+/* Inherits from the metadata line it sits in, so it cannot drift out of step
+   with it again — it was hardcoded to 12px and overriding the 13px around it. */
+.jump-discuss { font-size: inherit; line-height: inherit; color: var(--brand-blue); text-decoration: none; display: flex; align-items: center; gap: 4px; }
+.jump-discuss:hover { text-decoration: underline; }
+.jump-discuss svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+.read-full-link { font-size: 12px; font-weight: 700; color: var(--brand-blue); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; letter-spacing: 0.03em; }
+.read-full-link:hover { text-decoration: underline; }
+.read-full-link svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+.news-table tbody tr td a.co-link { color: var(--brand-blue); text-decoration: none; font-weight: 700; }
+.news-table tbody tr td a.co-link:hover { text-decoration: underline; }
+
+/* Link to full atomic article */
+.expand-btn {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  width: 100%; padding: 11px 18px;
+  font-family: 'Lato', sans-serif; font-size: 13px; line-height: 20px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.07em;
+  color: var(--brand-blue); background: var(--stone-grey); text-decoration: none;
+  border-top: 1px solid var(--steel-grey-light);
+  cursor: pointer; transition: background 0.12s;
+}
+.expand-btn:hover { background: var(--steel-grey-light); text-decoration: none; }
+.expand-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.block-action-row { border-top: none; }
+
+/* ── DISCUSSION ── */
+.discussion-section { margin-bottom: 28px; }
+.discussion-header { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+.discussion-h2 { font-size: 24px; line-height: 31px; font-weight: 700; color: var(--text-primary); }
+.discussion-count { font-size: 13px; line-height: 20px; color: var(--text-secondary); font-weight: 400; }
+.discussion-sync-note { font-size: 13px; color: var(--text-tertiary); margin-left: auto; font-style: italic; }
+.discussion-card { background: var(--brilliant-white); border: 1px solid var(--border-standard); border-radius: 10px; overflow: hidden; }
+
+/* Discussion filter tabs */
+.discuss-filter-label {
+  font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em;
+  color: var(--text-tertiary); padding: 12px 14px 4px;
+}
+.discuss-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border-standard); overflow-x: auto; scrollbar-width: none; }
+.discuss-tabs::-webkit-scrollbar { display: none; }
+.discuss-tab {
+  display: flex; align-items: center; gap: 5px;
+  padding: 10px 14px; font-size: 13px; font-weight: 700;
+  color: var(--text-secondary); cursor: pointer; white-space: nowrap;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  transition: color 0.12s;
+}
+.discuss-tab:hover { color: var(--text-primary); }
+.discuss-tab.active { color: var(--brand-blue); border-bottom-color: var(--brand-blue); }
+.discuss-tab-count {
+  font-size: 12px; background: var(--steel-grey-light);
+  border-radius: 10px; padding: 1px 6px; color: var(--text-secondary);
+}
+.discuss-tab.active .discuss-tab-count { background: var(--brand-blue); color: white; }
+
+/* "More" overflow trigger for the long tail of lightly-commented stocks */
+.discuss-tab-more { gap: 4px; }
+.discuss-more-caret { transition: transform 0.15s; flex-shrink: 0; }
+.discuss-tab-more.open .discuss-more-caret,
+.discuss-tab-more.active .discuss-more-caret { transform: rotate(180deg); }
+.discuss-more-menu {
+  display: none;
+  position: fixed; z-index: 600;
+  background: var(--brilliant-white);
+  border: 1px solid var(--border-standard);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  min-width: 190px;
+  overflow: hidden;
+}
+.discuss-more-menu.open { display: block; }
+.discuss-more-item {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 9px 14px; font-size: 13px; font-weight: 700; color: var(--text-primary);
+  cursor: pointer; border-bottom: 1px solid var(--steel-grey-light); transition: background 0.1s;
+}
+.discuss-more-item:last-child { border-bottom: none; }
+.discuss-more-item:hover { background: var(--cornflower-blue-light); }
+.discuss-more-count {
+  font-size: 12px; font-weight: 400; background: var(--steel-grey-light);
+  border-radius: 10px; padding: 1px 6px; color: var(--text-secondary);
+}
+
+/* Comment compose card */
+.comment-compose-card {
+  background: var(--brilliant-white);
+  border: 1px solid var(--border-standard);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  padding: 16px;
+}
+.compose-identity {
+  font-size: 13px; line-height: 20px; color: var(--text-secondary);
+  margin-bottom: 10px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.compose-identity strong { color: var(--text-primary); font-weight: 700; }
+.compose-stock-select {
+  font-family: 'Lato', sans-serif; font-size: 12px;
+  border: 1px solid var(--border-standard); border-radius: 4px;
+  padding: 4px 8px; background: var(--stone-grey-light);
+  color: var(--text-secondary); cursor: pointer;
+}
+.compose-field-outer { position: relative; margin-bottom: 10px; }
+.compose-field-wrap { overflow: hidden; }
+
+/* Single action row — stock tagging (optional) */
+.compose-action-row {
+  display: flex; align-items: center; gap: 8px;
+}
+.compose-stock-wrap { position: relative; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; flex: 1; }
+.tagged-stock-chips { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.tagged-stock-chips:empty { display: none; }
+.stock-search-field {
+  display: flex; align-items: center; gap: 6px;
+  border: 1px solid var(--border-input); border-radius: 6px;
+  padding: 7px 10px; background: var(--stone-grey-light);
+  width: 175px;
+  transition: border-color 0.12s, background 0.12s;
+}
+.stock-search-field:focus-within { border-color: var(--brand-blue); background: var(--brilliant-white); }
+.stock-search-field svg { width: 13px; height: 13px; stroke: var(--text-secondary); fill: none; stroke-width: 2; stroke-linecap: round; flex-shrink: 0; }
+.stock-search-field input {
+  border: none; outline: none; background: none;
+  font-family: 'Lato', sans-serif; font-size: 13px; color: var(--text-primary); width: 100%;
+}
+.stock-search-field input::placeholder { color: var(--text-tertiary); }
+.compose-spacer { flex: 1; }
+/* Step 1 label */
+.compose-label {
+  font-size: 13px; color: var(--text-secondary);
+  margin: 0 0 10px 0; padding: 0;
+}
+/* Step 2: write area */
+.compose-write-step {
+  margin-top: 14px; padding-top: 12px;
+}
+
+/* Stock typeahead dropdown */
+.stock-typeahead {
+  position: absolute; top: calc(100% + 2px); left: 0; right: 0; z-index: 500;
+  background: var(--brilliant-white); border: 1px solid var(--border-standard);
+  border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); overflow: hidden;
+}
+.typeahead-item {
+  display: flex; align-items: center; gap: 10px; padding: 9px 14px; cursor: pointer;
+  border-bottom: 1px solid var(--steel-grey-light); transition: background 0.1s;
+}
+.typeahead-item:last-child { border-bottom: none; }
+.typeahead-item:hover, .typeahead-item.active { background: var(--cornflower-blue-light); }
+.typeahead-tick { font-size: 13px; font-weight: 700; color: var(--brand-blue); min-width: 52px; flex-shrink: 0; }
+.typeahead-name { font-size: 13px; color: var(--text-primary); }
+
+/* Tagged stock chip */
+.tagged-stock-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--cornflower-blue-light); border: 1px solid var(--cornflower-blue);
+  border-radius: 6px; padding: 5px 6px 5px 12px;
+  font-size: 13px; font-weight: 700; color: var(--brand-blue);
+}
+.tag-remove-btn {
+  background: none; border: none; cursor: pointer; color: var(--brand-blue);
+  padding: 2px; display: flex; align-items: center; border-radius: 3px; transition: background 0.1s;
+}
+.tag-remove-btn:hover { background: var(--cornflower-blue); }
+.tag-remove-btn svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; }
+
+/* Disabled submit */
+.compose-submit-btn:disabled { background: var(--steel-grey); cursor: not-allowed; }
+.comment-input-field {
+  display: block; width: 100%;
+  background: var(--brilliant-white);
+  border: none; outline: none;
+  padding: 12px 14px;
+  font-family: 'Lato', sans-serif; font-size: 14px; line-height: 22px;
+  color: var(--text-primary);
+  resize: none; overflow: hidden; min-height: 80px;
+}
+.comment-input-field::placeholder { color: var(--text-tertiary); }
+.compose-toolbar {
+  display: flex; align-items: center; gap: 2px;
+  padding: 6px 10px;
+  border-top: 1px solid var(--border-standard);
+  background: var(--stone-grey-light);
+}
+.format-btn {
+  width: 30px; height: 28px; border-radius: 4px; border: none;
+  background: none; cursor: pointer;
+  font-family: Georgia, serif; font-size: 15px; color: var(--text-secondary);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.1s, color 0.1s;
+}
+.format-btn:hover { background: var(--steel-grey-light); color: var(--text-primary); }
+.format-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.compose-footer {
+  display: flex; justify-content: flex-end; margin-top: 10px;
+}
+.compose-submit-btn {
+  font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  background: var(--brand-blue); color: white;
+  border: none; border-radius: 4px;
+  padding: 8px 20px; cursor: pointer; transition: background 0.15s;
+}
+.compose-submit-btn:hover { background: var(--brand-blue-dark); }
+.comment-input-avatar {
+  width: 32px; height: 32px; border-radius: 50%; background: var(--brand-blue);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: white; flex-shrink: 0;
+}
+.comment-input-field {
+  flex: 1; background: var(--stone-grey);
+  border: 1px solid var(--border-input); border-radius: 8px;
+  padding: 8px 16px; font-family: 'Lato', sans-serif; font-size: 14px;
+  color: var(--text-primary); outline: none;
+  resize: none; overflow: hidden;
+  min-height: 36px; line-height: 20px; display: block;
+}
+.comment-input-field:focus { border-color: var(--brand-blue); background: var(--brilliant-white); }
+.comment-input-field::placeholder { color: var(--text-tertiary); }
+.comment-context-select {
+  font-family: 'Lato', sans-serif; font-size: 13px;
+  border: 1px solid var(--border-standard); border-radius: 4px;
+  padding: 6px 10px; background: var(--brilliant-white); color: var(--text-secondary); cursor: pointer;
+}
+.comment-send-btn {
+  width: 34px; height: 34px; border-radius: 50%; background: var(--brand-blue);
+  border: none; display: flex; align-items: center; justify-content: center; cursor: pointer;
+  transition: background 0.15s; flex-shrink: 0;
+}
+.comment-send-btn:hover { background: var(--brand-blue-dark); }
+.comment-send-btn svg { width: 14px; height: 14px; stroke: white; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+/* Comment items */
+.comment-item { display: flex; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--steel-grey-light); }
+.comment-item:last-child { border-bottom: none; }
+.comment-av {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: white; flex-shrink: 0; margin-top: 1px;
+}
+.comment-body { flex: 1; min-width: 0; }
+.comment-name-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 3px; }
+.comment-name { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+.comment-time { font-size: 12px; line-height: 18px; color: var(--text-secondary); }
+.comment-stock-pill {
+  font-size: 12px; color: var(--brand-blue);
+  background: var(--cornflower-blue-light); border: 1px solid var(--cornflower-blue);
+  border-radius: 4px; padding: 1px 7px; cursor: pointer;
+}
+.comment-text { font-size: 13px; line-height: 20px; color: #1D2226; }
+.comment-reply { font-size: 12px; color: var(--brand-blue); cursor: pointer; margin-top: 4px; display: inline-block; }
+
+/* ── RNS MODAL BOTTOM SHEET ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5); z-index: 500;
+  align-items: flex-end; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+/* Was capped at 75vh with a lot of fixed furniture above and below the scroll
+   area, so on a small screen the readable region was tiny. The sheet now takes
+   nearly the full height and goes full-screen on small viewports; the text
+   inside keeps its own measure so the width is usable rather than just wide. */
+.modal-sheet {
+  background: var(--brilliant-white);
+  border-radius: 16px 16px 0 0;
+  width: 100%; max-width: 1040px;
+  height: 94vh; max-height: 94vh; min-height: 0;
+  --sheet-pad: max(20px, calc((100% - 680px) / 2));
+  display: flex; flex-direction: column;
+  animation: slideUp 0.25s ease;
+}
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.modal-handle { width: 40px; height: 4px; background: var(--steel-grey); border-radius: 2px; margin: 10px auto 0; }
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  padding: 14px var(--sheet-pad); border-bottom: 1px solid var(--border-standard);
+}
+.modal-title { font-size: 14px; line-height: 20px; color: var(--text-primary); min-width: 0; }
+.modal-title-co { font-weight: 700; }
+.modal-title-sep { color: var(--text-secondary); margin: 0 6px; }
+.modal-title-rns { font-weight: 400; color: var(--text-secondary); }
+.modal-close {
+  width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border-standard);
+  background: none; display: flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.modal-close svg { width: 13px; height: 13px; stroke: var(--text-secondary); fill: none; stroke-width: 2; stroke-linecap: round; }
+.modal-body { flex: 1; min-height: 0; overflow-y: auto; padding: 22px 20px 28px; font-size: 15px; line-height: 24px; color: var(--text-primary); }
+.modal-body-inner { max-width: 680px; margin: 0 auto; }
+.modal-summary {
+  flex-shrink: 0;
+  max-width: 680px; width: calc(100% - 40px); margin: 12px auto 0; padding: 11px 14px;
+  background: var(--stone-grey); border-radius: 8px;
+  font-size: 13px; line-height: 20px; color: var(--text-primary);
+}
+.modal-summary-label {
+  display: block; font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.07em; color: var(--text-secondary); margin-bottom: 4px;
+}
+.modal-meta { display:flex; align-items:center; gap:16px; padding:8px var(--sheet-pad) 10px; border-bottom:1px solid var(--border-standard); }
+.modal-meta-date { font-size:12px; color:var(--text-secondary); }
+.modal-meta-actions { display:flex; align-items:center; gap:16px; margin-left:auto; }
+.modal-meta-link { font-size:12px; color:var(--brand-blue); text-decoration:none; display:inline-flex; align-items:center; gap:4px; }
+.modal-meta-link:hover { text-decoration:underline; }
+.modal-meta-link svg { stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.modal-nav { display:flex; align-items:center; padding:10px var(--sheet-pad); border-top:1px solid var(--border-standard); gap:8px; }
+.modal-nav-count { font-size:12px; color:var(--text-secondary); flex:1; text-align:center; }
+.modal-nav-btn { padding:5px 14px; border:1px solid var(--border-input); border-radius:6px; background:none; font-size:12px; font-weight:600; cursor:pointer; color:var(--text-primary); transition:background 0.1s; }
+.modal-nav-btn:hover:not(:disabled) { background:var(--stone-grey-light); }
+.modal-nav-btn:disabled { opacity:0.3; cursor:default; }
+.modal-tags { display:flex; flex-wrap:wrap; gap:6px; padding:12px var(--sheet-pad); border-top:1px solid var(--border-standard); }
+.modal-tag { padding:4px 12px; background:var(--brand-blue); color:#fff; border-radius:20px; font-size:12px; font-weight:600; }
+.rns-title-link { font-size:13px; font-weight:700; color:var(--brand-blue); text-decoration:none; display:block; margin-bottom:3px; }
+.rns-title-link:hover { text-decoration:underline; }
+.read-analysis-link { display:inline-flex; align-items:center; gap:3px; margin-top:6px; font-size:11.5px; font-weight:600; color:var(--brand-blue); text-decoration:none; }
+.read-analysis-link:hover { text-decoration:underline; }
+.co-sr-link { color:var(--brand-blue); text-decoration:none; font-weight:700; }
+.co-sr-link:hover { text-decoration:underline; }
+
+
+  .rns-header { font-size:13px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:.04em; margin:0 0 4px; }
+  .rns-issuer { font-size:13px; font-weight:600; color:var(--text-primary); margin:0 0 12px; }
+  .rns-headline { font-size:15px; font-weight:700; color:var(--text-primary); margin:0 0 16px; line-height:1.4; }
+  .rns-subhead { font-size:13px; font-weight:700; color:var(--text-primary); text-transform:uppercase; letter-spacing:.05em; margin:20px 0 6px; }
+  .rns-quote { font-style:italic; border-left:3px solid var(--brand-blue); padding-left:12px; color:var(--text-secondary); margin:8px 0; }
+  .rns-contacts { font-size:13px; color:var(--text-secondary); border-top:1px solid var(--border-subtle); padding-top:12px; margin-top:20px; }
+  .rns-boilerplate { font-size:13px; color:var(--text-secondary); margin-top:12px; font-style:italic; }
+  .modal-body p { margin:0 0 10px; }
+  .modal-body ul { margin:4px 0 10px 18px; padding:0; }
+  .modal-body li { margin-bottom:4px; }
+  .modal-body h3 { margin:0 0 12px; }
+
+/* ── MINI-REPORT HOVER POPOVER ── */
+.mini-report-popover {
+  position: fixed; z-index: 500; display: none;
+  width: 600px; max-width: calc(100vw - 32px);
+  background: var(--brilliant-white); border: 1px solid var(--border-standard);
+  border-radius: 10px; box-shadow: 0 8px 28px rgba(0,0,0,0.18);
+  overflow: hidden;
+}
+.mini-report-popover.open { display: block; }
+.mrp-main { display: flex; }
+.mrp-left { flex: 1.15; padding: 16px 18px; min-width: 0; border-right: 1px solid var(--border-standard); }
+.mrp-right { flex: 1; padding: 16px 18px 10px; min-width: 0; display: flex; flex-direction: column; }
+.mrp-name-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 2px; }
+.mrp-name { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+.mrp-tick { font-size: 12px; color: var(--text-secondary); font-weight: 600; }
+.mrp-price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; }
+.mrp-price { font-size: 16px; font-weight: 700; color: var(--text-primary); }
+.mrp-change { font-size: 13px; font-weight: 700; }
+.mrp-tags { font-size: 13px; font-style: italic; color: var(--text-secondary); margin-bottom: 8px; }
+.mrp-desc { font-size: 13px; line-height: 19px; color: var(--text-primary); margin-bottom: 12px; }
+.mrp-desc-more { color: var(--brand-blue); font-weight: 600; text-decoration: none; white-space: nowrap; }
+.mrp-desc-more:hover { text-decoration: underline; }
+.mrp-stats { display: flex; gap: 24px; }
+.mrp-stats-col { flex: 1; display: flex; flex-direction: column; gap: 7px; }
+.mrp-stat-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 24px; }
+.mrp-stat-label { font-size: 12px; color: var(--text-secondary); }
+.mrp-stat-value { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+.mrp-chart-legend { font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; }
+.mrp-chart-svg { width: 100%; height: auto; flex: 1; }
+#mrp-chart-line { stroke: var(--brand-blue); }
+.mrp-chart-months { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-secondary); margin-top: 2px; }
+.mrp-buttons { display: flex; border-top: 1px solid var(--border-standard); }
+.mrp-btn {
+  flex: 1; text-align: center; padding: 11px 0; font-size: 12px; font-weight: 700;
+  letter-spacing: 0.03em; text-transform: uppercase; text-decoration: none; cursor: pointer;
+  border-right: 1px solid var(--border-standard);
+}
+.mrp-btn:last-child { border-right: none; }
+.mrp-btn-primary { background: var(--brand-blue); color: #fff; }
+.mrp-btn-secondary { background: none; color: var(--brand-blue); }
+.mrp-btn-secondary:hover { background: var(--stone-grey); }
+
+
+/* ── AGENDA (v2) — editorial hierarchy, no card chrome ─────────────────── */
+.agenda-section { margin-bottom: 32px; }
+.agenda-header { margin-bottom:14px; padding-bottom:13px; border-bottom:2px solid var(--charcoal-black); }
+.agenda-header-main { min-width:0; }
+.agenda-h2 { font-size:24px; line-height:31px; font-weight:700; color:var(--text-primary); margin-bottom:6px; }
+.agenda-count { font-weight:400; color:var(--text-primary); }
+.agenda-sub { font-size:14px; line-height:21px; color:var(--text-secondary); }
+/* Items are separated by rules and space, not boxes. */
+.ag-item { position:relative; scroll-margin-top:96px; padding:22px 0; border-top:1px solid var(--steel-grey); }
+.ag-item:first-child { border-top:none; padding-top:4px; }
+
+/* Ownership marker, set after the company name so it belongs to the company
+   rather than the headline — and so headlines all start at the same left edge
+   whether or not the reader owns the stock. */
+.ag-own { position:relative; display:inline-flex; align-items:center; margin-left:7px;
+          vertical-align:-2px; cursor:help; }
+.ag-own svg { width:15px; height:15px; stroke:var(--brand-blue); fill:none;
+              stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.ag-own:focus-visible { outline:2px solid var(--brand-blue); outline-offset:2px; border-radius:2px; }
+/* One tooltip for anything with data-tip. Case, tracking and style are reset so
+   it inherits nothing from the heading or stamp it hangs off. */
+[data-tip]:hover::after, [data-tip]:focus-visible::after {
+  content:attr(data-tip); position:absolute; bottom:calc(100% + 9px); left:-2px; z-index:60;
+  background:var(--charcoal-black); color:var(--text-inv-primary);
+  font-size:12px; line-height:16px; font-weight:400; font-style:normal;
+  text-transform:none; letter-spacing:normal;
+  padding:6px 10px; border-radius:4px; white-space:nowrap; box-shadow:0 2px 10px rgba(0,0,0,0.22);
+}
+[data-tip]:hover::before, [data-tip]:focus-visible::before {
+  content:''; position:absolute; bottom:calc(100% + 4px); left:1px; z-index:61;
+  border:5px solid transparent; border-top-color:var(--charcoal-black);
+}
+
+.ag-co { color:inherit; text-decoration:none; border-bottom:1px solid var(--steel-grey-dark); }
+.ag-co:hover { color:var(--brand-blue); border-bottom-color:var(--brand-blue); text-decoration:none; }
+.ag-sep { color:var(--text-secondary); font-weight:400; margin:0 7px; }
+
+/* One item treatment: everything on the agenda cleared the same bar. */
+/* The signals sit in the margin, not inside the reading measure: the agenda
+   hangs 152px further right than the prose sections, keeping the same left edge,
+   so its text runs to roughly the same line length as the copy above it.
+   The signal column is a fixed width — left to size itself, an item with no
+   earnings chip got a text column 90px wider than the rest and the right edge
+   went ragged down the page. */
+.ag-row { display:flex; align-items:flex-start; gap:24px; }
+.ag-col { flex:1; min-width:0; }
+.ag-head { font-size:18px; line-height:25px; font-weight:700; color:var(--text-primary); margin-bottom:9px; }
+
+/* Fixed-width signal column: one type size throughout, so every row is the
+   same height and the numbers line up down the page. */
+/* Both signals share one height so the pair reads as deliberate. Set from a
+   single variable so they cannot drift apart. */
+.ag-signals { --signal-h:32px; width:196px; display:flex; align-items:center; justify-content:flex-end; gap:8px; flex-shrink:0; }
+/* No min-width: the box hugs the number so the wash stays symmetrical. The right
+   edge is already flush because this is the last item in a flex-end row. Corners
+   match the earnings chip beside it — the two are a pair in the same column at
+   the same height, so they should read as one signal group. */
+.ag-price { display:inline-flex; align-items:center; height:var(--signal-h); padding:0 12px; border-radius:16px;
+            font-size:20px; line-height:1; font-weight:700; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.ag-price.up { color:var(--super-green-dark); }
+.ag-price.dn { color:var(--sucker-red-dark); }
+.ag-price.fl { color:var(--text-secondary); }
+
+/* Moves of 5%+ take a wash of their own colour. */
+.ag-price.is-big.up { background:rgba(34,135,69,0.14); }
+.ag-price.is-big.dn { background:rgba(204,71,82,0.14); }
+
+/* Sits beside the price, not beneath it: a compact chip against a number, so
+   the two signals read as a pair rather than one captioning the other. */
+.ag-earn { display:inline-flex; align-items:center; height:var(--signal-h); padding:0 13px; border-radius:16px;
+           font-size:13px; line-height:1; font-weight:700; white-space:nowrap; }
+.ag-earn.is-beat   { background:rgba(34,135,69,0.18);  color:var(--super-green-dark); }
+.ag-earn.is-miss   { background:rgba(204,71,82,0.18);  color:var(--sucker-red-dark); }
+.ag-earn.is-inline { background:var(--stone-grey);     color:var(--text-secondary); }
+/* Outliers invert to a solid fill. The darker tones are used rather than the
+   base greens and reds so white text at 10px still passes contrast. */
+.ag-earn.is-beat.is-big { background:var(--super-green-dark); color:var(--brilliant-white); }
+.ag-earn.is-miss.is-big { background:var(--sucker-red-dark);  color:var(--brilliant-white); }
+
+.ag-body { margin-bottom:12px; }
+.ag-body p { font-size:15px; line-height:24px; color:var(--text-primary); }
+
+
+
+
+/* Metadata below the writing, not above it. */
+.ag-meta { display:flex; align-items:center; gap:0; flex-wrap:wrap; font-size:13px; line-height:21px; color:var(--text-secondary); }
+.ag-meta-sep { margin:0 8px; opacity:0.5; }
+.ag-meta .sr { font-size:12px; padding:1px 6px; margin-left:6px; }
+/* Same weight and colour as its label — the figure is context, not a signal.
+   Tabular figures only, so the column still lines up. */
+.ag-meta-val { font-variant-numeric:tabular-nums; }
+.ag-chg { font-weight:700; }
+.ag-chg.up { color:var(--super-green-dark); }
+.ag-chg.dn { color:var(--sucker-red-dark); }
+.ag-chg.fl { color:var(--text-secondary); }
+.ag-link { color:var(--brand-blue); text-decoration:none; }
+.ag-link:hover { text-decoration:underline; }
+.ag-link.is-strong { font-weight:700; }
+
+
+/* ── ANALYST ANNOTATION ────────────────────────────────────────────────────
+   Sits under the announcement rather than in place of it, so the states are
+   additive: the facts stay, the judgement arrives on top. Set as a pull quote
+   with a rule rather than a container — a box read as UI. */
+.ag-note { margin:15px 0 0; padding:14px 18px; border-radius:5px;
+            background:var(--stone-grey-light); }
+/* The wash alone carries the rating now. Deliberately weak — eight of these down
+   a twelve-item list becomes a traffic light very quickly. */
+.ag-note[data-rating="r-positive"]     { background:rgba(34,135,69,0.06); }
+.ag-note[data-rating="r-cautious-pos"] { background:rgba(240,197,75,0.13); }
+.ag-note[data-rating="r-neutral"]      { background:rgba(217,125,48,0.08); }
+.ag-note[data-rating="r-cautious-neg"] { background:rgba(217,125,48,0.12); }
+.ag-note[data-rating="r-material"]     { background:rgba(204,71,82,0.07); }
+.ag-note-body { font-size:15px; line-height:25px; font-style:italic; color:var(--text-primary); }
+.ag-note-attr { display:flex; align-items:center; gap:9px; flex-wrap:wrap; margin-top:10px; }
+.ag-note-face { width:28px; height:28px; border-radius:50%; overflow:hidden; flex-shrink:0;
+                box-shadow:0 0 0 1px var(--steel-grey); background:var(--stone-grey); }
+.ag-note-face img { width:100%; height:100%; object-fit:cover; display:block; }
+/* Distinguished from the metadata beside it by colour, not weight — the quote is
+   the point, and the same two names repeat down the page. */
+.ag-note-name { font-size:13px; line-height:20px; font-weight:400; color:var(--text-primary); }
+/* When the note was filed — the recency signal the live-blog references lead
+   with, and more precise than a "new since you looked" badge. Labelled, because a
+   bare time next to a name reads as ambiguous. */
+.ag-note-time { font-size:13px; line-height:20px; color:var(--text-secondary); }
+.ag-note-time { font-variant-numeric:tabular-nums; }
+.ag-note-time::before { content:'\00B7'; margin:0 6px 0 2px; color:var(--text-secondary); }
+/* New sits with the link at the right, so it does not interrupt the run of
+   face, name, time and rating. */
+.ag-note-end { display:inline-flex; align-items:center; gap:10px; margin-left:auto; }
+
+/* The route to the article is the most consequential control on the page — and
+   three of four participants never found the analysis at all last round. So it
+   is a filled button, not a text link: solid against the outlined rating stamp
+   beside it, so the two read as different kinds of thing. */
+/* Outlined, not filled: eight solid fills down the list pulled the eye away from
+   the writing. Still unmistakably a control, which is the point — three of four
+   participants never found the route to the analysis last round. 4px radius is the
+   house value for buttons; tags sit at 16px, which is what separates them. */
+.ag-note-link { display:inline-flex; align-items:center;
+                padding:6px 14px; border-radius:4px;
+                background:none; border:1px solid var(--brand-blue); color:var(--brand-blue);
+                font-size:12px; line-height:17px; font-weight:700; text-decoration:none;
+                text-transform:uppercase; letter-spacing:0.06em; white-space:nowrap; }
+.ag-note-link:hover, .ag-note-link:focus-visible {
+  background:var(--brand-blue); border-color:var(--brand-blue); color:var(--brilliant-white); text-decoration:none; }
+
+/* A verdict, so it reads as applied rather than mentioned: outlined in the
+   band's own colour. Rounded and unbordered: a border on a tag reads as
+   something you can click, which is why the outlined version kept looking like a
+   button. Squarer corners are reserved for actual buttons. */
+.ag-rate { position:relative; display:inline-flex; align-items:center; gap:4px; margin-left:2px;
+           padding:3px 11px; border:none; border-radius:16px;
+           font-size:13px; line-height:18px; font-weight:700; white-space:nowrap; }
+.ag-rate-dir { font-size:13px; line-height:1; font-weight:700; }
+
+/* Dark text on a stronger tint of the same band, so it still reads on top of the
+   panel wash behind it. */
+.ag-rate[data-tip] { cursor:help; }
+.ag-rate.r-positive     { color:var(--rating-green-text); background:rgba(34,135,69,0.16); }
+.ag-rate.r-cautious-pos { color:#6B5200;                  background:rgba(240,197,75,0.34); }
+.ag-rate.r-neutral      { color:var(--rating-amber-text); background:rgba(217,125,48,0.18); }
+.ag-rate.r-cautious-neg { color:#7A2A00;                  background:rgba(217,125,48,0.26); }
+.ag-rate.r-material     { color:var(--rating-red-text);   background:rgba(204,71,82,0.18); }
+/* Ed's five-band scale, replacing the RAG colour names:
+     Positive / Cautiously positive / Neutral / Cautiously negative / Material risk
+   The colour now lives only on the quote's left rule, not on the label. */
+
+/* ── MORE NEWS (outbound to the two news areas) ────────────────────────── */
+.morenews-section { margin-bottom:28px; padding-top:22px; border-top:1px solid var(--steel-grey); }
+.morenews-h2 { font-size:24px; line-height:31px; font-weight:700; color:var(--text-primary); margin-bottom:6px; }
+.morenews-sub { font-size:13px; line-height:20px; color:var(--text-secondary); margin-bottom:14px; }
+.morenews-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.morenews-card { display:block; text-decoration:none; background:var(--brilliant-white); border:1px solid var(--steel-grey); border-radius:6px; padding:16px 18px; transition:border-color .15s, box-shadow .15s; }
+.morenews-card:hover { border-color:var(--brand-blue); box-shadow:0 2px 8px rgba(0,0,0,0.06); text-decoration:none; }
+.morenews-card-head { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; }
+.morenews-card-title { font-size:14px; line-height:20px; font-weight:700; color:var(--brand-blue); }
+.morenews-card-head svg { width:15px; height:15px; stroke:var(--brand-blue); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; }
+.morenews-figure { font-size:30px; line-height:34px; font-weight:700; color:var(--text-primary); }
+.morenews-figure-label { font-size:13px; line-height:20px; color:var(--text-secondary); margin-bottom:10px; }
+/* Matches the Index technicals bars on the homepage: label and value at each
+   end, contiguous segments on a rounded track, the neutral middle showing the
+   track itself. Same two measures on both cards so holdings can be read
+   against the market. */
+.mn-metric { padding-top:12px; }
+.mn-metric:first-of-type { border-top:1px solid var(--steel-grey-light); margin-top:2px; }
+.mn-metric-head { display:flex; align-items:baseline; justify-content:space-between; gap:10px;
+                  font-size:13px; line-height:19px; color:var(--brand-blue); margin-bottom:6px; }
+.mn-metric-head strong { color:var(--text-primary); font-weight:700; font-variant-numeric:tabular-nums; }
+.mn-bar { display:flex; height:8px; border-radius:999px; overflow:hidden; background:var(--steel-grey-light); }
+.mn-bar i { display:block; }
+.mn-bar i.up { background:var(--super-green); }
+.mn-bar i.fl { background:transparent; }
+.mn-bar i.dn { background:var(--sucker-red); }
+@media (max-width: 720px) {
+  .morenews-grid { grid-template-columns:1fr; }
+}
+
+
+
+
+/* ── REPORT HEADER ─────────────────────────────────────────────────────────
+   One row above the headline: what this is, that it is live, when it last
+   moved. Views, comments and likes sit with the authors below. */
+.report-meta { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:13px; }
+.report-kicker { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--brand-blue-dark); }
+.report-date { font-size:13px; color:var(--text-secondary); }
+.report-sep { color:var(--text-secondary); margin:0 -4px; }
+/* Timeliness is red throughout — Live, Updated, New — the convention readers
+   already know from news sites. */
+.report-live { display:inline-flex; align-items:center; gap:8px; margin-left:2px;
+               background:var(--sucker-red); color:var(--brilliant-white);
+               font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.09em;
+               padding:6px 13px; border-radius:4px; }
+.report-live .live-dot { width:8px; height:8px; }
+.report-updated { font-size:13px; line-height:20px; color:var(--text-secondary); }
+.report-updated strong { color:var(--text-primary); font-weight:700; }
+.report-head .article-h1 { margin-bottom:0; }
+
+/* Byline tight under the headline: one line, no rules. */
+.report-byline { display:flex; align-items:center; gap:11px; flex-wrap:wrap; margin-top:14px; }
+.report-faces { display:flex; flex-shrink:0; }
+.report-face { width:26px; height:26px; border-radius:50%; overflow:hidden;
+               border:2px solid var(--brilliant-white); box-shadow:0 0 0 1px var(--steel-grey);
+               margin-left:-9px; background:var(--stone-grey); }
+.report-face:first-child { margin-left:0; }
+.report-face img { width:100%; height:100%; object-fit:cover; display:block; }
+.report-by { font-size:13px; line-height:20px; color:var(--text-secondary); }
+.report-by a { color:var(--text-primary); font-weight:700; text-decoration:none; }
+.report-by a:hover { color:var(--brand-blue); text-decoration:underline; }
+
+.report-activity { display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-left:auto; }
+.report-stat { display:inline-flex; align-items:center; gap:6px; font-size:13px; line-height:20px; color:var(--text-secondary); text-decoration:none; }
+.report-stat strong { color:var(--text-primary); font-weight:700; font-variant-numeric:tabular-nums; }
+.report-stat svg { width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; }
+.report-stat.is-link:hover, .report-stat.is-link:hover strong { color:var(--brand-blue); }
+
+/* ── WHO WRITES THIS ───────────────────────────────────────────────────────
+   Named, credentialed and linked, at the foot where it does not interrupt. */
+/* A panel rather than another section, because this one is making an argument
+   rather than reporting. Spans the full column so its edges line up with the
+   agenda rows above. */
+.authors-section { margin-bottom:30px; padding:26px 28px;
+                   background:var(--cornflower-blue-light);
+                   border:1px solid var(--brand-blue-light); border-radius:8px; }
+.authors-h2 { font-size:22px; line-height:29px; font-weight:700; color:var(--text-primary); margin-bottom:6px; }
+.authors-intro { font-size:14px; line-height:22px; color:var(--text-secondary); max-width:640px; margin-bottom:20px; }
+.authors-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+.author-card { display:flex; align-items:flex-start; gap:12px; }
+.author-face { width:50px; height:50px; border-radius:50%; overflow:hidden; flex-shrink:0;
+               box-shadow:0 0 0 2px var(--brilliant-white); background:var(--stone-grey); }
+.author-face img { width:100%; height:100%; object-fit:cover; display:block; }
+.author-name { display:block; font-size:14px; line-height:20px; font-weight:700; color:var(--text-primary); text-decoration:none; margin-bottom:3px; }
+.author-name:hover { color:var(--brand-blue); text-decoration:underline; }
+.author-cred { font-size:13px; line-height:20px; color:var(--text-secondary); margin-bottom:5px; }
+.author-link { font-size:13px; line-height:20px; font-weight:700; color:var(--brand-blue); text-decoration:none; }
+.author-link:hover { text-decoration:underline; }
+
+@media (max-width: 720px) {
+  .report-activity { margin-left:0; width:100%; }
+  .authors-grid { grid-template-columns:1fr; gap:16px; }
+}
+
+/* ── LIVE HEADER TREATMENT ─────────────────────────────────────────────────
+   Bleeds to the edges of the content card (which is 32px padded, 12px radius)
+   and stays shallow: a tall hero would push the agenda below the fold, and
+   nobody in testing scrolled past what they could see. */
+.report-head.is-live {
+  background: var(--charcoal-black);
+  margin: 0 0 26px;
+  padding: 26px 0 22px;
+  border-radius: 11px 11px 0 0;
+}
+.report-head.is-live .report-kicker   { color: var(--cornflower-blue); }
+.report-head.is-live .report-date,
+.report-head.is-live .report-updated  { color: var(--text-inv-secondary); }
+.report-head.is-live .report-updated strong { color: var(--text-inv-primary); }
+.report-head.is-live .report-sep      { color: var(--text-inv-secondary); }
+.report-head.is-live .article-h1      { color: var(--text-inv-primary); }
+.report-head.is-live .vote-btn        { color: var(--cornflower-blue); }
+.report-head.is-live .vote-btn:hover  { color: var(--brilliant-white); }
+.report-head.is-live .vote-btn.active svg { fill: var(--cornflower-blue); }
+.report-head.is-live .vote-count      { color: var(--text-inv-secondary); }
+.report-head.is-live .report-by       { color: var(--text-inv-secondary); }
+.report-head.is-live .report-by a     { color: var(--text-inv-primary); }
+.report-head.is-live .report-by a:hover { color: var(--cornflower-blue); }
+.report-head.is-live .report-face     { border-color: var(--charcoal-black); box-shadow: 0 0 0 1px rgba(255,255,255,0.25); }
+.report-head.is-live .report-stat     { color: var(--text-inv-secondary); }
+.report-head.is-live .report-stat strong { color: var(--text-inv-primary); }
+.report-head.is-live .report-stat.is-link:hover,
+.report-head.is-live .report-stat.is-link:hover strong { color: var(--cornflower-blue); }
+.report-head.is-live .report-head.is-live .report-head.is-live .report-head.is-live /* Badge sits on a dark ground, so it lifts rather than darkens. */
+.report-head.is-live .report-live { background: var(--brand-blue); }
+@media (max-width: 720px) {
+  /* Full-screen on small viewports — the pattern Bob's session needed. */
+  .modal-overlay { align-items: stretch; }
+  .modal-sheet { height: 100%; max-height: 100%; border-radius: 0; }
+  .modal-handle { display: none; }
+  .modal-sheet { --sheet-pad: 16px; }
+  .modal-body { padding: 18px 16px 24px; }
+  .modal-summary { width: calc(100% - 32px); margin: 10px auto 0; }
+  .rwrap { padding: 0 20px; }
+  .report-head.is-live { padding: 22px 0 18px; }
+  /* No margin to hang into at this width, so the vote comes back into flow. */
+  .article-title-row { display: flex; align-items: flex-start; gap: 18px; }
+  .article-title-row .article-vote { position: static; padding-top: 4px; }
+}
+
+
+
+/* ── WHAT'S NEW SINCE YOUR LAST VISIT ──────────────────────────────────────
+   Sits at the top of the report because a returning reader's first question is
+   what they have not seen. The agenda stays in importance order, so the tickers
+   give direct access rather than a position cue. */
+.ag-since { margin:0 0 26px; padding:12px 16px; border-radius:6px;
+            background:var(--stone-grey); border:1px solid var(--steel-grey); }
+.ag-since-row { display:flex; align-items:center; gap:11px; flex-wrap:wrap; }
+.ag-since-label { flex-shrink:0; padding:3px 11px; border-radius:16px;
+                  background:var(--sucker-red); color:var(--brilliant-white);
+                  font-size:13px; line-height:19px; font-weight:700; }
+.ag-since-text { font-size:15px; line-height:23px; color:var(--text-primary); }
+.ag-since-view { flex-shrink:0; margin-right:2px; font-size:13px; line-height:19px;
+                 color:var(--text-secondary); }
+/* Tickers sit on the same line as the summary, pushed right. They wrap beneath it
+   only when there are too many to fit. */
+.ag-since-ticks { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-left:auto; }
+.ag-since-tick { display:inline-flex; align-items:center; padding:5px 11px; border-radius:4px;
+                 background:var(--brilliant-white); border:1px solid var(--cornflower-blue);
+                 font-size:13px; line-height:19px; font-weight:700; color:var(--brand-blue-dark);
+                 text-decoration:none; font-variant-numeric:tabular-nums; }
+.ag-since-tick:hover, .ag-since-tick:focus-visible {
+  background:var(--brand-blue); border-color:var(--brand-blue); color:var(--brilliant-white); text-decoration:none; }
+
+/* Newness is anchored on the rule above the item, in the gutter — the same device
+   the app uses for unread comments. Costs nothing inside the row, and left-aligned
+   the flags form a column against the headlines, which is the scanning edge. */
+.ag-item[data-new] { border-top-color:var(--sucker-red); }
+.ag-item-new { position:absolute; top:0; left:0; transform:translateY(-50%);
+               background:var(--sucker-red); color:var(--brilliant-white);
+               font-size:12px; line-height:16px; font-weight:700;
+               padding:1px 9px; border-radius:16px; white-space:nowrap; z-index:2; }
+
+/* Brief highlight so a jump lands somewhere obvious. */
+.ag-item.is-landing { animation:agLand 1.6s ease-out; }
+@keyframes agLand { 0%,35% { background:var(--cornflower-blue-light); } 100% { background:transparent; } }
+
+
+/* This is a triage table, not an article, so the wrapper takes the card's full
+   1250px rather than the 1076px reading box — 1138px of content against 964px,
+   which all goes to the summary column. The 56px gutter is unchanged, and the
+   headline, meta and standfirst keep their own 744px measure, so widening the
+   wrapper costs nothing in readability. */
+.rwrap { max-width: 1250px; }
+
+/* ── NEWS PAGE ─────────────────────────────────────────────────────────────
+   A table is right here where it was wrong on the DMR: this is a triage surface
+   with 47 rows and the reader's own filters, not an editorial read. */
+
+/* The header sat 22px + 10px clear of the tabs, and the h1's 42px line-height on
+   32px text adds ~5px more below the baseline, so the gap read at nearly 40px.
+   Pulled to 10px, which lands optically around 15px. Scoped to this page — the DMR
+   header needs its original breathing room. */
+.report-head { padding-bottom: 10px; }
+/* ── DMR PROMO ─────────────────────────────────────────────────────────────
+   Sits above the content card. The canvas centres its child horizontally, so it
+   has to stack rather than sit side by side — hence the column override, scoped
+   to this page. Width matches the card so the two edges line up. */
+.page-canvas { flex-direction:column; align-items:center; justify-content:flex-start; }
+.dmr-promo { width:100%; max-width:1250px; box-sizing:border-box;
+             display:flex; align-items:center; gap:16px; margin-bottom:14px;
+             padding:14px 18px; border-radius:8px; text-decoration:none;
+             background:var(--brilliant-white); border:1px solid rgba(71,118,186,0.45);
+             transition:border-color .15s, box-shadow .15s; }
+.dmr-promo:hover { border-color:var(--brand-blue); box-shadow:0 2px 8px rgba(0,0,0,0.06); text-decoration:none; }
+.dmr-promo-faces { display:flex; flex-shrink:0; }
+.dmr-promo-faces img { width:34px; height:34px; border-radius:50%; object-fit:cover;
+                       border:2px solid var(--brilliant-white); }
+.dmr-promo-faces img + img { margin-left:-11px; }
+.dmr-promo-text { flex:1; min-width:0; font-size:14px; line-height:21px; color:var(--text-primary); }
+.dmr-promo-text strong { font-weight:700; display:block; }
+/* A filled button is right here — unlike the filter chips this genuinely is an action. */
+.dmr-promo-cta { flex-shrink:0; display:inline-flex; align-items:center; gap:6px;
+                 padding:8px 16px; border-radius:4px;
+                 background:var(--brand-blue); color:var(--brilliant-white);
+                 font-size:12px; line-height:17px; font-weight:700;
+                 text-transform:uppercase; letter-spacing:0.06em; white-space:nowrap; }
+.dmr-promo-cta .msym { font-size:16px; }
+@media (max-width: 720px) {
+  .dmr-promo { flex-wrap:wrap; }
+  .dmr-promo-text { flex-basis:100%; order:3; }
+}
+
+.news-tabs { display:flex; gap:0; border-bottom:1px solid var(--steel-grey); margin:0 0 18px; }
+.news-tab { background:none; border:none; border-bottom:3px solid transparent; margin-bottom:-1px;
+            padding:10px 2px; margin-right:28px; font-family:inherit; font-size:16px; line-height:22px;
+            font-weight:700; color:var(--text-secondary); cursor:pointer; }
+.news-tab:hover { color:var(--text-primary); }
+.news-tab.is-active { color:var(--text-primary); border-bottom-color:var(--brand-blue); }
+.news-tab-count { font-weight:400; color:var(--text-secondary); }
+
+.news-filters { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
+.news-filters-label { font-size:13px; color:var(--text-secondary); margin-right:2px; }
+/* Selectable tag. Two things have to be legible at a glance: that a chip is on, and
+   that more than one can be. Carbon answers the first with high contrast and leaves
+   the second to convention; M3 answers both by adding a leading checkmark on select.
+   Taken together: the tick (M3) carries "selected, and independently so", and the
+   fill plus weight change (Carbon) carry the contrast. A tick is also the one mark a
+   button never grows, which stops the on state reading as a pressed CTA.
+   Deliberately not the solid brand blue used before — in this UI a saturated blue
+   fill is button language, and these are state, not actions. */
+.news-filter { display:inline-flex; align-items:center; gap:6px;
+               background:none; border:1px solid var(--steel-grey); border-radius:16px; padding:4px 12px;
+               font-family:inherit; font-size:13px; line-height:19px; color:var(--text-primary); cursor:pointer; }
+.news-filter:hover { border-color:var(--brand-blue); color:var(--brand-blue); background:var(--stone-grey-light); }
+.news-filter:focus-visible { outline:2px solid var(--brand-blue); outline-offset:2px; }
+.news-filter.is-on { background:rgba(71,118,186,0.13); border-color:var(--brand-blue);
+                     color:var(--brand-blue); font-weight:700; }
+.news-filter.is-on:hover { background:rgba(71,118,186,0.20); }
+/* Material Symbols "check". The font is loaded, so this is the glyph by name. */
+.nf-tick { display:none; font-size:16px; margin:0 -2px 0 -2px; flex-shrink:0; }
+.news-filter.is-on .nf-tick { display:inline-block; }
+.news-filters-note { font-size:13px; color:var(--text-secondary); margin-left:auto; }
+.nf-n { opacity:0.7; font-variant-numeric:tabular-nums; font-weight:400; }
+/* Its own column, as in v1 — that column tested well. The chip itself is the
+   agenda's .ag-earn rather than v1's 4px uppercase one, which now reads as a button.
+   Height is unset here because the agenda ties it to the 32px signal row. */
+.news-table td.center { text-align:center; }
+.news-table .ag-earn { height:auto; padding:2px 11px; font-size:13px; line-height:19px; }
+.nw-dash { color:var(--text-secondary); font-size:13px; }
+.nw-empty { padding:28px 0; text-align:center; font-size:15px; color:var(--text-secondary); }
+
+
+.news-table { width:100%; border-collapse:collapse; }
+.news-table th { text-align:left; padding:8px 12px 8px 0; border-bottom:2px solid var(--charcoal-black);
+                 font-size:13px; line-height:19px; font-weight:700; color:var(--text-primary); white-space:nowrap; }
+.news-table th.center { text-align:center; }
+.news-table th.sortable { cursor:pointer; user-select:none; }
+.news-table th.sortable:hover { color:var(--brand-blue); }
+.sortcaret { font-size:11px; color:var(--text-secondary); }
+.news-table td { padding:14px 12px 14px 0; border-bottom:1px solid var(--steel-grey-light); vertical-align:top; }
+.news-table tr:hover td { background:var(--stone-grey-light); }
+
+/* Same rule as the agenda: links are blue across the app. In a 58-row table the
+   blue column of company names is the main scanning aid. */
+.nw-co { font-size:15px; line-height:21px; font-weight:700; color:var(--brand-blue); text-decoration:none; display:block; }
+.nw-co:hover { color:var(--brand-blue-dark); text-decoration:underline; }
+.nw-sub { font-size:13px; line-height:19px; color:var(--text-secondary); white-space:nowrap; }
+/* The announcement title opens the full RNS, so it is a control, not a label.
+   A button rather than a link because it opens a sheet in place. */
+.nw-title { display:block; text-align:left; padding:0; margin-bottom:4px; background:none; border:none;
+            font-family:inherit; font-size:15px; line-height:21px; font-weight:700;
+            color:var(--brand-blue); text-decoration:none; cursor:pointer; }
+.nw-title:hover { color:var(--brand-blue-dark); text-decoration:underline; }
+.nw-title:focus-visible { outline:2px solid var(--brand-blue); outline-offset:2px; }
+.modal-body-none { color:var(--text-secondary); }
+.nw-summary { font-size:14px; line-height:21px; color:var(--text-primary); max-width:72ch; }
+.nw-chg { font-size:15px; line-height:21px; font-weight:700; font-variant-numeric:tabular-nums; text-align:center; display:block; }
+.nw-chg.up { color:var(--super-green-dark); }
+.nw-chg.dn { color:var(--sucker-red-dark); }
+.nw-chg.fl { color:var(--text-secondary); }
+.nw-sr { display:block; text-align:center; }
+/* Always its own line, rather than wrapping only when the rating name is long —
+   which made the column ragged, two rows tall for some ratings and one for others.
+   width:fit-content keeps the hit area on the text rather than the whole cell. */
+.nw-link { display:block; width:fit-content; margin-top:6px; font-size:12px; line-height:17px; font-weight:700;
+           text-transform:uppercase; letter-spacing:0.06em; color:var(--brand-blue); text-decoration:none; }
+.nw-link:hover { text-decoration:underline; }
+@media (max-width: 900px) {
+  /* StockRank goes first; Earnings is the column testing said people came for */
+  .news-table th:nth-child(5), .news-table td:nth-child(5) { display:none; }
+}
+
+/* ── Filter row and news-types sheet ─────────────────────────────────────── */
+.news-allfilters { display:inline-flex; align-items:center; gap:7px; background:none;
+                   border:1px solid var(--steel-grey); border-radius:4px; padding:4px 12px;
+                   font-family:inherit; font-size:12px; line-height:19px; font-weight:700;
+                   text-transform:uppercase; letter-spacing:0.06em; color:var(--text-primary); cursor:pointer; }
+.news-allfilters:hover { border-color:var(--brand-blue); color:var(--brand-blue); }
+.news-allfilters.is-on { border-color:var(--brand-blue); color:var(--brand-blue); }
+.news-allfilters .msym { font-size:17px; }
+/* Always on show, so it is grey at rest and only takes the brand colour once the
+   reader has narrowed something — otherwise a permanent blue pip reads as an alert. */
+.nf-badge { display:inline-flex; align-items:center; justify-content:center; min-width:17px; height:17px;
+            padding:0 4px; border-radius:9px; background:var(--stone-grey); color:var(--text-secondary);
+            font-size:11px; line-height:17px; letter-spacing:0; }
+.news-allfilters.is-on .nf-badge { background:var(--brand-blue); color:var(--brilliant-white); }
+
+.news-excluded { font-size:13px; line-height:20px; color:var(--text-primary);
+                 background:var(--stone-grey-light); border-radius:4px; padding:8px 12px; margin-bottom:14px; }
+.news-excluded-link { background:none; border:none; padding:0; font-family:inherit; font-size:13px;
+                      color:var(--brand-blue); text-decoration:underline; cursor:pointer; }
+
+/* [hidden] only sets display:none at low specificity, so a display value on the
+   element itself silently wins and the sheet renders open. Restate it. */
+.sheet[hidden], .sheet-scrim[hidden] { display:none; }
+
+/* Modal side sheet, per M3: full height, above all app chrome, over a scrim that
+   blocks interaction. Sits above the discuss menu (600) and the RNS bottom sheet
+   (500) so nothing in the shell can cover the title and close button — which is
+   what happened when it was docked under the 48px header at z-index 400.
+   The scrim value matches the house RNS modal so the two read as one pattern. */
+.sheet-scrim { position:fixed; top:0; right:0; bottom:0; left:0; z-index:700; background:rgba(0,0,0,0.5); }
+.sheet { position:fixed; top:0; right:0; bottom:0; width:352px; z-index:701;
+         background:var(--brilliant-white);
+         box-shadow:-8px 0 28px rgba(0,0,0,0.18); display:flex; flex-direction:column; }
+/* Scrimmed content cannot show the row count updating, so the sheet's own footer
+   count is now the only live feedback while filtering. */
+body.sheet-open { overflow:hidden; }
+.sheet-head { display:flex; align-items:center; justify-content:space-between;
+              padding:18px 20px 14px; border-bottom:1px solid var(--steel-grey-light); }
+.sheet-title { font-size:18px; line-height:24px; font-weight:700; color:var(--text-primary); }
+.sheet-x { background:none; border:none; padding:4px; cursor:pointer; color:var(--text-secondary); }
+.sheet-x .msym { font-size:22px; display:block; }
+.sheet-x:hover { color:var(--text-primary); }
+.sheet-body { flex:1; overflow-y:auto; padding:12px 20px 20px; }
+.sheet-foot { display:flex; align-items:center; justify-content:space-between;
+              padding:14px 20px; border-top:1px solid var(--steel-grey-light); background:var(--stone-grey-light); }
+.sheet-reset { background:none; border:none; padding:0; font-family:inherit; font-size:13px;
+               color:var(--brand-blue); text-decoration:underline; cursor:pointer; }
+.sheet-count { font-size:13px; color:var(--text-secondary); font-variant-numeric:tabular-nums; }
+
+.cat-row { display:flex; align-items:flex-start; gap:10px; padding:7px 0; cursor:pointer; }
+.cat-row.is-kid { padding-left:26px; }
+.cat-label { flex:1; font-size:14px; line-height:20px; color:var(--text-primary); }
+.cat-n { font-size:13px; line-height:20px; color:var(--text-secondary); font-variant-numeric:tabular-nums; }
+.cat-parent .cat-label { font-weight:700; }
+.cat-group { padding-bottom:4px; }
+.cat-box { flex-shrink:0; width:17px; height:17px; margin-top:2px; box-sizing:border-box;
+           border:1px solid var(--steel-grey); border-radius:2px; background:var(--brilliant-white);
+           position:relative; cursor:pointer; }
+.cat-box:focus-visible { outline:2px solid var(--brand-blue); outline-offset:2px; }
+.cat-box.is-on { background:var(--brand-blue); border-color:var(--brand-blue); }
+/* Tick drawn rather than a glyph so it scales with the box and needs no font */
+.cat-box.is-on::after { content:''; position:absolute; left:5px; top:2px; width:5px; height:9px;
+                        border:solid var(--brilliant-white); border-width:0 2px 2px 0; transform:rotate(40deg); }
+.cat-box.is-part { background:var(--brand-blue); border-color:var(--brand-blue); }
+.cat-box.is-part::after { content:''; position:absolute; left:3px; top:7px; width:9px; height:2px;
+                          background:var(--brilliant-white); }
+@media (max-width: 520px) { .sheet { width:100%; } }
+</style>
+</head>
+<body>
+
+<!-- SITE HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <a class="header-logo" href="#">
+      <svg width="32" height="18" viewBox="0 0 42 24" fill="none">
+        <path d="M16.7323 13.1896L7.73795 22.1168C6.04266 23.7704 3.21167 23.811 1.55681 22.1162C-0.0967649 20.4202 -0.138425 17.4647 1.55626 15.8112L10.5505 6.88492C12.2458 5.23136 15.0773 5.1908 16.7316 6.88553C18.3858 8.58062 18.4276 11.5361 16.7323 13.1896Z" fill="#4776BA"/>
+        <path d="M40.2294 8.09229L26.1398 22.1314C24.4445 23.785 21.6135 23.8256 19.9587 22.1308C18.3051 20.4348 18.2634 17.4793 19.9581 15.8258L34.0476 1.78758C35.7429 0.134025 38.5744 0.0934641 40.2287 1.78819C41.883 3.48329 41.9247 6.43873 40.2294 8.09229Z" fill="#4776BA"/>
+        <path d="M16.8597 7.0362L26.0211 15.9704C27.6837 17.6571 27.7188 20.4672 26.0079 22.1056C24.2959 23.7428 21.3181 23.777 19.6558 22.091L10.4952 13.1568C8.83273 11.4701 8.79766 8.6596 10.5084 7.02172C12.2196 5.38385 15.1972 5.34952 16.8597 7.0362Z" fill="#4776BA"/>
+      </svg>
+      <span class="header-wordmark">Stockopedia</span>
+    </a>
+    <div class="header-search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" placeholder="Search our database of over 63,000 stocks">
+    </div>
+    <div class="header-right">
+      <button class="region-btn">🇬🇧 UK focus <svg viewBox="0 0 24 24" width="11" height="11" stroke="currentColor" fill="none" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button class="header-icon-btn" aria-label="Notifications">
+        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+      </button>
+      <div class="header-avatar">JS</div>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+
+  <!-- GLOBAL RAIL -->
+  <nav class="global-rail">
+    <div class="rail-item">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span class="rail-label">Today</span>
+    </div>
+    <div class="rail-item">
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 10h10M4 14h12M4 18h8"/></svg>
+      <span class="rail-label">Browse</span>
+    </div>
+    <div class="rail-item">
+      <svg viewBox="0 0 24 24"><path d="M4 6h4M4 12h4M4 18h4M10 6h10M10 12h10M10 18h10"/></svg>
+      <span class="rail-label">Screens</span>
+    </div>
+    <div class="rail-item">
+      <svg viewBox="0 0 24 24"><path d="M3 7h18M6 7V5a1 1 0 011-1h10a1 1 0 011 1v2M19 7v13a1 1 0 01-1 1H6a1 1 0 01-1-1V7"/></svg>
+      <span class="rail-label">Folios</span>
+    </div>
+    <div class="rail-item active">
+      <div class="rail-accent-bar"></div>
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      <span class="rail-label">Discuss</span>
+    </div>
+    <div class="rail-item">
+      <svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      <span class="rail-label">Learn</span>
+    </div>
+  </nav>
+
+  <!-- LOCAL NAV -->
+  <nav class="local-nav">
+    <div class="local-nav-header">
+      <span class="local-nav-title">Discuss</span>
+      <button class="local-nav-icon-btn" aria-label="Pin sidebar">
+        <svg viewBox="0 0 24 24"><path d="M12 17v5M8 3h8l-1 6 3 3H6l3-3-1-6z"/></svg>
+      </button>
+    </div>
+    <div class="local-nav-body">
+      <div class="local-nav-group">
+        <span class="local-nav-group-label">Daily Market Report</span>
+        <a class="local-nav-link" href="index.html">Today's Report</a>
+        <a class="local-nav-link" href="previous-reports.html">All Previous Reports</a>
+      </div>
+      <div class="local-nav-divider"></div>
+      <div class="local-nav-group">
+        <span class="local-nav-group-label">Stockopedia Research</span>
+        <a class="local-nav-link" href="#">All research</a>
+        <a class="local-nav-sublink" href="#">Stock Pitches</a>
+        <a class="local-nav-sublink" href="#">The Week Ahead</a>
+        <a class="local-nav-sublink" href="#">Screening</a>
+        <a class="local-nav-sublink" href="#">StockRank Strategies</a>
+        <a class="local-nav-sublink" href="#">NAPS - No Admin Portfolio</a>
+        <a class="local-nav-sublink" href="#">Stock in Focus Portfolio</a>
+        <a class="local-nav-sublink" href="#">Data Insights</a>
+      </div>
+      <div class="local-nav-divider"></div>
+      <div class="local-nav-group">
+        <span class="local-nav-group-label">Community Discussion</span>
+        <a class="local-nav-link" href="#">All posts</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="app-main">
+
+    <div class="page-canvas">
+      <!-- Above the card, so it frames the page rather than interrupting it. Sells the
+           curation — the value a raw feed cannot give — with named analysts carrying the
+           E-E-A-T weight. White on the grey canvas: a blue tint would go muddy here. -->
+      <a class="dmr-promo" href="index.html">
+        <span class="dmr-promo-faces">
+          <img src="img/roland-head.jpg" alt="">
+          <img src="img/graham-neary.jpg" alt="">
+          <img src="img/mark-simpson.png" alt="">
+        </span>
+        <span class="dmr-promo-text">
+          <strong>Our analysts have reviewed every announcement today.</strong>
+          See the 12 that caught their eye, with in-depth analysis on 8.
+        </span>
+        <span class="dmr-promo-cta">Read today&rsquo;s report <span class="msym" aria-hidden="true">arrow_forward</span></span>
+      </a>
+      <div class="content-card">
+        <div class="article-wrap">
+
+      <!-- NEWS HEADER -->
+      <div class="report-head" id="report-head">
+        <div class="rwrap">
+        <div class="report-meta">
+          <span class="report-kicker">News</span>
+          <span class="report-sep">&middot;</span>
+          <span class="report-date">Tuesday 17 June 2026</span>
+          <span class="report-live"><span class="live-dot"></span>Live</span>
+          <span class="report-updated">Updated <strong>4 minutes ago</strong></span>
+        </div>
+
+        <div class="article-title-row">
+          <h1 class="article-h1">Today&rsquo;s news</h1>
+        </div>
+        </div>
+      </div>
+
+      <div class="rwrap">
+
+      <!-- TABS -->
+      <div class="news-tabs" role="tablist">
+        <button class="news-tab" id="tab-folio" role="tab" onclick="showTab('folio')">
+          My portfolio news <span class="news-tab-count" id="tabc-folio"></span>
+        </button>
+        <button class="news-tab is-active" id="tab-market" role="tab" onclick="showTab('market')">
+          All news <span class="news-tab-count" id="tabc-market"></span>
+        </button>
+      </div>
+
+      <!-- FILTER ROW -->
+      <div class="news-filters">
+        <button class="news-filter" data-f="beat"    onclick="toggleFilter('beat')" aria-pressed="false"><span class="nf-tick msym" aria-hidden="true">check</span>Beats <span class="nf-n" id="nf-beat"></span></button>
+        <button class="news-filter" data-f="miss"    onclick="toggleFilter('miss')" aria-pressed="false"><span class="nf-tick msym" aria-hidden="true">check</span>Misses <span class="nf-n" id="nf-miss"></span></button>
+        <button class="news-filter" data-f="covered" onclick="toggleFilter('covered')" aria-pressed="false"><span class="nf-tick msym" aria-hidden="true">check</span>Analyst picks <span class="nf-n" id="nf-covered"></span></button>
+        <button class="news-allfilters" id="nf-all" onclick="openSheet()" aria-haspopup="dialog">
+          <span class="msym" aria-hidden="true">tune</span>
+          News types <span class="nf-badge" id="nf-badge" hidden></span>
+        </button>
+      </div>
+
+      <!-- Hiding filters risks silent filtering: a reader returns, saved categories are
+           still off, sees a short list and concludes we stopped covering things. On a page
+           whose whole argument is breadth that is the one failure we cannot have, so any
+           active exclusion is stated in the open with a one-click way out. -->
+      <p class="news-excluded" id="news-excluded" hidden></p>
+
+      <!-- TABLE -->
+      <table class="news-table">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Announcement</th>
+            <th class="center sortable" onclick="sortBy('earn')">Earnings <span class="sortcaret" id="sc-earn"></span></th>
+            <th class="center sortable" onclick="sortBy('ch')">Change <span class="sortcaret" id="sc-ch"></span></th>
+            <th class="center sortable" onclick="sortBy('sr')">StockRank <span class="sortcaret" id="sc-sr"></span></th>
+            <th class="sortable" onclick="sortBy('rate')">Analyst view <span class="sortcaret" id="sc-rate"></span></th>
+          </tr>
+        </thead>
+        <tbody id="news-body"></tbody>
+      </table>
+
+      </div><!-- /rwrap -->
+
+      <!-- NEWS TYPES — M3 modal side sheet: above all app chrome, over a scrim. -->
+      
+<!-- RNS BOTTOM SHEET — same component as the DMR. Prev/Next walks the rows as
+     currently filtered and sorted, so the sheet follows what is on screen. -->
+<div class="modal-overlay" id="rns-modal" onclick="closeModalOnOverlay(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <span class="modal-title" id="modal-title"></span>
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">
+        <span class="msym" aria-hidden="true">close</span>
+      </button>
+    </div>
+    <div class="modal-meta">
+      <span class="modal-meta-date" id="modal-date"></span>
+      <div class="modal-meta-actions">
+        <a class="modal-meta-link" id="modal-view-rns" href="#" target="_blank" rel="noopener">
+          View original RNS <span class="msym" aria-hidden="true">open_in_new</span>
+        </a>
+      </div>
+    </div>
+    <div class="modal-summary" id="modal-summary">
+      <span class="modal-summary-label">Summary</span>
+      <span id="modal-summary-text"></span>
+    </div>
+    <div class="modal-body"><div class="modal-body-inner" id="modal-body"></div></div>
+    <div class="modal-nav">
+      <button class="modal-nav-btn" id="modal-prev" onclick="navigateRNS(-1)">&#8592; Previous</button>
+      <span class="modal-nav-count" id="modal-count"></span>
+      <button class="modal-nav-btn" id="modal-next" onclick="navigateRNS(1)">Next &#8594;</button>
+    </div>
+  </div>
+</div>
+
+<div class="sheet-scrim" id="sheet-scrim" hidden onclick="closeSheet()"></div>
+      <aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" hidden>
+        <div class="sheet-head">
+          <h2 class="sheet-title" id="sheet-title">News types</h2>
+          <button class="sheet-x" onclick="closeSheet()" aria-label="Close">
+            <span class="msym" aria-hidden="true">close</span>
+          </button>
+        </div>
+        <div class="sheet-body" id="sheet-body"></div>
+        <div class="sheet-foot">
+          <button class="sheet-reset" onclick="resetCats()">Reset to all</button>
+          <span class="sheet-count" id="sheet-count"></span>
+        </div>
+      </aside>
+        </div><!-- /article-wrap -->
+      </div><!-- /content-card -->
+    </div><!-- /page-canvas -->
+  </main>
+</div><!-- /shell -->
+<script>
+const NEWS = [{"n": "AstraZeneca", "t": "AZN", "m": "£217bn", "sr": 76, "ch": 1.2, "rl": "Breztri approved in US for asthma", "rs": "Breztri approved in the US for asthma as the first and only triple therapy for patients 12 years of age and older.", "ty": "Regulatory", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "", "cat": "company", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/astrazeneca-LON:AZN?source=Search"}, {"n": "BP", "t": "BP.", "m": "£89bn", "sr": 88, "ch": 0.8, "rl": "1Q26 SEA", "rs": "Underlying replacement cost profit $3.2bn (Q125: $1.4bn).", "ty": "Quarterly results", "rate": null, "rcls": null, "by": null, "folio": true, "earn": "beat", "cat": "results", "days": 0, "mag": "big", "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/bp-LON:BP.?source=Search"}, {"n": "GSK", "t": "GSK", "m": "£82bn", "sr": 94, "ch": 2.1, "rl": "Bepirovirsen priority review acceptance", "rs": "FDA accepted a priority review NDA for bepirovirsen, for the treatment of adults with chronic hepatitis B.", "ty": "Company update", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "", "cat": "company", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/gsk-LON:GSK?source=Search"}, {"n": "Barclays", "t": "BARC", "m": "£58bn", "sr": 84, "ch": 0.0, "rl": "1st Quarter Results", "rs": "ROTE 13.5% (Q1 2025: 14%). EPS 14.1p (Q1 2025: 13p). Confident in delivering all financial targets.", "ty": "Quarterly results", "rate": null, "rcls": null, "by": null, "folio": true, "earn": "inline", "cat": "results", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/barclays-LON:BARC?source=Search"}, {"n": "Anglo American", "t": "AAL", "m": "£43bn", "sr": 62, "ch": -0.4, "rl": "Production Report Q1 2026", "rs": "Copper production +1% to 170,400 tonnes. Premium iron ore down 2%. Guidance unchanged for 2026.", "ty": "Quarterly results", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "results", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/anglo-american-LON:AAL?source=Search"}, {"n": "Taylor Wimpey", "t": "TW.", "m": "£2.9bn", "sr": 73, "ch": -3.1, "rl": "Trading Statement", "rs": "Net private sales 0.72 per outlet per week (2025: 0.76). Pricing 1% lower YoY. Build cost inflation low to mid single digit.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": true, "earn": "miss", "cat": "trading", "days": 0, "mag": "small", "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/taylor-wimpey-LON:TW.?source=Search"}, {"n": "Travis Perkins", "t": "TPK", "m": "£1.16bn", "sr": 80, "ch": -4.7, "rl": "First quarter trading update", "rs": "Revenue down 1.7% like-for-like. Construction activity remains subdued. Focused on managing overheads.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "trading", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/travis-perkins-LON:TPK?source=Search"}, {"n": "Telecom Plus", "t": "TEP", "m": "£1.14bn", "sr": 58, "ch": -13.0, "rl": "Year End Trading Update", "rs": "Organic net customer growth 10.3%. Adjusted PBT at the bottom end of guidance of £132m–£138m.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": true, "earn": "miss", "cat": "trading", "days": 0, "mag": "big", "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/telecom-plus-LON:TEP?source=Search"}, {"n": "Card Factory", "t": "CARD", "m": "£229m", "sr": 53, "ch": 1.4, "rl": "Preliminary Results", "rs": "Revenue +7.4%. EBITDA -8.4%. PBT -31.5%. Adjusted PBT in line with revised guidance.", "ty": "Final results", "rate": null, "rcls": null, "by": null, "folio": true, "earn": "inline", "cat": "results", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/card-factory-LON:CARD?source=Search"}, {"n": "Eleco", "t": "ELCO", "m": "£104m", "sr": 51, "ch": 4.2, "rl": "Final Results", "rs": "Ahead of expectations: revenue +20%, ARR +29% to £34.3m. Adj pre-tax profit +35% to £7.3m.", "ty": "Final results", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "beat", "cat": "results", "days": 0, "mag": "mid", "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/eleco-LON:ELCO?source=Search"}, {"n": "Hardide", "t": "HDD", "m": "£28m", "sr": 62, "ch": 7.2, "rl": "New Order Intake", "rs": "£1.8m new orders from large North American energy customer. Performance expected materially ahead of expectations.", "ty": "Company update", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "", "cat": "company", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/hardide-LON:HDD?source=Search"}, {"n": "Everyman Media", "t": "EMAN", "m": "£30m", "sr": 40, "ch": -1.0, "rl": "Full Year Results", "rs": "Revenue +8.8%, adj EBITDA +10.6% to £17m. Pre-tax loss £10.2m. Net debt up £3.5m to £21.6m.", "ty": "Results", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "results", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/everyman-media-LON:EMAN?source=Search"}, {"n": "Likewise", "t": "LIKE", "m": "£68m", "sr": 63, "ch": -1.8, "rl": "H1 Trading Update", "rs": "Revenue growth year-to-date in line with expectations. UK flooring wholesale market remains subdued. Management investing in product range and distribution. Full year outcome dependent on H2 trading conditions.", "ty": "Trading update", "rate": "Neutral", "rcls": "r-neutral", "by": "Graham", "folio": false, "earn": "inline", "mag": null, "cat": "trading", "days": 0, "agenda": true, "file": "like.html", "url": "https://app.stockopedia.com/share-prices/likewise-LON:LIKE?source=Search"}, {"n": "Cake Box", "t": "CBOX", "m": "£85m", "sr": 47, "ch": 2.3, "rl": "Full Year Trading Update", "rs": "Revenue expected +43% at £61.2m. 37 new stores opened, total estate 310 stores.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": true, "earn": "beat", "cat": "trading", "days": 0, "mag": "mid", "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/cake-box-LON:CBOX?source=Search"}, {"n": "Headlam", "t": "HEAD", "m": "£24m", "sr": 25, "ch": -0.5, "rl": "Board response to First Seagull letter", "rs": "Two largest shareholders confirmed they will vote against resolutions to remove current directors.", "ty": "Company update", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "", "cat": "company", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/headlam-LON:HEAD?source=Search"}, {"n": "Howden Joinery", "t": "HWDN", "m": "£4.4bn", "sr": 90, "ch": 0.6, "rl": "Trading Update", "rs": "Underlying revenue +3.7%, or +2.8% on a same depot basis. On track with outlook for 2026.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": true, "earn": "beat", "cat": "trading", "days": 0, "mag": "small", "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/howden-joinery-LON:HWDN?source=Search"}, {"n": "Tesco", "t": "TSCO", "m": "£21bn", "sr": 72, "ch": 0.9, "rl": "Full Year Results", "rs": "Group sales +4.2% to £68.2bn. Adjusted operating profit £2.97bn. Dividend raised 3p to 13p per share. Outlook for FY27 unchanged.", "ty": "Results", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "results", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/tesco-LON:TSCO?source=Search"}, {"n": "Lloyds Banking", "t": "LLOY", "m": "£34bn", "sr": 81, "ch": 1.3, "rl": "Q1 2026 Trading Update", "rs": "Net income £4.1bn, up 5% YoY. NIM 2.97%. CET1 ratio 14.2%. Full year guidance reiterated.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "trading", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/lloyds-banking-LON:LLOY?source=Search"}, {"n": "Rolls-Royce", "t": "RR.", "m": "£48bn", "sr": 91, "ch": 2.8, "rl": "Q1 2026 Trading Statement", "rs": "Large engine flying hours up 18%. Civil Aerospace on track. Full year guidance of £2.7bn–£2.9bn underlying operating profit maintained.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "trading", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/rolls-royce-LON:RR.?source=Search"}, {"n": "Vodafone", "t": "VOD", "m": "£14bn", "sr": 38, "ch": -1.7, "rl": "FY2026 Preliminary Results", "rs": "Service revenue +1.4% organically. EBITDA €11.4bn. Free cash flow €2.8bn. Dividend maintained at 9 euro cents.", "ty": "Final results", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "results", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/vodafone-LON:VOD?source=Search"}, {"n": "Imperial Brands", "t": "IMB", "m": "£19bn", "sr": 67, "ch": 0.4, "rl": "H1 2026 Results", "rs": "Revenue +3.1%. Adjusted operating profit +4.2%. Next generation products NGP revenue +31%. On track for full year guidance.", "ty": "Results", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "results", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/imperial-brands-LON:IMB?source=Search"}, {"n": "Persimmon", "t": "PSN", "m": "£3.4bn", "sr": 55, "ch": -2.4, "rl": "Q1 2026 Trading Update", "rs": "Private sales rate 0.68 per site per week (2025: 0.71). 4,200 plots sold forward. Legal completions expected 10,500–11,000 for FY26.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "trading", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/persimmon-LON:PSN?source=Search"}, {"n": "Sainsbury's", "t": "SBRY", "m": "£5.6bn", "sr": 63, "ch": 0.2, "rl": "Full Year Results", "rs": "Retail sales +3.8%. Underlying PBT £701m, up 5.1%. Grocery market share 15.4%. Final dividend 9.7p.", "ty": "Results", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "results", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/sainsburys-LON:SBRY?source=Search"}, {"n": "BT Group", "t": "BT.A", "m": "£12bn", "sr": 44, "ch": -0.8, "rl": "Q4 FY26 Trading Update", "rs": "Revenue £5.1bn, -2% YoY. EBITDA £2.0bn, stable. Full fibre build ahead of schedule at 16m premises passed.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "trading", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/bt-group-LON:BT.A?source=Search"}, {"n": "Centrica", "t": "CNA", "m": "£7.2bn", "sr": 69, "ch": 1.1, "rl": "Q1 2026 Trading Update", "rs": "British Gas energy supply performing ahead of expectations. Nuclear generation output 7% above plan. FY26 guidance maintained.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "beat", "cat": "trading", "days": 0, "mag": "small", "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/centrica-LON:CNA?source=Search"}, {"n": "Barratt Redrow", "t": "BTRW", "m": "£4.1bn", "sr": 61, "ch": -1.9, "rl": "Trading Statement", "rs": "Net private reservations 0.61 per active outlet per week. Total completions guided 16,000–16,500 for FY26. Forward sales £2.8bn.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "trading", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/barratt-redrow-LON:BTRW?source=Search"}, {"n": "Legal & General", "t": "LGEN", "m": "£13bn", "sr": 77, "ch": 0.7, "rl": "Q1 2026 Trading Statement", "rs": "Annuity sales £2.1bn in Q1. Asset Management AUM £1.14 trillion. Capital generation on track for FY guidance.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "trading", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/legal-and-general-LON:LGEN?source=Search"}, {"n": "Hikma Pharma", "t": "HIK", "m": "£4.2bn", "sr": 74, "ch": 1.6, "rl": "Q1 2026 Trading Update", "rs": "Injectables revenue +8% constant currency. Generics in line. Brand stable. Full year guidance reiterated across all three divisions.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "trading", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/hikma-pharma-LON:HIK?source=Search"}, {"n": "Smiths Group", "t": "SMIN", "m": "£5.8bn", "sr": 82, "ch": 3.1, "rl": "H1 FY26 Results", "rs": "Revenue +6% organically. Adjusted operating profit +14%. EPS 47.1p. Interim dividend +10%. Full year guidance upgraded.", "ty": "Results", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "beat", "cat": "results", "days": 0, "mag": "mid", "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/smiths-group-LON:SMIN?source=Search"}, {"n": "Intertek", "t": "ITRK", "m": "£7.1bn", "sr": 78, "ch": 0.5, "rl": "Q1 2026 Revenue Update", "rs": "Revenue growth +6.5% at constant rates. ATIC division strong. Margin improvement expected in H2. FY26 guidance unchanged.", "ty": "Quarterly results", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "results", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/intertek-LON:ITRK?source=Search"}, {"n": "Beazley", "t": "BEZ", "m": "£5.3bn", "sr": 85, "ch": 2.2, "rl": "Q1 2026 IMS", "rs": "Written premiums +12% to $1.4bn. Combined ratio 79%. Investment income $142m. Well positioned to meet FY26 targets.", "ty": "Quarterly results", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "results", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/beazley-LON:BEZ?source=Search"}, {"n": "Greggs", "t": "GRG", "m": "£2.9bn", "sr": 70, "ch": 0.8, "rl": "Q1 2026 Trading Update", "rs": "Total sales +11.3%. Like-for-like sales +7.4%. 35 net new shops opened. On track to open 150 net new shops in FY26.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "trading", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/greggs-LON:GRG?source=Search"}, {"n": "Next", "t": "NXT", "m": "£11bn", "sr": 88, "ch": 1.9, "rl": "Q1 2026 Statement", "rs": "Full price sales +7.9% in Q1. Guidance upgraded — full year PBT now £1.095bn vs previous £1.07bn. Total Platform sales +18%.", "ty": "Quarterly results", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "beat", "cat": "results", "days": 0, "mag": "small", "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/next-LON:NXT?source=Search"}, {"n": "Bunzl", "t": "BNZL", "m": "£8.4bn", "sr": 79, "ch": 0.3, "rl": "Q1 2026 Trading Statement", "rs": "Revenue +3% at constant rates. Acquisitions contributing as expected. Full year guidance unchanged. Strong pipeline of bolt-on deals.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "trading", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/bunzl-LON:BNZL?source=Search"}, {"n": "4imprint", "t": "FOUR", "m": "£1.6bn", "sr": 86, "ch": 4.1, "rl": "Q1 2026 Trading Statement", "rs": "Revenue $335m, up 9% YoY. Order book ahead of same period last year. On track for record revenue year. Interim dividend +15%.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "beat", "cat": "trading", "days": 0, "mag": "big", "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/4imprint-LON:FOUR?source=Search"}, {"n": "Diploma", "t": "DPLM", "m": "£5.2bn", "sr": 83, "ch": 1.4, "rl": "H1 FY26 Results", "rs": "Revenue +18%, organic +7%. Adjusted operating margin 20.1%. EPS +14%. Three acquisitions completed YTD. FY26 guidance maintained.", "ty": "Results", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "results", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/diploma-LON:DPLM?source=Search"}, {"n": "Inchcape", "t": "INCH", "m": "£1.9bn", "sr": 59, "ch": -0.9, "rl": "Q1 2026 Trading Update", "rs": "Distribution revenue in line with expectations. Derco integration on track. Organic growth 2%. FY26 PBT guidance unchanged.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "trading", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/inchcape-LON:INCH?source=Search"}, {"n": "Gamma Comms", "t": "GAMA", "m": "£892m", "sr": 71, "ch": 2.6, "rl": "FY25 Preliminary Results", "rs": "Revenue +8% to £616m. Adjusted EBITDA +11% to £147m. UCaaS seats up 14%. Dividend +10%. Confident in medium-term growth targets.", "ty": "Final results", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "results", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/gamma-comms-LON:GAMA?source=Search"}, {"n": "XPS Pensions", "t": "XPS", "m": "£618m", "sr": 75, "ch": 1.8, "rl": "FY26 Trading Update", "rs": "Revenue growth ahead of expectations at +17%. Strong new business wins. Margin expansion expected in H2. Progressive dividend maintained.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "beat", "cat": "trading", "days": 0, "mag": "small", "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/xps-pensions-LON:XPS?source=Search"}, {"n": "Vistry Group", "t": "VTY", "m": "£1.7bn", "sr": 45, "ch": -5.2, "rl": "Q1 2026 Trading Update", "rs": "Delivery remains on track. Partnership completions 3,847. Net debt £312m ahead of guidance. However, shared equity provisions increased.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "miss", "cat": "trading", "days": 0, "mag": "mid", "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/vistry-group-LON:VTY?source=Search"}, {"n": "Alpha FX", "t": "AFX", "m": "£624m", "sr": 68, "ch": 3.4, "rl": "FY25 Results", "rs": "Revenue +22% to £143m. Profit before tax +18% to £53m. Net cash £42m. Institutional business growing strongly. Dividend +20%.", "ty": "Results", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "results", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/alpha-fx-LON:AFX?source=Search"}, {"n": "Marshalls", "t": "MSLH", "m": "£542m", "sr": 42, "ch": -2.1, "rl": "Q1 2026 Trading Update", "rs": "Revenue -3% YoY. Domestic market remains soft. Infrastructure projects providing some offset. Full year outcome dependent on H2 recovery.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "trading", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/marshalls-LON:MSLH?source=Search"}, {"n": "FRP Advisory", "t": "FRP", "m": "£441m", "sr": 80, "ch": 1.2, "rl": "FY26 Trading Update", "rs": "Revenue and profit ahead of market expectations. Restructuring activity elevated. M&A advisory pipeline strong. Dividend +8%.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "beat", "cat": "trading", "days": 0, "mag": "small", "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/frp-advisory-LON:FRP?source=Search"}, {"n": "Cranswick", "t": "CWK", "m": "£2.1bn", "sr": 76, "ch": 0.6, "rl": "FY26 Preliminary Results", "rs": "Revenue +7.8% to £2.96bn. Adjusted PBT +9.2% to £168m. Volume growth across all categories. Capex programme on schedule.", "ty": "Final results", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "results", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/cranswick-LON:CWK?source=Search"}, {"n": "Impax Asset Mgmt", "t": "IPX", "m": "£338m", "sr": 36, "ch": -1.4, "rl": "H1 FY26 Results", "rs": "AUM £35.2bn, down 4% from H1 peak. Net outflows £0.8bn. Revenue -6%. Cost reduction programme delivering. Dividend maintained.", "ty": "Results", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "results", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/impax-asset-mgmt-LON:IPX?source=Search"}, {"n": "Loungers", "t": "LGRS", "m": "£297m", "sr": 64, "ch": 5.8, "rl": "FY26 Preliminary Results", "rs": "Total revenue +14.2% to £378m. Adjusted EBITDA +18% to £71m. 22 new sites opened. LfL sales +4.1%. Confident on FY27 outlook.", "ty": "Final results", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "beat", "cat": "results", "days": 0, "mag": "mid", "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/loungers-LON:LGRS?source=Search"}, {"n": "WPP", "t": "WPP", "m": "£2.8bn", "sr": 48, "ch": -2.1, "rl": "First Quarter 2026 Trading Update", "rs": "Revenue down 4% LfL. Revenue less pass-through costs down 6.7% LfL. Performance consistent with guidance.", "ty": "Trading update", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "inline", "cat": "trading", "days": 0, "mag": null, "agenda": false, "file": null, "url": "https://app.stockopedia.com/share-prices/wpp-LON:WPP?source=Search"}, {"n": "PZ Cussons", "t": "PZC", "m": "£392m", "sr": 83, "ch": 7.6, "rl": "FY26 Trading Update", "rs": "Full-year LFL revenue growth ~6%, ahead of guidance. Adjusted PBT guidance nudged higher. Strong performance in Nigeria and Australia; FX headwinds diminishing. Net debt reduced.", "ty": "Trading update", "rate": "Cautiously positive", "rcls": "r-cautious-pos", "by": "Roland", "folio": false, "earn": "beat", "mag": "small", "cat": "trading", "days": 0, "agenda": true, "file": "pzc.html", "url": "https://app.stockopedia.com/share-prices/pz-cussons-LON:PZC?source=Search"}, {"n": "Smiths News", "t": "SNWS", "m": "£157m", "sr": 94, "ch": 6.5, "rl": "Contract Win — News UK", "rs": "Five-year national distribution contract awarded by News UK, covering The Times, The Sunday Times and The Sun. Contract value ~£125m/year, commencing January 2027. Smiths holds 51.5% of the UK newspaper wholesale market.", "ty": "Contract win", "rate": "Positive", "rcls": "r-positive", "by": "Graham", "folio": false, "earn": "beat", "mag": "mid", "cat": "company", "days": 0, "agenda": true, "file": "snws.html", "url": "https://app.stockopedia.com/share-prices/smiths-news-LON:SNWS?source=Search"}, {"n": "AO World", "t": "AO.", "m": "£548m", "sr": 72, "ch": 5.2, "rl": "Final Results FY26", "rs": "Revenue £1,267m (+11.4%), adjusted PBT £50.5m (+16.1%). Free cash flow £66.4m, up 152%. Net cash £16.4m (from net debt £43.6m). Special dividend 2.4p and £5m share buyback announced.", "ty": "Final results", "rate": "Cautiously positive", "rcls": "r-cautious-pos", "by": "Roland", "folio": true, "earn": "beat", "mag": "big", "cat": "results", "days": 0, "agenda": true, "file": "ao.html", "url": "https://app.stockopedia.com/share-prices/ao-world-LON:AO.?source=Search"}, {"n": "Arrow Exploration", "t": "AXL", "m": "£76m", "sr": 72, "ch": 8.3, "rl": "Well Results — Carrizales Norte", "rs": "C-2 well in Colombia tested at 1,850 bopd gross, exceeding pre-drill estimates. Well placed on production; block gross output now exceeds 4,200 bopd.", "ty": "Well results", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "", "mag": null, "cat": "company", "days": 0, "agenda": true, "file": null, "url": "https://app.stockopedia.com/share-prices/arrow-exploration-LON:AXL?source=Search"}, {"n": "Games Workshop", "t": "GAW", "m": "£6.7bn", "sr": 79, "ch": 1.0, "rl": "Dividend Declaration", "rs": "Interim dividend of 90p per share, up 12.5% on prior period (80p). H1 revenue £352m, operating profit £162m, net cash £198m. Royalty income from the Amazon TV deal growing strongly.", "ty": "Dividend declaration", "rate": "Positive", "rcls": "r-positive", "by": "Graham", "folio": true, "earn": "beat", "mag": "mid", "cat": "company", "days": 0, "agenda": true, "file": "gaw.html", "url": "https://app.stockopedia.com/share-prices/games-workshop-LON:GAW?source=Search"}, {"n": "Castings", "t": "CGS", "m": "£142m", "sr": 84, "ch": 1.2, "rl": "FY26 Final Results", "rs": "FY26 revenue and profit ahead of prior year; iron casting volumes resilient despite softer European truck market. Net cash maintained. Final dividend 18.5p. Management cautious on FY27 commercial vehicle outlook.", "ty": "Final results", "rate": "Neutral", "rcls": "r-neutral", "by": "Roland", "folio": false, "earn": "beat", "mag": "small", "cat": "results", "days": 0, "agenda": true, "file": "cgs.html", "url": "https://app.stockopedia.com/share-prices/castings-LON:CGS?source=Search"}, {"n": "Brave Bison", "t": "BBSN", "m": "£108m", "sr": 42, "ch": 5.0, "rl": "H1 2026 Trading Update", "rs": "H1 revenue ahead of prior year and internal expectations. Social media management and performance marketing both growing. New client wins in sport and entertainment. Full year in line with board expectations.", "ty": "Trading update", "rate": "Cautiously positive", "rcls": "r-cautious-pos", "by": "Graham", "folio": true, "earn": "beat", "mag": "mid", "cat": "trading", "days": 0, "agenda": true, "file": "bbsn.html", "url": "https://app.stockopedia.com/share-prices/brave-bison-LON:BBSN?source=Search"}, {"n": "CML Microsystems", "t": "CML", "m": "£49m", "sr": 65, "ch": -4.2, "rl": "FY26 Final Results", "rs": "Revenue £43.2m (-9%), adjusted PBT £1.8m (FY25: £5.4m). Storage and networking semiconductor market normalisation continued as customers digested excess inventory. Recovery expected from H1 FY27.", "ty": "Final results", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "miss", "mag": "big", "cat": "results", "days": 0, "agenda": true, "file": null, "url": "https://app.stockopedia.com/share-prices/cml-microsystems-LON:CML?source=Search"}, {"n": "Speedy Hire", "t": "SDY", "m": "£92m", "sr": 40, "ch": -3.1, "rl": "Final Results FY26", "rs": "Revenue £388m (-4.2%); adjusted PBT £12.1m (FY25: £18.3m). Construction sector demand subdued throughout the year. Restructuring targeting £8m annualised savings. Net debt £52m.", "ty": "Final results", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "miss", "mag": "big", "cat": "results", "days": 0, "agenda": true, "file": null, "url": "https://app.stockopedia.com/share-prices/speedy-hire-LON:SDY?source=Search"}, {"n": "Hargreaves Services", "t": "HSP", "m": "£249m", "sr": 98, "ch": 0.3, "rl": "FY26 Trading Update", "rs": "FY26 trading in line with board expectations. Industrial Services performing strongly; Property division progressing well with site disposals. Net cash maintained; dividend expected to be at least maintained.", "ty": "Trading update", "rate": "Cautiously positive", "rcls": "r-cautious-pos", "by": "Roland", "folio": true, "earn": "inline", "mag": null, "cat": "trading", "days": 0, "agenda": true, "file": "hsp.html", "url": "https://app.stockopedia.com/share-prices/hargreaves-services-LON:HSP?source=Search"}, {"n": "Frenkel Topping", "t": "FEN", "m": "£64m", "sr": 77, "ch": 1.5, "rl": "Interim Results", "rs": "H1 revenue £21.3m (+14%), adjusted PBT £4.8m (+22%). Assets under management grew to £1.4bn. Benefits from recovering Court of Protection case completions as court backlogs clear.", "ty": "Interim results", "rate": null, "rcls": null, "by": null, "folio": false, "earn": "beat", "mag": "big", "cat": "results", "days": 0, "agenda": true, "file": null, "url": "https://app.stockopedia.com/share-prices/frenkel-topping-LON:FEN?source=Search"}];
+// Lifted unchanged from the DMR so the two pages cannot drift. Magnitude sits in
+// the first word; only the outliers invert to a solid fill.
+function earnVerdict(dir, mag) {
+  if (dir === 'inline') return { text:'In line', cls:'is-inline' };
+  if (!dir) return null;
+  const noun = dir === 'beat' ? 'beat' : 'miss';
+  const cls  = dir === 'beat' ? 'is-beat' : 'is-miss';
+  if (mag === 'big')   return { text:'Big ' + noun,   cls: cls + ' is-big' };
+  if (mag === 'small') return { text:'Small ' + noun, cls };
+  return { text: noun.charAt(0).toUpperCase() + noun.slice(1), cls };
+}
+// ── RNS bottom sheet ───────────────────────────────────────────────────────
+const rnsDetails = {
+  'SNWS': { date:'17 Jun 2026 · 07:00am', rnsUrl:'#', tags:['Smiths News','News UK'],
+    body:`<p class="rns-header">FOR IMMEDIATE RELEASE &nbsp;·&nbsp; 17 June 2026</p>
+<p class="rns-issuer">Smiths News plc &nbsp;(AIM: SNWS)</p>
+<h3 class="rns-headline">CONTRACT WIN: FIVE-YEAR NATIONAL DISTRIBUTION AGREEMENT WITH NEWS UK</h3>
+<p>Smiths News plc (AIM: SNWS), the UK's largest newspaper and magazine wholesaler, is pleased to announce that it has been awarded a five-year national distribution contract by News UK Limited, covering <em>The Times</em>, <em>The Sunday Times</em> and <em>The Sun</em>, commencing 1 January 2027.</p>
+<p class="rns-subhead">CONTRACT HIGHLIGHTS</p>
+<ul><li>Contract duration: five years from 1 January 2027</li><li>Contract value: approximately £125 million per annum</li><li>Titles covered: <em>The Times</em>, <em>The Sunday Times</em>, <em>The Sun</em></li><li>Scope: full logistics chain from print facility to retail delivery, national coverage</li></ul>
+<p class="rns-subhead">CHIEF EXECUTIVE'S COMMENT</p>
+<p>Jonathan Bunting, Chief Executive Officer, commented:</p>
+<p class="rns-quote">"We are delighted to have secured this major contract with News UK, one of the most iconic names in British publishing. This win reinforces Smiths News' position as the UK's leading newspaper distributor and reflects the trust that publishers place in our operational capability, technology and nationwide network. News UK's titles represent a significant volume of our industry and we look forward to serving their readers with the reliability and accuracy they expect. This contract provides strong revenue visibility well into the next decade."</p>
+<p class="rns-subhead">BACKGROUND TO THE CONTRACT</p>
+<p>Following a competitive tender process conducted during Q1 2026, Smiths News was selected as the preferred distribution partner for News UK's print portfolio across the United Kingdom. The award covers the full logistics chain from printer handover to final retailer delivery, leveraging Smiths' 26 regional distribution centres and its proprietary routing and scheduling technology.</p>
+<p>The current distribution arrangements for News UK's titles expire on 31 December 2026. Smiths News has confirmed that it has sufficient operational and logistical capacity to onboard the new volumes without disruption to its existing publisher commitments.</p>
+<p class="rns-subhead">FINANCIAL IMPACT</p>
+<p>The Board expects this contract to be immediately earnings enhancing from commencement on 1 January 2027, contributing meaningfully to the Group's objective of maintaining its market-leading 51.5% share of the UK newspaper wholesale market.</p>
+<p>Capital expenditure required to support onboarding is expected to be modest and will be funded from the Group's existing cash resources. A further update will be provided at the time of the Company's interim results, expected in H2 2026.</p>
+<p class="rns-contacts">For further information: Smiths News plc — Jonathan Bunting (CEO), Claire Anderson (CFO) +44 (0)1793 563 641 &nbsp;|&nbsp; Panmure Liberum (Nomad &amp; Broker) +44 (0)20 3100 2000 &nbsp;|&nbsp; Buchanan Communications +44 (0)20 7466 5000</p>
+<p class="rns-boilerplate">This announcement contains inside information for the purposes of Article 7 of the UK Market Abuse Regulation. Upon publication via a Regulatory Information Service, this inside information is now considered to be in the public domain.</p>` },
+  'GAW': { date:'17 Jun 2026 · 07:00am', rnsUrl:'#', tags:['Games Workshop'],
+    body:`<p class="rns-header">FOR IMMEDIATE RELEASE &nbsp;·&nbsp; 17 June 2026</p>
+<p class="rns-issuer">Games Workshop Group PLC &nbsp;(LSE: GAW)</p>
+<h3 class="rns-headline">DIVIDEND DECLARATION — INTERIM DIVIDEND OF 90 PENCE PER SHARE</h3>
+<p>Games Workshop Group PLC (LSE: GAW) today declares an interim dividend of 90 pence per share (prior period: 80 pence per share), an increase of 12.5%, payable on 30 June 2026 to shareholders on the register on 12 June 2026. The ex-dividend date is 11 June 2026.</p>
+<p class="rns-subhead">FINANCIAL HIGHLIGHTS — SIX MONTHS ENDED 1 DECEMBER 2025</p>
+<ul><li>Revenue: £352 million (H1 FY25: £319 million, +10.3%)</li><li>Operating profit: £162 million (H1 FY25: £142 million, +14.1%)</li><li>Royalty income: £42 million (H1 FY25: £29 million, +44.8%)</li><li>Net cash at period end: £198 million (H1 FY25: £167 million)</li><li>Interim dividend: 90 pence per share (H1 FY25: 80 pence)</li></ul>
+<p class="rns-subhead">CHIEF EXECUTIVE'S COMMENT</p>
+<p>Kevin Rountree, Chief Executive Officer, commented:</p>
+<p class="rns-quote">"Another strong half. Our core business continues to perform well, supported by a healthy release schedule and growing global demand for Warhammer. The Amazon TV series has meaningfully accelerated interest in the hobby, particularly in North America, and royalty income reflects the early success of that partnership. We remain focused on quality, creativity and serving our customers worldwide."</p>
+<p class="rns-subhead">OPERATIONAL UPDATE</p>
+<p>Core miniatures revenue grew across all major regions in the period, with North America and Continental Europe both delivering double-digit growth. The UK and domestic direct channels performed in line with management expectations.</p>
+<p>Royalty income of £42 million reflects initial receipts and milestone payments related to the Amazon adaptation of Warhammer 40,000, which entered production in early 2026. The Board expects royalty income to remain a meaningful and growing contributor to Group revenue over the medium term as the franchise is developed across multiple formats.</p>
+<p>The Group continues to invest in new product development, manufacturing capacity at its Nottingham facilities and digital engagement with the hobbyist community.</p>
+<p class="rns-subhead">OUTLOOK</p>
+<p>The Board remains confident in the outlook for the full year. The second half release schedule includes several major Warhammer 40,000 launches and a new Age of Sigmar army set. While macroeconomic conditions remain uncertain, the Group's diversified revenue base, strong balance sheet and highly engaged customer community provide a resilient foundation.</p>
+<p class="rns-contacts">For further information: Games Workshop Group PLC — Kevin Rountree (CEO), Rachel Tongue (CFO) +44 (0)115 916 8177 &nbsp;|&nbsp; Cavendish Capital Markets (Broker) +44 (0)20 7220 0500</p>
+<p class="rns-boilerplate">This announcement is made pursuant to DTR 3.1 of the UK Listing Rules. Games Workshop Group PLC is listed on the London Stock Exchange (LSE: GAW).</p>` },
+  'AO.': { date:'17 Jun 2026 · 07:00am', rnsUrl:'#', tags:['AO World'],
+    body:`<p class="rns-header">FOR IMMEDIATE RELEASE &nbsp;·&nbsp; 17 June 2026</p>
+<p class="rns-issuer">AO World plc &nbsp;(AIM: AO.)</p>
+<h3 class="rns-headline">FINAL RESULTS FOR THE YEAR ENDED 31 MARCH 2026</h3>
+<p>AO World plc (AIM: AO.), the online electrical retailer, today announces its audited final results for the year ended 31 March 2026 ("FY26").</p>
+<p class="rns-subhead">FINANCIAL HIGHLIGHTS</p>
+<ul><li>Revenue: £1,267 million (FY25: £1,138 million, +11.4%)</li><li>Adjusted profit before tax: £50.5 million (FY25: £43.5 million, +16.1%)</li><li>Statutory profit before tax: £44.2 million (FY25: £38.1 million)</li><li>Free cash flow: £66.4 million (FY25: £26.3 million, +152%)</li><li>Net cash: £16.4 million (FY25: net debt £43.6 million)</li><li>Special dividend: 2.4 pence per share</li><li>Share buyback: up to £5 million announced</li></ul>
+<p class="rns-subhead">CHIEF EXECUTIVE'S COMMENT</p>
+<p>John Roberts, Founder and Chief Executive Officer, commented:</p>
+<p class="rns-quote">"FY26 has been a landmark year for AO. We have grown revenue meaningfully, delivered substantially higher profits and — most importantly — generated significant free cash flow, transforming our balance sheet from net debt to net cash. Our customer proposition continues to resonate strongly, and we are investing to sustain this momentum. I am delighted that the Board is returning cash to shareholders through a special dividend and buyback, reflecting confidence in our continued progress."</p>
+<p class="rns-subhead">OPERATIONAL REVIEW</p>
+<p>UK revenues grew 12.1% to £1,187 million, driven by strong performance in large domestic appliances and continued growth in consumer electronics. The Group's logistics infrastructure delivered record customer satisfaction scores during the year, with same-day and next-day delivery availability now covering over 90% of UK postcodes.</p>
+<p>The Group exited its German operations in November 2024, and the prior-year comparatives have been restated accordingly. Management remains focused on the UK market, where the structural shift to online electrical retail continues at pace.</p>
+<p class="rns-subhead">BALANCE SHEET AND RETURNS</p>
+<p>The Group ended the year with net cash of £16.4 million, compared with net debt of £43.6 million at 31 March 2025 — a swing of £60 million in twelve months. Free cash flow of £66.4 million reflects strong profit conversion and disciplined working capital management.</p>
+<p>The Board is declaring a special dividend of 2.4 pence per share, payable on 18 July 2026 to shareholders on the register at 27 June 2026. In addition, the Board has approved a share buyback programme of up to £5 million, to commence following the close period.</p>
+<p class="rns-subhead">OUTLOOK</p>
+<p>The Board enters FY27 with confidence. The UK electrical market remains supportive and AO's customer proposition is as strong as it has ever been. Investment in marketing, technology and logistics capacity will continue, and management expects to make further progress on both revenue and profitability in the year ahead.</p>
+<p class="rns-contacts">For further information: AO World plc — John Roberts (CEO), Mark Higgins (CFO) +44 (0)1204 672 400 &nbsp;|&nbsp; Jefferies International (Broker) +44 (0)20 7029 8000 &nbsp;|&nbsp; MHP Group (PR) +44 (0)20 3128 8100</p>
+<p class="rns-boilerplate">This announcement contains inside information for the purposes of Article 7 of the UK Market Abuse Regulation. Upon publication via a Regulatory Information Service, this inside information is now considered to be in the public domain.</p>` },
+  'PZC': { date:'17 Jun 2026 · 07:14am', rnsUrl:'#', tags:['PZ Cussons'],
+    body:`<p class="rns-header">FOR IMMEDIATE RELEASE &nbsp;·&nbsp; 17 June 2026</p>
+<p class="rns-issuer">PZ Cussons plc &nbsp;(LSE: PZC)</p>
+<h3 class="rns-headline">TRADING UPDATE FOR THE YEAR ENDED 31 MAY 2026</h3>
+<p>PZ Cussons plc (LSE: PZC), the international consumer goods group, today provides an update on trading for the full year ended 31 May 2026 ("FY26") ahead of announcing its preliminary results, which are expected to be published in September 2026.</p>
+<p class="rns-subhead">TRADING SUMMARY</p>
+<p>The Board is pleased to report that full-year like-for-like ("LFL") revenue growth is expected to be approximately 6%, ahead of the Group's previous guidance of mid-single-digit growth. As a result, the Board now expects adjusted profit before tax for FY26 to be slightly ahead of its previous guidance range.</p>
+<p class="rns-subhead">REGIONAL PERFORMANCE</p>
+<p><strong>Africa:</strong> Trading in Nigeria — the Group's largest single market — has been materially ahead of internal expectations. The naira stabilised progressively through H2, significantly reducing the transactional FX headwinds that constrained H1 performance. Volume growth has been strong across the Carex, Imperial Leather and Morning Fresh brands. The Board believes the normalisation of the Nigerian operating environment represents a durable improvement rather than a temporary rebound.</p>
+<p><strong>Europe:</strong> The UK and European business has traded in line with expectations. Carex continues to benefit from sustained consumer demand for hygiene products and has maintained market share despite competitive promotional activity from private label. St. Tropez performed well heading into the summer season.</p>
+<p><strong>Asia Pacific:</strong> Australia delivered another year of growth, led by Morning Fresh and Rafferty's Garden. The Board is encouraged by the trajectory of the business in this market.</p>
+<p class="rns-subhead">BALANCE SHEET</p>
+<p>Net debt has reduced compared with the prior year. The Group retains ample liquidity and financial flexibility. Further details will be provided with the preliminary results in September.</p>
+<p class="rns-subhead">DIVIDEND</p>
+<p>In line with the Group's progressive dividend policy, the Board will recommend a final dividend for FY26 at the time of the preliminary results.</p>
+<p class="rns-subhead">CHIEF EXECUTIVE'S COMMENT</p>
+<p>Jonathan Myers, Chief Executive Officer, commented:</p>
+<p class="rns-quote">"We exit FY26 in a stronger position than we entered it. The improvement in Nigeria has been the most significant positive development — we are cautiously optimistic that the economic reforms are beginning to take hold. Combined with solid performances in Europe and Australia, we are pleased to be delivering ahead of guidance. Our focus on fewer, stronger brands continues to drive quality of earnings."</p>
+<p class="rns-contacts">For further information: PZ Cussons plc — Jonathan Myers (CEO), Zoe Howorth (CFO) +44 (0)161 435 1000 &nbsp;|&nbsp; Citigroup (Corporate Broker) +44 (0)20 7986 4000 &nbsp;|&nbsp; FGS Global (PR) +44 (0)20 7251 3801</p>
+<p class="rns-boilerplate">This announcement contains inside information for the purposes of Article 7 of the UK Market Abuse Regulation. Upon publication via a Regulatory Information Service, this inside information is now considered to be in the public domain.</p>` },
+  'HSP': { date:'17 Jun 2026 · 07:22am', rnsUrl:'#', tags:['Hargreaves Services'],
+    body:`<p class="rns-header">FOR IMMEDIATE RELEASE &nbsp;·&nbsp; 17 June 2026</p>
+<p class="rns-issuer">Hargreaves Services plc &nbsp;(AIM: HSP)</p>
+<h3 class="rns-headline">TRADING UPDATE FOR THE YEAR ENDED 31 MAY 2026</h3>
+<p>Hargreaves Services plc (AIM: HSP), a diversified industrial and property group, today provides a trading update for the year ended 31 May 2026. The Group's preliminary results for FY26 are expected to be announced in September 2026.</p>
+<p class="rns-subhead">TRADING OVERVIEW</p>
+<p>The Board is pleased to report that trading for the year ended 31 May 2026 has been in line with its expectations. Both the Industrial Services and Property divisions have contributed positively to Group performance.</p>
+<p class="rns-subhead">INDUSTRIAL SERVICES</p>
+<p>The Industrial Services division has performed strongly throughout FY26. Demand for specialist plant decommissioning, civil engineering and technical services has remained robust, supported by a healthy order book. The division has benefited from continued investment in infrastructure and industrial transition projects across the UK and Northern Europe, and has secured several new multi-year framework agreements during the year.</p>
+<p class="rns-subhead">PROPERTY DIVISION</p>
+<p>The Property division has continued to make good progress. The Group's strategic land portfolio in the north of England continues to advance through the planning process. Several site disposals have been completed or exchanged during the year, generating capital receipts in line with the Board's expectations. The longer-term development pipeline remains substantial and the Board is encouraged by planning activity and land values in the relevant geographies.</p>
+<p class="rns-subhead">BALANCE SHEET AND DIVIDEND</p>
+<p>The Group has maintained a healthy net cash position throughout the year. The Board expects that the full-year dividend will be at least maintained at the FY25 level, reflecting the Group's confidence in its financial position and cash generation. Further detail will be provided at the time of the preliminary results.</p>
+<p class="rns-subhead">OUTLOOK</p>
+<p>The Board looks forward to FY27 with confidence. The order book for Industrial Services is well-positioned, and the Property division's pipeline supports continued activity. The Group's balance sheet strength provides both resilience and the capacity to pursue selective growth opportunities.</p>
+<p class="rns-contacts">For further information: Hargreaves Services plc — Gordon Banham (CEO), Iain Cockburn (CFO) +44 (0)191 373 4485 &nbsp;|&nbsp; Cavendish Capital Markets (Nomad &amp; Broker) +44 (0)20 7220 0500 &nbsp;|&nbsp; Alma Strategic Communications (PR) +44 (0)20 3405 0205</p>
+<p class="rns-boilerplate">This announcement contains inside information for the purposes of Article 7 of the UK Market Abuse Regulation. Upon publication via a Regulatory Information Service, this inside information is now considered to be in the public domain.</p>` },
+  'CGS': { date:'17 Jun 2026 · 07:00am', rnsUrl:'#', tags:['Castings'],
+    body:`<p class="rns-header">FOR IMMEDIATE RELEASE &nbsp;·&nbsp; 17 June 2026</p>
+<p class="rns-issuer">Castings PLC &nbsp;(AIM: CGS)</p>
+<h3 class="rns-headline">FINAL RESULTS FOR THE YEAR ENDED 31 MARCH 2026</h3>
+<p>Castings PLC (AIM: CGS), one of the UK's largest iron casting and machining manufacturers, today announces its audited final results for the year ended 31 March 2026 ("FY26").</p>
+<p class="rns-subhead">FINANCIAL HIGHLIGHTS</p>
+<ul><li>Revenue: £210.4 million (FY25: £197.8 million, +6.4%)</li><li>Adjusted operating profit: £22.1 million (FY25: £19.4 million, +13.9%)</li><li>Profit before tax: £21.3 million (FY25: £18.6 million)</li><li>Net cash: £28.7 million (FY25: £22.4 million)</li><li>Final dividend: 18.5 pence per share (FY25: 18.5 pence)</li><li>Total dividend: 27.0 pence per share (FY25: 27.0 pence)</li></ul>
+<p class="rns-subhead">CHIEF EXECUTIVE'S COMMENT</p>
+<p>Adam Vicary, Managing Director, commented:</p>
+<p class="rns-quote">"FY26 has been a solid year for the Group, with revenues and profits ahead of the prior year despite some well-documented softness in the European commercial vehicle market. Our operational discipline and long-standing customer relationships have enabled us to manage volumes effectively. We remain cautious on the near-term outlook for commercial vehicles, but our diverse end-market exposure and strong balance sheet give us confidence in the Group's resilience."</p>
+<p class="rns-subhead">OPERATIONAL REVIEW</p>
+<p>Iron casting volumes were broadly resilient in FY26. While the European truck cycle continued to soften, this was partially offset by stronger demand from agricultural, industrial and infrastructure-related customers. The Group's machining facilities operated at good utilisation levels throughout the year.</p>
+<p>Investment in plant and equipment continued during the year, with capital expenditure of £8.3 million focused on efficiency improvements and capacity maintenance. The Group's manufacturing footprint in the West Midlands remains well-placed to serve its core customer base.</p>
+<p class="rns-subhead">BALANCE SHEET AND DIVIDENDS</p>
+<p>The Group ended the year with net cash of £28.7 million, an increase of £6.3 million. Cash generation has been strong throughout FY26, underpinning the Board's decision to maintain the final dividend at 18.5 pence per share. The total dividend for the year is 27.0 pence per share. The final dividend is payable on 25 July 2026 to shareholders on the register at 3 July 2026.</p>
+<p class="rns-subhead">OUTLOOK</p>
+<p>The Board remains cautious regarding FY27 given ongoing uncertainties in the commercial vehicle cycle. Demand from certain European truck manufacturers is expected to remain subdued in the near term. However, the Group's exposure to agricultural, defence and industrial markets provides some offset, and management will continue to focus on operational efficiency and cost control.</p>
+<p class="rns-contacts">For further information: Castings PLC — Adam Vicary (MD) +44 (0)1543 374 321 &nbsp;|&nbsp; Shore Capital (Nomad &amp; Broker) +44 (0)20 7408 4090</p>
+<p class="rns-boilerplate">This announcement contains inside information for the purposes of Article 7 of the UK Market Abuse Regulation. Upon publication via a Regulatory Information Service, this inside information is now considered to be in the public domain.</p>` },
+  'BBSN': { date:'17 Jun 2026 · 07:00am', rnsUrl:'#', tags:['Brave Bison'],
+    body:`<p class="rns-header">FOR IMMEDIATE RELEASE &nbsp;·&nbsp; 17 June 2026</p>
+<p class="rns-issuer">Brave Bison Group plc &nbsp;(AIM: BBSN)</p>
+<h3 class="rns-headline">TRADING UPDATE FOR THE SIX MONTHS ENDED 31 MARCH 2026</h3>
+<p>Brave Bison Group plc (AIM: BBSN), the social media and performance marketing group, today provides a trading update for the six months ended 31 March 2026 ("H1 FY26"). The Group's interim results for the period are expected to be announced in July 2026.</p>
+<p class="rns-subhead">TRADING SUMMARY</p>
+<p>The Board is pleased to report that revenue for H1 FY26 was ahead of the same period in the prior year and ahead of the Board's internal expectations. Both the Social division and the Commerce division have delivered strong performances in the period, and the Group has successfully converted a number of new client mandates in the sport and entertainment sectors.</p>
+<p class="rns-subhead">SOCIAL DIVISION</p>
+<p>The Social division, which manages social media channels and creates content for global brands and media companies, has continued its positive trajectory. Demand for short-form video production and creator-led campaigns has accelerated, benefiting Brave Bison's production capabilities and talent network. Revenues in this division grew ahead of management expectations, driven by expanded scopes with existing clients and the onboarding of new brand partners.</p>
+<p class="rns-subhead">COMMERCE DIVISION</p>
+<p>The Commerce division, which provides performance marketing and e-commerce services, has also delivered growth in the period. The division benefited from increased digital advertising spend among retail and consumer electronics clients, and from the continued build-out of its proprietary data and attribution technology. Margin improvement in this division has been a focus for management, and early results are encouraging.</p>
+<p class="rns-subhead">NEW CLIENT WINS</p>
+<p>During H1, the Group was appointed by several new clients across sport and entertainment, including partnerships with a Premier League club and an international music streaming platform. These appointments reflect the Group's growing reputation in culturally relevant sectors and contribute positively to H2 revenue visibility.</p>
+<p class="rns-subhead">OUTLOOK</p>
+<p>The Board remains confident that full-year results will be in line with its expectations. The second half has started well, and the pipeline of new business opportunities remains healthy. Further detail will be provided at the time of the interim results in July 2026.</p>
+<p class="rns-contacts">For further information: Brave Bison Group plc — Oliver Green (CEO), Clive Rawlings (CFO) +44 (0)20 3963 1900 &nbsp;|&nbsp; Cavendish Capital Markets (Nomad &amp; Broker) +44 (0)20 7220 0500 &nbsp;|&nbsp; Novella Communications (PR) +44 (0)20 3151 7008</p>
+<p class="rns-boilerplate">This announcement contains inside information for the purposes of Article 7 of the UK Market Abuse Regulation. Upon publication via a Regulatory Information Service, this inside information is now considered to be in the public domain.</p>` },
+  'LIKE': { date:'17 Jun 2026 · 07:00am', rnsUrl:'#', tags:['Likewise Group'],
+    body:`<p class="rns-header">FOR IMMEDIATE RELEASE &nbsp;·&nbsp; 17 June 2026</p>
+<p class="rns-issuer">Likewise Group plc &nbsp;(AIM: LIKE)</p>
+<h3 class="rns-headline">TRADING UPDATE FOR THE SIX MONTHS ENDED 31 MARCH 2026</h3>
+<p>Likewise Group plc (AIM: LIKE), a leading distributor of flooring and wall covering products, today provides a trading update for the six months ended 31 March 2026 ("H1 FY26"). The Group's interim results are expected to be announced in July 2026.</p>
+<p class="rns-subhead">TRADING SUMMARY</p>
+<p>Revenue growth for H1 FY26 is in line with the Board's expectations. Trading conditions in the UK flooring wholesale market have continued to be challenging, with subdued demand from both trade and retail customers reflecting persistent cost-of-living pressures and ongoing caution in the new-build housing and renovation markets.</p>
+<p class="rns-subhead">MARKET CONDITIONS</p>
+<p>The UK flooring market has remained soft through the first half of the financial year. Reduced activity in the residential housing transaction market, combined with ongoing pressure on consumer discretionary spending, has constrained volume growth across the sector. Management has maintained pricing discipline and has not engaged in value-dilutive promotional activity to chase volume.</p>
+<p class="rns-subhead">STRATEGIC INVESTMENT</p>
+<p>The Group has continued to invest in its product range and distribution capabilities during the period. New product lines have been introduced across laminate, LVT and carpet categories, and the Group's logistics infrastructure has been upgraded to support faster fulfilment for trade customers. Management believes these investments position Likewise well for a market recovery when demand conditions improve.</p>
+<p class="rns-subhead">BALANCE SHEET</p>
+<p>The Group's balance sheet remains sound. Working capital management has been a priority in the period, with inventory levels managed tightly in response to demand conditions. Net debt is in line with management expectations.</p>
+<p class="rns-subhead">OUTLOOK</p>
+<p>The Board believes the full-year outcome will be in line with its expectations, subject to trading conditions in the second half. A recovery in housing transaction volumes would be the most significant positive catalyst for the business. The Group's strengthened product range and logistics capability provide a strong platform to benefit from any market improvement.</p>
+<p class="rns-contacts">For further information: Likewise Group plc — Tony Brewer (CEO), Paul Walker (CFO) +44 (0)121 744 7600 &nbsp;|&nbsp; finnCap (Nomad &amp; Broker) +44 (0)20 7220 0500 &nbsp;|&nbsp; Belvedere Communications (PR) +44 (0)7816 874 797</p>
+<p class="rns-boilerplate">This announcement contains inside information for the purposes of Article 7 of the UK Market Abuse Regulation. Upon publication via a Regulatory Information Service, this inside information is now considered to be in the public domain.</p>` },
+  'SDY': { date:'17 Jun 2026 · 07:00am', rnsUrl:'#', tags:['Speedy Hire'],
+    body:`<p class="rns-header">FOR IMMEDIATE RELEASE &nbsp;·&nbsp; 17 June 2026</p>
+<p class="rns-issuer">Speedy Hire plc &nbsp;(AIM: SDY)</p>
+<h3 class="rns-headline">FINAL RESULTS FOR THE YEAR ENDED 31 MARCH 2026</h3>
+<p>Speedy Hire plc (AIM: SDY), the UK's leading provider of tools, equipment and plant hire services, today announces its audited final results for the year ended 31 March 2026 ("FY26").</p>
+<p class="rns-subhead">FINANCIAL HIGHLIGHTS</p>
+<ul><li>Revenue: £388 million (FY25: £405 million, -4.2%)</li><li>Adjusted profit before tax: £12.1 million (FY25: £18.3 million, -33.9%)</li><li>Net debt: £52 million (FY25: £38 million)</li><li>Restructuring charge: £6.4 million (one-off)</li><li>Annualised cost savings target: £8 million</li></ul>
+<p class="rns-subhead">CHIEF EXECUTIVE'S COMMENT</p>
+<p>Dan Evans, Chief Executive Officer, commented:</p>
+<p class="rns-quote">"FY26 has been a challenging year, reflecting a prolonged softening in UK construction sector activity that was more severe and more persistent than we anticipated. We have acted decisively to right-size the cost base, and the restructuring programme is now largely complete. With £8 million of annualised savings locked in and an improving order intake in recent months, we are better positioned to improve financial performance as and when the construction market recovers."</p>
+<p class="rns-subhead">RESTRUCTURING AND OUTLOOK</p>
+<p>The restructuring programme, announced in October 2025, has been substantially completed. Actions taken include a reduction in the UK depot network from 180 to 162 locations, headcount reduction of approximately 340 roles, and fleet rationalisation. The programme has delivered run-rate savings ahead of the original target and management expects FY27 to show meaningful margin improvement.</p>
+<p class="rns-contacts">For further information: Speedy Hire plc — Dan Evans (CEO), Mark Rogerson (CFO) +44 (0)1942 720 000 &nbsp;|&nbsp; Peel Hunt (Nomad &amp; Broker) +44 (0)20 7418 8900</p>
+<p class="rns-boilerplate">This announcement contains inside information for the purposes of Article 7 of the UK Market Abuse Regulation. Upon publication via a Regulatory Information Service, this inside information is now considered to be in the public domain.</p>` },
+  'AXL': { date:'17 Jun 2026 · 07:00am', rnsUrl:'#', tags:['Arrow Exploration'],
+    body:`<p class="rns-header">FOR IMMEDIATE RELEASE &nbsp;·&nbsp; 17 June 2026</p>
+<p class="rns-issuer">Arrow Exploration Corp. &nbsp;(AIM: AXL)</p>
+<h3 class="rns-headline">WELL RESULTS: CARRIZALES NORTE C-2 TESTS AT 1,850 BOPD GROSS</h3>
+<p>Arrow Exploration Corp. (AIM: AXL) is pleased to announce the results of the Carrizales Norte C-2 well on the Rio Cravo Este block in Colombia (the "C-2 Well"). The well has been tested and placed on production, delivering a gross stabilised rate of 1,850 barrels of oil per day ("bopd"), exceeding pre-drill estimates of 1,200 to 1,500 bopd.</p>
+<p class="rns-subhead">WELL DETAILS</p>
+<p>The C-2 Well targeted the Carbonera C7 sand, which was successfully encountered over a gross interval of 14 metres at a depth of approximately 1,740 metres measured depth. The well flowed clean 34 degree API oil with no water on test. The well has been completed as a producer and connected to existing infrastructure, with no incremental surface facilities required.</p>
+<p>With the C-2 Well on production, gross output from the Rio Cravo Este block now exceeds 4,200 bopd, comprising production from the C-1 well (approximately 2,350 bopd) and the new C-2 Well (1,850 bopd).</p>
+<p class="rns-subhead">CHIEF EXECUTIVE'S COMMENT</p>
+<p>Marshall Abbott, President and Chief Executive Officer, commented:</p>
+<p class="rns-quote">"The C-2 Well is another outstanding result for Arrow and confirms the exceptional productivity of the Carrizales Norte area. The well has exceeded our pre-drill estimates and is producing clean, high-quality oil from first light. With block production now above 4,200 bopd, Arrow is generating substantial operating cash flow, and we are well funded to continue our active drilling programme."</p>
+<p>The C-3 Well is currently being prepared for spud, targeting a further Carbonera C7 opportunity approximately 800 metres along-strike from C-2. Spud is expected in August 2026.</p>
+<p class="rns-contacts">For further information: Arrow Exploration Corp. — Marshall Abbott (CEO) +1 403 294 8810 &nbsp;|&nbsp; Cormark Securities (Canadian Adviser) &nbsp;|&nbsp; Panmure Liberum (UK Broker) +44 (0)20 3100 2000</p>
+<p class="rns-boilerplate">This announcement contains inside information for the purposes of Article 7 of the UK Market Abuse Regulation. Upon publication via a Regulatory Information Service, this inside information is now considered to be in the public domain.</p>` },
+  'FEN': { date:'17 Jun 2026 · 07:00am', rnsUrl:'#', tags:['Frenkel Topping'],
+    body:`<p class="rns-header">FOR IMMEDIATE RELEASE &nbsp;·&nbsp; 17 June 2026</p>
+<p class="rns-issuer">Frenkel Topping Group plc &nbsp;(AIM: FEN)</p>
+<h3 class="rns-headline">INTERIM RESULTS FOR THE SIX MONTHS ENDED 31 MARCH 2026</h3>
+<p>Frenkel Topping Group plc (AIM: FEN), the specialist financial advisory and asset management group serving serious injury claimants, today announces its interim results for the six months ended 31 March 2026 ("H1 FY26").</p>
+<p class="rns-subhead">FINANCIAL HIGHLIGHTS</p>
+<ul><li>Revenue: £21.3 million (H1 FY25: £18.7 million, +13.9%)</li><li>Adjusted profit before tax: £4.8 million (H1 FY25: £3.9 million, +23.1%)</li><li>Assets under management: £1.4 billion (31 March 2025: £1.22 billion, +14.8%)</li><li>Net cash: £6.2 million (31 March 2025: £5.8 million)</li><li>Interim dividend: 1.1 pence per share (H1 FY25: 1.0 pence, +10.0%)</li></ul>
+<p class="rns-subhead">CHIEF EXECUTIVE'S COMMENT</p>
+<p>Richard Fraser, Chief Executive Officer, commented:</p>
+<p class="rns-quote">"This has been an excellent first half for the Group. AUM growth of nearly 15% reflects both positive market movements and strong net new client inflows, as the Court of Protection case completion backlog continues to clear. Our financial advisory and rehabilitation services businesses are also performing well, and together they are delivering the diversified earnings quality that underpins the Group's long-term value proposition."</p>
+<p class="rns-subhead">OUTLOOK</p>
+<p>The Board expects the positive H1 trajectory to continue into H2 FY26. Court of Protection case completions are expected to remain elevated relative to FY25 as the Judiciary continues to reduce its outstanding caseload. The Group's pipeline of new client mandates is healthy and the Board is confident in delivering full-year results in line with its expectations.</p>
+<p class="rns-contacts">For further information: Frenkel Topping Group plc — Richard Fraser (CEO), Paul Richardson (CFO) +44 (0)161 886 8600 &nbsp;|&nbsp; Shore Capital (Nomad &amp; Broker) +44 (0)20 7408 4090</p>
+<p class="rns-boilerplate">This announcement contains inside information for the purposes of Article 7 of the UK Market Abuse Regulation. Upon publication via a Regulatory Information Service, this inside information is now considered to be in the public domain.</p>` },
+  'CML': { date:'17 Jun 2026 · 07:00am', rnsUrl:'#', tags:['CML Microsystems'],
+    body:`<p class="rns-header">FOR IMMEDIATE RELEASE &nbsp;·&nbsp; 17 June 2026</p>
+<p class="rns-issuer">CML Microsystems plc &nbsp;(AIM: CML)</p>
+<h3 class="rns-headline">FINAL RESULTS FOR THE YEAR ENDED 31 MARCH 2026</h3>
+<p>CML Microsystems plc (AIM: CML), the developer of silicon and firmware products for global communications markets, today announces its audited final results for the year ended 31 March 2026 ("FY26").</p>
+<p class="rns-subhead">FINANCIAL HIGHLIGHTS</p>
+<ul><li>Revenue: £43.2 million (FY25: £47.5 million, -9.1%)</li><li>Adjusted profit before tax: £1.8 million (FY25: £5.4 million)</li><li>Net cash: £12.6 million (FY25: £14.2 million)</li><li>Final dividend: maintained at 11.5 pence per share</li></ul>
+<p class="rns-subhead">CHIEF EXECUTIVE'S COMMENT</p>
+<p>Chris Gurry, Group Managing Director, commented:</p>
+<p class="rns-quote">"FY26 has been a difficult year, reflecting the well-documented normalisation of the storage and networking semiconductor market as customers worked through the excess inventory accumulated during the supply chain disruptions of FY23 and FY24. We believe the destocking cycle is now substantially complete. Order intake has improved materially in recent months, and we expect this to translate into revenue recovery from H1 FY27. The Board has elected to maintain the dividend, reflecting confidence in the Group's underlying financial health and medium-term earnings power."</p>
+<p class="rns-subhead">OUTLOOK</p>
+<p>The improvement in order intake observed in Q4 FY26 has continued into the opening weeks of FY27. Management expects H1 FY27 revenues to be meaningfully ahead of H1 FY26, with the second half traditionally stronger. The Board is cautiously optimistic that FY27 will represent a year of recovery.</p>
+<p class="rns-contacts">For further information: CML Microsystems plc — Chris Gurry (Group MD), Nigel Clark (Finance Director) +44 (0)1621 875 500 &nbsp;|&nbsp; Shore Capital (Nomad &amp; Broker) +44 (0)20 7408 4090</p>
+<p class="rns-boilerplate">This announcement contains inside information for the purposes of Article 7 of the UK Market Abuse Regulation. Upon publication via a Regulatory Information Service, this inside information is now considered to be in the public domain.</p>` },
+};
+let _rnsOrder = [], _currentRnsIdx = 0;
+
+function openRNS(tick) {
+  _currentRnsIdx = _rnsOrder.indexOf(tick);
+  if (_currentRnsIdx === -1) _currentRnsIdx = 0;
+  _renderRNSModal();
+  document.getElementById('rns-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function _renderRNSModal() {
+  const tick = _rnsOrder[_currentRnsIdx];
+  const r = NEWS.find(x => x.t === tick) || {};
+  const det = rnsDetails[tick] || {};
+  document.getElementById('modal-title').innerHTML =
+    `<span class="modal-title-co">${r.n || ''}</span>`
+    + (r.n && r.rl ? '<span class="modal-title-sep">&mdash;</span>' : '')
+    + `<span class="modal-title-rns">${r.rl || ''}</span>`;
+  document.getElementById('modal-date').textContent = det.date || 'Tuesday 17 June 2026';
+
+  const summaryEl = document.getElementById('modal-summary');
+  document.getElementById('modal-summary-text').textContent = r.rs || '';
+  summaryEl.style.display = r.rs ? '' : 'none';
+
+  // Only the twelve curated items carry full RNS text in this prototype. The rest
+  // say so plainly rather than repeating the summary as though it were the article.
+  const body = document.getElementById('modal-body');
+  body.innerHTML = det.body
+    || '<p class="modal-body-none">The full announcement text is not held in this prototype. Use <strong>View original RNS</strong> above for the complete filing.</p>';
+  body.scrollTop = 0;
+
+  document.getElementById('modal-view-rns').href = det.rnsUrl || '#';
+  document.getElementById('modal-count').textContent = (_currentRnsIdx + 1) + ' of ' + _rnsOrder.length;
+  document.getElementById('modal-prev').disabled = _currentRnsIdx === 0;
+  document.getElementById('modal-next').disabled = _currentRnsIdx === _rnsOrder.length - 1;
+}
+
+function navigateRNS(dir) {
+  _currentRnsIdx = Math.max(0, Math.min(_rnsOrder.length - 1, _currentRnsIdx + dir));
+  _renderRNSModal();
+}
+function closeModal() {
+  document.getElementById('rns-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalOnOverlay(e) {
+  if (e.target === document.getElementById('rns-modal')) closeModal();
+}
+document.addEventListener('keydown', e => {
+  if (document.getElementById('rns-modal').classList.contains('open')) {
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowLeft')  navigateRNS(-1);
+    if (e.key === 'ArrowRight') navigateRNS(1);
+  }
+});
+
+// ── News types ─────────────────────────────────────────────────────────────
+// Mirrors the tree in the existing news area, including the branches that carry
+// no items today — this is configuration, so a reader needs to see the whole
+// vocabulary, not just what happens to have filed this morning.
+const CAT_TREE = [
+  { id:'results',  label:'Results' },
+  { id:'trading',  label:'Trading & operational updates' },
+  { id:'ma',       label:'Mergers & acquisitions', kids:[
+      { id:'ma-key', label:'Key M&A activity' },
+      { id:'ma-doc', label:'M&A documentation' } ] },
+  { id:'mgmt',     label:'Management changes' },
+  { id:'dealings', label:'Director dealings' },
+  { id:'owner',    label:'Ownership changes' },
+  { id:'company',  label:'Company announcements' },
+  { id:'notice',   label:'Notice of key dates' },
+  { id:'equity',   label:'Equity and debt issues', kids:[
+      { id:'eq-key',   label:'Key security issuance' },
+      { id:'eq-block', label:'Block listing interim review' },
+      { id:'eq-frn',   label:'FRN variable rate fix' } ] },
+  { id:'capital',  label:'Capital returns', kids:[
+      { id:'cap-own', label:'Transaction in own shares' },
+      { id:'cap-div', label:'Dividend declaration and capital change' } ] },
+  { id:'reuters',  label:'Global Reuters news' }
+];
+const LEAVES = CAT_TREE.flatMap(n => n.kids ? n.kids.map(k => k.id) : [n.id]);
+// Defaults follow the screenshot: the noisy administrative branches start off.
+const CAT_DEFAULT_OFF = ['ma-doc','notice','eq-block','eq-frn','cap-own','cap-div','reuters'];
+let cats = new Set(LEAVES.filter(id => !CAT_DEFAULT_OFF.includes(id)));
+
+function catCount(id) { return NEWS.filter(d => d.cat === id).length; }
+
+function renderTree() {
+  document.getElementById('sheet-body').innerHTML = CAT_TREE.map(n => {
+    if (!n.kids) return catRow(n, false);
+    const on = n.kids.filter(k => cats.has(k.id)).length;
+    const state = on === 0 ? '' : on === n.kids.length ? ' is-on' : ' is-part';
+    return `<div class="cat-group">
+      <label class="cat-row cat-parent">
+        <span class="cat-box${state}" tabindex="0" role="checkbox" aria-checked="${on===0?'false':on===n.kids.length?'true':'mixed'}"
+              onclick="toggleParent('${n.id}')" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();toggleParent('${n.id}')}"></span>
+        <span class="cat-label">${n.label}</span>
+      </label>
+      <div class="cat-kids">${n.kids.map(k => catRow(k, true)).join('')}</div>
+    </div>`;
+  }).join('');
+}
+function catRow(n, kid) {
+  const on = cats.has(n.id), c = catCount(n.id);
+  return `<label class="cat-row${kid ? ' is-kid' : ''}">
+    <span class="cat-box${on ? ' is-on' : ''}" tabindex="0" role="checkbox" aria-checked="${on}"
+          onclick="toggleCat('${n.id}')" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();toggleCat('${n.id}')}"></span>
+    <span class="cat-label">${n.label}</span>
+    <span class="cat-n">${c || ''}</span>
+  </label>`;
+}
+function toggleCat(id) { cats.has(id) ? cats.delete(id) : cats.add(id); renderTree(); render(); }
+function toggleParent(pid) {
+  const kids = CAT_TREE.find(n => n.id === pid).kids.map(k => k.id);
+  const all = kids.every(k => cats.has(k));
+  kids.forEach(k => all ? cats.delete(k) : cats.add(k));
+  renderTree(); render();
+}
+function resetCats() { cats = new Set(LEAVES); renderTree(); render(); }
+
+function openSheet() {
+  document.getElementById('sheet').hidden = false;
+  document.getElementById('sheet-scrim').hidden = false;
+  document.body.classList.add('sheet-open');
+  renderTree();
+  document.querySelector('#sheet-body .cat-box').focus();
+}
+function closeSheet() {
+  document.getElementById('sheet').hidden = true;
+  document.getElementById('sheet-scrim').hidden = true;
+  document.body.classList.remove('sheet-open');
+  document.getElementById('nf-all').focus();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !document.getElementById('sheet').hidden) closeSheet(); });
+
+
+let tab = 'market', filters = new Set(), sortKey = 'ch', sortDir = 'desc';
+
+function rowsFor() {
+  let r = NEWS.filter(d => (tab === 'folio' ? d.folio : true) && cats.has(d.cat));
+  // Beats and misses sit on the same axis, so selecting both widens the set.
+  // An analyst pick is a different axis, so it narrows whatever is already showing.
+  const verdicts = [...filters].filter(f => f === 'beat' || f === 'miss');
+  if (verdicts.length) r = r.filter(d => verdicts.includes(d.earn));
+  if (filters.has('covered')) r = r.filter(d => d.rate);
+  const cap = s => { const n = parseFloat(s.replace(/[£,]/g,'')); return s.includes('bn') ? n*1000 : n; };
+  // The column runs the full scale, not just the three directions: magnitude has to
+  // rank too, or Big beat, Beat and Small beat all sort as one block.
+  //   7 Big beat  6 Beat  5 Small beat  4 In line  3 Small miss  2 Miss  1 Big miss
+  // The five bands are an ordered scale, so the column sorts along it rather than
+  // alphabetically. Unrated rows are not a point on that scale — see rankEarn below.
+  const RATE_RANK = { 'r-positive':5, 'r-cautious-pos':4, 'r-neutral':3, 'r-cautious-neg':2, 'r-material':1 };
+  const rankRate = d => RATE_RANK[d.rcls] || 0;
+  const rankEarn = d => {
+    if (!d.earn) return 0;
+    if (d.earn === 'inline') return 4;
+    if (d.earn === 'beat') return d.mag === 'big' ? 7 : d.mag === 'small' ? 5 : 6;
+    return d.mag === 'big' ? 1 : d.mag === 'small' ? 3 : 2;
+  };
+  r = [...r].sort((a, b) => {
+    if (sortKey === 'earn' || sortKey === 'rate') {
+      const rank = sortKey === 'earn' ? rankEarn : rankRate;
+      const ra = rank(a), rb = rank(b);
+      // Rows with no verdict have no place on the scale, so they sit at the bottom
+      // whichever way the column is sorted rather than leading the ascending view.
+      if (!ra || !rb) return ra === rb ? 0 : (ra ? -1 : 1);
+      return (sortDir === 'desc' ? rb - ra : ra - rb) || Math.abs(b.ch) - Math.abs(a.ch);
+    }
+    const v = sortKey === 'sr' ? a.sr - b.sr
+            : sortKey === 'm'  ? cap(a.m) - cap(b.m)
+            : a.ch - b.ch;
+    return sortDir === 'desc' ? -v : v;
+  });
+  return r;
+}
+
+function srClassNews(n) {
+  return n >= 90 ? 'sr-super' : n >= 80 ? 'sr-strong' : n >= 20 ? 'sr-neutral' : 'sr-weak';
+}
+
+function render() {
+  const all = NEWS.filter(d => (tab === 'folio' ? d.folio : true) && cats.has(d.cat));
+  const rows = rowsFor();
+  _rnsOrder = rows.map(d => d.t);   // sheet navigation follows the filtered, sorted view
+  document.getElementById('news-body').innerHTML = rows.map(d => {
+    const cls = d.ch > 0 ? 'up' : d.ch < 0 ? 'dn' : 'fl';
+    const chg = d.ch > 0 ? '+' + d.ch.toFixed(1) + '%' : d.ch.toFixed(1) + '%';
+    return `<tr>
+      <td><a class="nw-co" href="${d.url}" title="StockReport for ${d.n}">${d.n}</a><span class="nw-sub">${d.t} &middot; ${d.m}</span></td>
+      <td>
+        <button class="nw-title" onclick="openRNS('${d.t}')">${d.rl}</button>
+        <p class="nw-summary">${d.rs}</p>
+      </td>
+      <td class="center">${(v => v
+        ? `<span class="ag-earn ${v.cls}">${v.text}</span>`
+        : `<span class="nw-dash">&mdash;</span>`)(earnVerdict(d.earn, d.mag))}</td>
+      <td><span class="nw-chg ${cls}">${chg}</span></td>
+      <td><span class="nw-sr"><span class="sr ${srClassNews(d.sr)}">${d.sr}</span></span></td>
+      <td>${d.rate
+        ? `<span class="ag-rate ${d.rcls}">${d.rate}</span><a class="nw-link" href="${d.file}">View analysis</a>`
+        : `<span class="nw-dash">&mdash;</span>`}</td>
+    </tr>`;
+  }).join('') || `<tr><td colspan="6" class="nw-empty">
+      No announcements match your filters.
+      <button class="news-excluded-link" onclick="clearFilters()">Reset all filters</button>
+    </td></tr>`;
+
+  const covered = all.filter(d => d.rate).length;
+  // Badge = news types selected. It highlights only when something is deselected,
+  // so the default state reads as a count rather than as an alert.
+  const hiddenRows = NEWS.filter(d => (tab === 'folio' ? d.folio : true) && !cats.has(d.cat)).length;
+  const badge = document.getElementById('nf-badge');
+  badge.hidden = false;
+  badge.textContent = cats.size;
+  badge.title = cats.size + ' of ' + LEAVES.length + ' news types selected';
+  document.getElementById('nf-all').classList.toggle('is-on', cats.size < LEAVES.length);
+  const sc = document.getElementById('sheet-count');
+  if (sc) sc.textContent = rows.length + (rows.length === 1 ? ' announcement shown' : ' announcements shown');
+  const note = document.getElementById('news-excluded');
+  note.hidden = hiddenRows === 0;
+  note.innerHTML = `${hiddenRows} announcement${hiddenRows === 1 ? '' : 's'} hidden by your news type filters. <button class="news-excluded-link" onclick="resetCats()">Show all news types</button>`;
+
+  document.getElementById('nf-beat').textContent    = all.filter(d => d.earn === 'beat').length;
+  document.getElementById('nf-miss').textContent    = all.filter(d => d.earn === 'miss').length;
+  document.getElementById('nf-covered').textContent = covered;
+  document.getElementById('tabc-folio').textContent  = '(' + NEWS.filter(d => d.folio && cats.has(d.cat)).length + ')';
+  document.getElementById('tabc-market').textContent = '(' + NEWS.filter(d => cats.has(d.cat)).length + ')';
+  document.getElementById('sc-earn').textContent = sortKey === 'earn' ? (sortDir === 'desc' ? '\u2193' : '\u2191') : '';
+  document.getElementById('sc-rate').textContent = sortKey === 'rate' ? (sortDir === 'desc' ? '\u2193' : '\u2191') : '';
+  document.getElementById('sc-ch').textContent = sortKey === 'ch' ? (sortDir === 'desc' ? '\u2193' : '\u2191') : '';
+  document.getElementById('sc-sr').textContent = sortKey === 'sr' ? (sortDir === 'desc' ? '\u2193' : '\u2191') : '';
+}
+
+function showTab(t) {
+  tab = t;
+  document.getElementById('tab-folio').classList.toggle('is-active', t === 'folio');
+  document.getElementById('tab-market').classList.toggle('is-active', t === 'market');
+  render();
+}
+function toggleFilter(f) {
+  filters.has(f) ? filters.delete(f) : filters.add(f);
+  syncFilterChips();
+  render();
+}
+// Kept for the empty state only — when nothing matches, a blanket reset is the
+// one moment a global escape hatch earns its place.
+function clearFilters() {
+  filters.clear(); cats = new Set(LEAVES);
+  syncFilterChips();
+  if (!document.getElementById('sheet').hidden) renderTree();
+  render();
+}
+function syncFilterChips() {
+  document.querySelectorAll('.news-filter').forEach(b => {
+    const on = filters.has(b.dataset.f);
+    b.classList.toggle('is-on', on);
+    b.setAttribute('aria-pressed', on);   // multi-select toggles, not a radio group
+  });
+}
+
+function sortBy(k) {
+  if (sortKey === k) sortDir = sortDir === 'desc' ? 'asc' : 'desc';
+  else { sortKey = k; sortDir = 'desc'; }
+  render();
+}
+
+// The DMR links here with ?tab=folio so the two cards land on the right side.
+renderTree();
+const _t = new URLSearchParams(location.search).get('tab');
+showTab(_t === 'folio' ? 'folio' : 'market');
+</script>
+</body>
+</html>

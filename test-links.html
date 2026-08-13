@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DMR Prototype — Quick Links (internal)</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet">
+<style>
+/* ── ICONS ─────────────────────────────────────────────────────────────────
+   Material Symbols is the Stockopedia icon standard. Use <span class="msym">name</span>
+   with the ligature name, never a hand-drawn path. Size with font-size; colour with
+   color. Weight/fill are set per-instance via font-variation-settings if needed. */
+.msym { font-family:'Material Symbols Outlined'; font-weight:normal; font-style:normal;
+        font-size:20px; line-height:1; letter-spacing:normal; text-transform:none;
+        display:inline-block; white-space:nowrap; word-wrap:normal; direction:ltr;
+        -webkit-font-feature-settings:'liga'; -webkit-font-smoothing:antialiased;
+        font-variation-settings:'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20; }
+.msym.is-filled { font-variation-settings:'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 20; }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Lato', sans-serif;
+    background: #EFF2F9;
+    color: rgba(0,0,0,0.87);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 48px 20px;
+  }
+  .wrap { width: 100%; max-width: 640px; }
+  .logo { font-size: 20px; font-weight: 700; color: #293140; margin-bottom: 24px; }
+  .card {
+    background: #FFFFFF;
+    border: 1px solid rgba(0,0,0,0.10);
+    border-radius: 10px;
+    padding: 32px;
+    margin-bottom: 20px;
+  }
+  h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+  .sub { font-size: 15px; line-height: 23px; color: rgba(0,0,0,0.60); margin-bottom: 0; }
+  .card h2 {
+    font-size: 13px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; color: rgba(0,0,0,0.38);
+    margin-bottom: 14px;
+  }
+  .link-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .link-list a {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 16px;
+    border: 1px solid rgba(0,0,0,0.10);
+    border-radius: 8px;
+    text-decoration: none;
+    color: rgba(0,0,0,0.87);
+    font-size: 15px;
+    font-weight: 700;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .link-list a span.tag {
+    font-size: 12px; font-weight: 700; color: #4776BA;
+    background: #F0F5FC; border-radius: 4px; padding: 3px 8px;
+  }
+  .link-list a:hover { background: #F0F5FC; border-color: #C3D6F5; }
+  .note {
+    font-size: 13px; line-height: 20px; color: rgba(0,0,0,0.60);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">Stockopedia</div>
+
+  <div class="card">
+    <h1>Quick links</h1>
+    <p class="sub">Facilitator reference only — don't send testers here. They should start at the root URL, which drops them straight into the live AM/PM prototype below. Use these links mid-session if you need to jump to a specific page.</p>
+  </div>
+
+  <div class="card">
+    <h2>Daily Market Report</h2>
+    <ul class="link-list">
+      <li><a href="index.html">AM / PM toggle version <span class="tag">Main prototype</span></a></li>
+      <li><a href="previous-reports.html">All Previous Reports</a></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Individual stock articles</h2>
+    <ul class="link-list">
+      <li><a href="snws.html">Smiths News (SNWS)</a></li>
+      <li><a href="gaw.html">Games Workshop (GAW)</a></li>
+      <li><a href="pzc.html">PZ Cussons (PZC)</a></li>
+      <li><a href="ao.html">AO World (AO.)</a></li>
+      <li><a href="hsp.html">Hargreaves Services (HSP)</a></li>
+      <li><a href="cgs.html">Castings (CGS)</a></li>
+      <li><a href="bbsn.html">Brave Bison (BBSN)</a></li>
+      <li><a href="like.html">Likewise (LIKE)</a></li>
+    </ul>
+  </div>
+
+  <p class="note">All data is placeholder content for testing purposes only. This page itself isn't part of the prototype — it's just a shortcut for you between sessions.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Brave Bison: H1 beats expectations as social and commerce divisions both  — Stockopedia</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&amp;display=swap" rel="stylesheet"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet">
+<style>
+/* ── ICONS ─────────────────────────────────────────────────────────────────
+   Material Symbols is the Stockopedia icon standard. Use <span class="msym">name</span>
+   with the ligature name, never a hand-drawn path. Size with font-size; colour with
+   color. Weight/fill are set per-instance via font-variation-settings if needed. */
+.msym { font-family:'Material Symbols Outlined'; font-weight:normal; font-style:normal;
+        font-size:20px; line-height:1; letter-spacing:normal; text-transform:none;
+        display:inline-block; white-space:nowrap; word-wrap:normal; direction:ltr;
+        -webkit-font-feature-settings:'liga'; -webkit-font-smoothing:antialiased;
+        font-variation-settings:'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20; }
+.msym.is-filled { font-variation-settings:'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 20; }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --brand-blue-dark:#3D66A1; --brand-blue:#4776BA; --brand-blue-light:#DAE4F1; --rail-accent:#EF9F27;
+      --cornflower-blue:#C3D6F5; --cornflower-blue-light:#F0F5FC;
+      --charcoal-black:#293140; --slate-black:#39455D;
+      --steel-grey-dark:#B8C1D8; --steel-grey:#D8DEEB; --steel-grey-light:#E8EBF3;
+      --stone-grey:#EFF2F9; --stone-grey-light:#F5F7FB; --brilliant-white:#FFFFFF;
+      --border-standard:rgba(0,0,0,0.10); --border-input:rgba(0,0,0,0.25);
+      --text-primary:rgba(0,0,0,0.87); --text-secondary:rgba(0,0,0,0.60); --text-tertiary:rgba(0,0,0,0.38);
+      --super-green-dark:#1B6E38; --super-green:#228745; --super-green-light:#D1E2D7;
+      --sucker-red-dark:#AD2833; --sucker-red:#CC4752; --sucker-red-light:#EFD4D6;
+      --neutral-grey:#A9ADB3; --cautious-amber:#D97D30; --rail-width:72px;
+      --warm-yellow:#F0C54B; --rating-amber-green: var(--warm-yellow);
+ --rating-green-bg:   var(--super-green-light);
+ --rating-green-text: var(--super-green-dark);
+ --rating-green-border: var(--super-green);
+ --rating-amber-bg:   #FEF3DC;
+ --rating-amber-text: #7A4F00;
+ --rating-amber-border: var(--cautious-amber);
+ --rating-red-bg:     var(--sucker-red-light);
+ --rating-red-text:   var(--sucker-red-dark);
+ --rating-red-border: var(--sucker-red);
+    }
+    body { font-family:'Lato',sans-serif; background:var(--stone-grey); color:var(--text-primary); min-height:100vh; -webkit-font-smoothing:antialiased; }
+    a { color:var(--brand-blue); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+
+        /* GLOBAL RAIL */
+    .global-rail { position:fixed; top:0; left:0; width:72px; height:100vh; background:var(--charcoal-black); display:flex; flex-direction:column; align-items:center; padding:10px 0; z-index:200; gap:2px; }
+    .rail-item { display:flex; flex-direction:column; align-items:center; gap:4px; padding:10px 6px; width:60px; border-radius:8px; cursor:pointer; position:relative; transition:background 0.15s; }
+    .rail-item:hover { background:var(--slate-black); }
+    .rail-item.active { background:rgba(255,255,255,0.1); }
+    .rail-accent-bar { position:absolute; left:-6px; top:8px; bottom:8px; width:3px; background:var(--rail-accent); border-radius:0 3px 3px 0; }
+    .rail-item svg { width:22px; height:22px; stroke:rgba(255,255,255,0.45); fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+    .rail-item.active svg { stroke:rgba(255,255,255,0.95); }
+    .rail-item:hover svg { stroke:rgba(255,255,255,0.75); }
+    .rail-label { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:rgba(255,255,255,0.5); text-align:center; }
+    .rail-item.active .rail-label { color:rgba(255,255,255,0.95); }
+
+    /* LOCAL NAV */
+    .local-nav { width:200px; background:var(--slate-black); position:fixed; top:0; bottom:0; left:72px; z-index:190; display:flex; flex-direction:column; overflow-y:auto; }
+    .local-nav-header { display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid rgba(255,255,255,0.08); flex-shrink:0; }
+    .local-nav-title { font-size:13px; font-weight:700; color:rgba(255,255,255,0.95); text-transform:uppercase; letter-spacing:0.06em; }
+    .local-nav-icon-btn { width:30px; height:30px; border-radius:6px; flex-shrink:0; border:1px solid rgba(255,255,255,0.15); background:none; display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(255,255,255,0.65); transition:background 0.1s, color 0.1s; }
+    .local-nav-icon-btn:hover { background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.95); }
+    .local-nav-icon-btn svg { width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+    .local-nav-body { padding:8px 0; }
+    .local-nav-group { margin-bottom:16px; }
+    .local-nav-group-label { display:block; padding:6px 16px 4px; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:rgba(255,255,255,0.35); }
+    .local-nav-link { display:block; padding:7px 16px; font-size:13px; color:rgba(255,255,255,0.65); text-decoration:none; transition:background 0.1s, color 0.1s; }
+    .local-nav-link:hover { background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.95); }
+    .local-nav-link.active { color:rgba(255,255,255,0.95); background:rgba(255,255,255,0.08); font-weight:700; }
+    .local-nav-sublink { display:block; padding:7px 16px 7px 28px; font-size:13px; color:rgba(255,255,255,0.5); text-decoration:none; transition:background 0.1s, color 0.1s; }
+    .local-nav-sublink:hover { background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.9); }
+    .local-nav-sublink.active { color:rgba(255,255,255,0.95); background:rgba(255,255,255,0.08); font-weight:700; }
+    .local-nav-divider { height:1px; background:rgba(255,255,255,0.07); margin:4px 16px 12px; }
+
+    /* APP HEADER */
+    header.site-header { position:fixed; top:0; left:272px; right:0; height: 48px; background:var(--brilliant-white); border-bottom:1px solid var(--border-standard); z-index:300; display:flex; align-items:center; }
+    .header-inner { display:flex; align-items:center; gap:16px; padding:0 16px 0 0; height: 48px; width:100%; }
+    .header-logo { display:flex; align-items:center; gap:10px; text-decoration:none; padding:0 16px; flex-shrink:0; }
+    .header-wordmark { font-size:20px; font-weight:700; color:var(--charcoal-black); letter-spacing:-0.01em; }
+    .header-search { flex:1; max-width:360px; display:flex; align-items:center; gap:8px; background:var(--stone-grey); border:1px solid var(--border-input); border-radius:24px; padding:7px 16px; cursor:text; color:var(--text-secondary); }
+    .header-search svg { width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; flex-shrink:0; }
+    .header-search input { background:none; border:none; outline:none; font-family:'Lato',sans-serif; font-size:14px; color:var(--text-primary); width:100%; }
+    .header-search input::placeholder { color:var(--text-secondary); }
+    .header-right { display:flex; align-items:center; gap:8px; margin-left:auto; }
+    .region-btn { display:flex; align-items:center; gap:6px; background:none; border:1px solid var(--border-standard); border-radius:24px; padding:5px 12px; font-family:'Lato',sans-serif; font-size:13px; color:var(--text-secondary); cursor:pointer; }
+    .header-icon-btn { width:34px; height:34px; border-radius:50%; border:1px solid var(--border-standard); background:none; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--text-secondary); }
+    .header-icon-btn svg { width:17px; height:17px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; }
+    .header-avatar { width:34px; height:34px; border-radius:50%; background:var(--brand-blue); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:white; cursor:pointer; }
+
+    /* APP MAIN */
+    .app-main { margin-left:272px; margin-top: 48px; min-height: calc(100vh - 48px); }
+
+    /* ARTICLE LOCAL NAV */
+    .article-local-nav { background:var(--brilliant-white); border-bottom:1px solid var(--border-standard); }
+    .article-local-nav-inner { display:flex; align-items:center; gap:0; padding:0 24px; height:44px; overflow-x:auto; }
+    .local-tab { font-size:13px; font-weight:700; color:var(--text-secondary); padding:0 16px; height:44px; display:flex; align-items:center; border-bottom:2px solid transparent; white-space:nowrap; text-decoration:none; transition:color 0.12s; }
+    .local-tab:hover { color:var(--text-primary); text-decoration:none; }
+    .local-tab.active { color:var(--brand-blue); border-bottom-color:var(--brand-blue); }
+    .local-tab-dmr { margin-left:auto; color:var(--brand-blue); gap:6px; }
+
+    /* PAGE CANVAS */
+    .page-canvas { max-width:1200px; margin:0 auto; padding:24px 24px 60px; }
+    .content-card { background:var(--brilliant-white); border-radius:12px; border:1px solid var(--border-standard); }
+    /* 340px rather than 280px. At 280 the StockReport card was cramped enough that its
+       type had to shrink below the 13px floor to fit; the extra 60px comes out of the
+       main column, which was running well past a comfortable measure anyway. */
+    .article-wrap { display:grid; grid-template-columns:1fr 340px; gap:0; align-items:stretch; }
+
+    /* ARTICLE MAIN */
+    .article-main { padding:20px 34px 40px; border-right:1px solid var(--border-standard); min-width:0; }
+    .article-chips { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+    .stock-badge { display:inline-flex; align-items:center; gap:6px; background:var(--charcoal-black); color:white; font-size:12px; font-weight:700; padding:4px 10px; border-radius:20px; }
+    .sr-sm { display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%; background:var(--brand-blue); color:white; font-size:9px; font-weight:700; }
+    /* Chip, not button: 16px radius and sentence case. It was 4px with uppercase, which
+   is the button treatment in this design and made a passive label read as a control.
+   Sized to match .ag-earn on the report so the same verdict looks the same on both. */
+.chip { display:inline-flex; align-items:center; font-size:13px; line-height:19px; font-weight:700;
+        padding:2px 11px; border-radius:16px; white-space:nowrap; }
+    .chip-green  { background:var(--super-green-light); color:var(--super-green-dark); }
+    .chip-blue   { background:var(--brand-blue-light); color:var(--brand-blue-dark); }
+    .chip-amber  { background:#FEF3DC; color:#7A4F00; }
+    .chip-grey   { background:#EAECEF; color:var(--text-secondary); }
+        .chip-red   { background:var(--sucker-red-light); color:var(--sucker-red-dark); }
+    /* Earnings verdicts, matching the agenda: magnitude in the wording, and the
+       outliers inverted to a solid fill. Darker tones so white text holds at
+       this size. */
+    .chip-beat      { background:rgba(34,135,69,0.18); color:var(--super-green-dark); }
+    .chip-beat-big  { background:var(--super-green-dark); color:var(--brilliant-white); }
+    .chip-miss      { background:rgba(204,71,82,0.18); color:var(--sucker-red-dark); }
+    .chip-miss-big  { background:var(--sucker-red-dark); color:var(--brilliant-white); }
+    .chip-inline    { background:var(--stone-grey); color:var(--text-secondary); }
+    h1.article-title { font-size:28px; line-height:36px; font-weight:700; color:var(--text-primary); margin-bottom:20px; }
+    .article-byline { display:flex; align-items:center; gap:12px; margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid var(--border-standard); }
+    .author-av { width:40px; height:40px; border-radius:50%; background:var(--brand-blue); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; color:white; flex-shrink:0; }
+    .byline-text { font-size:13px; color:var(--text-secondary); line-height:1.5; }
+    .byline-text strong { color:var(--text-primary); }
+    .article-actions { display:flex; gap:8px; margin-bottom:24px; }
+    .action-btn { display:flex; align-items:center; gap:6px; font-size:13px; font-weight:700; color:var(--text-secondary); background:none; border:1px solid var(--steel-grey); border-radius:20px; padding:6px 14px; cursor:pointer; font-family:'Lato',sans-serif; }
+    .action-btn svg { width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; }
+    .action-btn:hover { background:var(--stone-grey); }
+
+    /* SECTION RULE */
+    .section-rule { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+    .section-rule-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-secondary); white-space:nowrap; }
+    .section-rule-line { flex:1; height:1px; background:var(--border-standard); }
+
+    /* ARTICLE SECTIONS */
+    .article-section { margin-bottom:28px; }
+    .article-section h2 { font-size:18px; font-weight:700; color:var(--text-primary); margin-bottom:12px; }
+    .article-section p { font-size:15px; line-height:23px; color:var(--text-primary); margin-bottom:10px; }
+    .article-section ul { padding-left:20px; margin-bottom:10px; }
+    .article-section li { font-size:15px; line-height:23px; color:var(--text-primary); margin-bottom:6px; }
+    hr.divider { border:none; border-top:1px solid var(--border-standard); margin:24px 0; }
+
+    /* CALLOUT */
+    .callout { background:var(--cornflower-blue-light); border-left:3px solid var(--brand-blue); border-radius:0 8px 8px 0; padding:14px 16px; margin-bottom:24px; }
+    .callout-header { display:flex; justify-content:space-between; align-items:center; cursor:pointer; }
+    .callout-header h3 { font-size:14px; font-weight:700; color:var(--brand-blue-dark); }
+    .callout-toggle { background:none; border:none; font-size:18px; color:var(--brand-blue); cursor:pointer; font-family:'Lato',sans-serif; }
+    .callout-body { display:none; margin-top:10px; }
+    .callout-body p { font-size:14px; line-height:21px; color:var(--text-secondary); margin-bottom:8px; }
+
+    /* METRICS STRIP */
+    .metrics-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--steel-grey); border-radius:8px; overflow:hidden; margin-bottom:28px; }
+    .metric-cell { background:var(--brilliant-white); padding:14px 16px; }
+    .metric-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-secondary); margin-bottom:4px; }
+    .metric-value { font-size:20px; font-weight:700; color:var(--text-primary); margin-bottom:2px; }
+    .metric-change { font-size:12px; font-weight:700; }
+    .metric-change.up { color:var(--super-green); }
+    .metric-change.dn { color:var(--sucker-red); }
+
+
+    /* SOURCE TAG */
+    .source-tag { font-size:13px; color:var(--text-secondary); margin-bottom:24px; display:flex; align-items:center; gap:8px; }
+    .rns-chip { display:inline-flex; background:var(--brand-blue-light); color:var(--brand-blue-dark); font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px; }
+
+    /* COMMUNITY CTA */
+    .community-cta { background:var(--brand-blue-light); border-radius:8px; padding:24px; margin-bottom:24px; text-align:center; }
+    .community-avatars { display:flex; justify-content:center; gap:-8px; margin-bottom:12px; }
+    .comm-av { width:32px; height:32px; border-radius:50%; background:var(--brand-blue); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:white; border:2px solid white; margin-left:-6px; }
+    .community-cta h3 { font-size:16px; font-weight:700; color:var(--text-primary); margin-bottom:8px; }
+    .community-cta p { font-size:13px; color:var(--text-secondary); margin-bottom:16px; }
+    .btn-trial { padding:10px 24px; background:var(--super-green); color:white; border:none; border-radius:6px; font-size:14px; font-weight:700; cursor:pointer; font-family:'Lato',sans-serif; }
+    .trial-note { font-size:11px; color:var(--text-secondary); margin-top:8px; }
+
+    /* DISCLAIMER */
+    /* One component, shared with the report. A legal footnote: grey block, no rule of its
+       own, inline label rather than a heading so it stays out of the page outline. */
+    .disclaimer { padding:16px 20px; border-radius:6px; background:var(--stone-grey-light);
+                  font-size:13px; line-height:20px; color:var(--text-secondary); }
+    .disclaimer p { font-size:13px; line-height:20px; color:var(--text-secondary); max-width:744px; }
+    .disclaimer strong { color:var(--text-primary); font-weight:700; }
+    .disclaimer a { color:var(--brand-blue); }
+
+    /* SIDEBAR */
+    .article-sidebar { padding:20px 22px 24px; display:flex; flex-direction:column; gap:16px; position:relative; margin:0; }
+    .sidebar-card { border:1px solid var(--border-standard); border-radius:8px; overflow:hidden; }
+    .sidebar-sticky-group { position:sticky; top:64px; display:flex; flex-direction:column; gap:16px; }
+    .sc-head { background:var(--stone-grey-light); padding:10px 16px; border-bottom:1px solid var(--border-standard); }
+    .sc-head h3 { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-secondary); }
+    .sc-body { padding:14px 16px; }
+    .stock-name-row { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; }
+    .stock-full-name { font-size:15px; font-weight:700; color:var(--text-primary); margin-bottom:2px; }
+    .stock-ticker { font-size:12px; color:var(--text-secondary); }
+    .sr-lg-wrap { text-align:center; }
+    .sr-lg { width:44px; height:44px; border-radius:50%; background:var(--brand-blue); display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:700; color:white; margin:0 auto 2px; }
+    .sr-lg-label { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-secondary); }
+    .price-row { display:flex; align-items:center; gap:8px; margin-bottom:4px; }
+    .price-current { font-size:24px; font-weight:700; color:var(--text-primary); }
+    .price-pill { font-size:12px; font-weight:700; padding:2px 8px; border-radius:4px; }
+    .price-up { background:var(--super-green-light); color:var(--super-green-dark); }
+    .price-down { background:var(--sucker-red-light); color:var(--sucker-red-dark); }
+    .price-meta { font-size:11px; color:var(--text-secondary); margin-bottom:12px; }
+    .sparkline { height:52px; border-radius:4px; overflow:hidden; margin-bottom:12px; }
+    .sparkline svg { width:100%; height:100%; }
+    .stock-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    .stat-label { font-size:11px; color:var(--text-secondary); margin-bottom:2px; }
+    .stat-value { font-size:13px; font-weight:700; color:var(--text-primary); }
+    .rating-row { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid var(--steel-grey-light); }
+    .rating-row:last-child { border-bottom:none; }
+    .rating-label { font-size:13px; color:var(--text-secondary); }
+    .rating-pill { font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; }
+    .dmr-link { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700; color:var(--brand-blue); text-decoration:none; padding:10px 0; }
+    .dmr-link svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; flex-shrink:0; }
+    .dmr-date { font-size:11px; color:var(--text-secondary); margin-top:4px; }
+    .back-link-row { padding: 14px 0 4px; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: var(--brand-blue); text-decoration: none; }
+    .back-link:hover { text-decoration: underline; }
+    .back-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ── ARTICLE DISCUSSION ── */
+    .article-discussion { background:var(--brilliant-white); border-radius:12px; border:1px solid var(--border-standard); margin-top:16px; overflow:hidden; }
+    .disc-header { display:flex; align-items:center; gap:10px; padding:20px 24px 12px; }
+    .disc-dmr-notice { display:flex; align-items:center; gap:6px; padding:0 24px 14px; border-bottom:1px solid var(--border-standard); font-size:12px; color:var(--text-secondary); }
+    .disc-dmr-notice a { color:var(--text-secondary); text-decoration:underline; }
+    .disc-dmr-notice a:hover { color:var(--brand-blue); }
+    .disc-title { font-size:16px; font-weight:700; color:var(--text-primary); margin:0; }
+    .disc-count { font-size:14px; color:var(--text-secondary); }
+    .disc-compose-card { padding:16px 24px; border-bottom:1px solid var(--border-standard); }
+    .disc-compose-identity { font-size:12px; color:var(--text-primary); margin-bottom:10px; }
+    .disc-pretag { display:inline-flex; align-items:center; gap:5px; background:var(--cornflower-blue-light); border:1px solid var(--cornflower-blue); border-radius:6px; padding:3px 10px; font-size:12px; font-weight:700; color:var(--brand-blue); margin-bottom:10px; }
+    .disc-field-wrap { border:1px solid var(--border-input); border-radius:8px; overflow:hidden; margin-bottom:10px; }
+    .disc-textarea { display:block; width:100%; padding:12px 14px; border:none; outline:none; font-family:'Lato',sans-serif; font-size:14px; line-height:22px; color:var(--text-primary); resize:none; overflow:hidden; min-height:80px; background:var(--brilliant-white); }
+    .disc-textarea::placeholder { color:var(--text-secondary); }
+    .disc-footer { display:flex; justify-content:flex-end; }
+    .disc-submit-btn { font-family:'Lato',sans-serif; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; background:var(--brand-blue); color:white; border:none; border-radius:4px; padding:8px 20px; cursor:pointer; transition:background 0.15s; }
+    .disc-submit-btn:hover { background:var(--brand-blue-dark); }
+    .disc-submit-btn:disabled { background:var(--steel-grey); cursor:not-allowed; }
+    .disc-comment-list { padding:0 24px; }
+
+    /* Sort and threading, matching the report. Presentation controls, so they sit above
+       the list — there is no stock filter here because the page is the filter. */
+
+    /* Provenance for a cold arrival. The breadcrumb back link only exists for readers
+       who came from the report; anyone landing from search or a StockReport has no way
+       of knowing this piece belongs to a daily collection. So the card says what the
+       collection is and how much is in today's, not just its name — and it says that
+       name once rather than three times. */
+    .coll-kicker { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.09em;
+                   color:var(--text-tertiary); margin-bottom:3px; }
+    .coll-name { font-size:15px; line-height:21px; font-weight:700; color:var(--text-primary); }
+    .coll-date { font-size:13px; line-height:18px; color:var(--text-secondary); margin-bottom:8px; }
+    .coll-what { font-size:13px; line-height:18px; color:var(--text-secondary); margin:0 0 11px; }
+    .coll-stats { font-size:12px; line-height:16px; color:var(--text-secondary); margin-top:7px; }
+    .coll-stats strong { color:var(--text-primary); font-weight:700; }
+    .disc-controls { display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+                    margin:0; padding:14px 24px 12px; }
+    .disc-control { display:inline-flex; align-items:center; gap:8px;
+                    font-size:13px; line-height:19px; color:var(--text-secondary); }
+    .disc-control select { font-family:inherit; font-size:13px; line-height:19px; padding:5px 8px;
+                           border:1px solid var(--steel-grey); border-radius:4px;
+                           background:var(--brilliant-white); color:var(--text-primary); cursor:pointer; }
+    .disc-actions { display:flex; align-items:center; gap:14px; }
+    .disc-likes { display:inline-flex; align-items:center; gap:5px; font-size:12px; line-height:18px;
+                  color:var(--text-secondary); font-variant-numeric:tabular-nums; }
+    .disc-likes svg { width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:1.6; stroke-linecap:round; }
+    .disc-comment-item { display:flex; gap:12px; padding:16px 0; border-bottom:1px solid var(--border-standard); }
+    .disc-comment-item:last-child { border-bottom:none; }
+    /* After the base rule, so the padding shorthand there cannot swallow the inset. */
+    .disc-comment-item.is-reply { margin-left:46px; padding-left:18px;
+                                 border-left:2px solid var(--steel-grey-light); }
+    .disc-av { width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:white; flex-shrink:0; }
+    .disc-body { flex:1; min-width:0; }
+    .disc-name-row { display:flex; align-items:center; gap:8px; margin-bottom:4px; }
+    .disc-name { font-size:13px; font-weight:700; color:var(--text-primary); }
+    .disc-time { font-size:12px; color:var(--text-secondary); }
+    .disc-text { font-size:14px; line-height:21px; color:#1D2226; margin-bottom:6px; }
+    .disc-reply-btn { font-size:12px; font-weight:700; color:var(--brand-blue); cursor:pointer; background:none; border:none; font-family:'Lato',sans-serif; padding:0; }
+    .disc-reply-btn:hover { color:var(--brand-blue-dark, #2f5a9e); text-decoration:underline; }
+    /* ── AUTHOR CARD ── */
+    .author-card { display:flex; align-items:flex-start; gap:14px; background:var(--stone-grey-light); border:1px solid var(--border-standard); border-radius:10px; padding:14px 16px; margin-bottom:20px; }
+    .author-photo { width:64px; height:64px; border-radius:8px; object-fit:cover; flex-shrink:0; }
+    .author-info { flex:1; min-width:0; }
+    .author-name-row { font-size:13px; color:var(--text-secondary); margin-bottom:5px; }
+    .author-name-row strong { color:var(--text-primary); }
+    .author-bio { font-size:13px; line-height:20px; color:var(--text-primary); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin:0; }
+    .author-bio a { color:var(--brand-blue); }
+
+    /* ── ANALYST VIEW ── Matches the agenda: a pull quote with a rating-coloured
+       rule and a wash, an outlined stamp for the verdict, and italic for the
+       analyst's voice. */
+    .analyst-view-card { border:none; border-left:3px solid var(--steel-grey); border-radius:0;
+                         padding:2px 0 2px 18px; margin-bottom:28px; background:none; }
+    /* A rule rather than a wash. The tint meant the block and the chip inside it were
+       both carrying the rating colour, so the chip had to be restyled to survive its
+       background — which is how it drifted from the DMR's. On white the chip can be
+       identical to .ag-rate on the report, and the rule still encodes the rating. */
+    .analyst-view-card.positive     { border-left-color:var(--super-green-dark); }
+    .analyst-view-card.cautious-pos { border-left-color:#C9A227; }
+    .analyst-view-card.neutral      { border-left-color:#D97D30; }
+    .analyst-view-card.cautious-neg { border-left-color:#B35A1F; }
+    .analyst-view-card.material     { border-left-color:var(--sucker-red-dark); }
+    .analyst-view-header { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:12px; }
+    .analyst-view-label { font-size:15px; font-weight:700; color:var(--text-primary); }
+    /* Matched to .ag-rate on the report: 16px radius, sentence case, 13px. It was 3px
+   with uppercase and an outline, which is the button treatment in this design — so a
+   verdict looked like a control, and looked nothing like the same verdict on the DMR. */
+.analyst-rating-pill { display:inline-flex; align-items:center; gap:4px; padding:3px 11px;
+                           border:none; border-radius:16px;
+                           font-size:13px; line-height:18px; font-weight:700; white-space:nowrap; }
+/* Fills lifted from .ag-rate on the report — the pill had no background before, only
+   an outline, so removing the border left bare coloured text. */
+.analyst-pill-positive     { color:var(--rating-green-text); background:rgba(34,135,69,0.16); }
+.analyst-pill-cautious-pos { color:#6B5200;                  background:rgba(240,197,75,0.34); }
+.analyst-pill-neutral      { color:var(--rating-amber-text); background:rgba(217,125,48,0.18); }
+.analyst-pill-cautious-neg { color:#7A2A00;                  background:rgba(217,125,48,0.26); }
+.analyst-pill-material     { color:var(--rating-red-text);   background:rgba(204,71,82,0.18); }
+
+    .analyst-rating-dir { font-size:13px; line-height:1; font-weight:700; }
+    .analyst-unchanged { font-size:13px; color:var(--text-secondary); }
+    .analyst-view-text { font-size:15px; line-height:25px; font-style:italic; color:var(--text-primary); margin:0; }
+    /* ARTICLE META BAR */
+    .article-meta-bar { display:flex; align-items:center; margin-bottom:20px; }
+    .meta-right-stats { margin-left:auto; display:flex; align-items:center; gap:14px; }
+    .article-pub-date { font-size:13px; color:var(--text-secondary); }
+    .meta-stat { display:flex; align-items:center; gap:5px; font-size:13px; color:var(--text-secondary); }
+    /* Only the comments stat is a link, so only it carries the link colour. */
+    a.meta-stat { color:var(--brand-blue); text-decoration:none; }
+    a.meta-stat:hover { text-decoration:underline; }
+    .meta-stat svg { width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; }
+    .meta-likes { display:flex; align-items:center; gap:5px; font-size:13px; color:var(--text-secondary); }
+    .meta-likes svg { width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; }
+    /* BEAT/MISS EDUCATIONAL BOX */
+    .outcome-box { border-radius:10px; padding:16px 18px; }
+    .outcome-box.beat { background:var(--super-green-light); border:1px solid var(--super-green); }
+    .outcome-box.miss { background:var(--sucker-red-light); border:1px solid var(--sucker-red); }
+    .outcome-box-title { font-size:13px; font-weight:700; color:var(--text-primary); margin-bottom:8px; }
+    .outcome-box-body { font-size:13px; line-height:20px; color:var(--text-primary); margin-bottom:12px; }
+    .outcome-box-link { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:700; color:var(--super-green-dark); background:none; border:1px solid var(--super-green); border-radius:20px; padding:6px 14px; text-decoration:none; transition:background 0.15s; }
+    .outcome-box-link:hover { text-decoration:none; background:var(--super-green-light); }
+    .outcome-box-link svg { width:12px; height:12px; stroke:currentColor; fill:none; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
+    /* ── Mini Report (stock data card) ─────────────────────────────────── */
+    .mr-body { padding: 0 !important; }
+    .mr-breadcrumb { font-size: 12px; font-weight: 600; color: var(--text-secondary); padding: 12px 14px 0; }
+    .mr-name-row { padding: 4px 14px 0; display: flex; align-items: center; gap: 8px; }
+    .mr-company-name { font-size: 16px; font-weight: 700; color: var(--text-primary); line-height: 1.2; }
+    .mr-price-row { padding: 4px 14px 0; display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+    .mr-exchange-ticker { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+    .mr-price { font-size: 19px; font-weight: 700; color: var(--text-primary); }
+    .mr-change { font-size: 13px; font-weight: 600; }
+    .mr-change.mr-up { color: var(--super-green); }
+    .mr-change.mr-down { color: #C44B57; }
+    .mr-descriptors { padding: 7px 14px 10px; font-size: 13px; color: var(--text-primary); font-weight: 500; }
+    .mr-desc { padding: 6px 14px 0; font-size: 13px; color: var(--text-primary); line-height: 1.45; margin: 0; }
+    .mr-read-more { color: var(--brand-blue); text-decoration: none; white-space: nowrap; }
+    .mr-read-more:hover { text-decoration: underline; }
+    .mr-data-row { display: grid; grid-template-columns: auto 1fr; column-gap: 18px; row-gap: 9px;
+                   align-items: center; padding: 12px 14px 2px; }
+    .mr-stats, .mr-scores { display: contents; }
+    
+    .mr-stat-lbl { font-size: 12px; color: var(--text-secondary); font-weight: 500; }
+    .mr-stat-val { font-size: 13px; color: var(--text-primary); font-weight: 600; }
+    /* display:contents on the two wrappers lets their children land directly in the grid,
+       so Mkt Cap lines up with Quality, Sales with Value, and so on — without changing
+       the markup, which pairs them only by document order. */
+    .mr-stat  { grid-column: 1; display: flex; flex-direction: row; align-items: baseline; gap: 6px; }
+    .mr-score { grid-column: 2; }
+    /* Rows have to be pinned as well as columns. Grid auto-placement is sparse — the
+       cursor never moves backwards — so once the four stats had filled rows 1-4 the
+       scores were placed from row 4 onwards instead of returning to row 1. */
+    .mr-stats .mr-stat:nth-child(1), .mr-scores .mr-score:nth-child(1) { grid-row: 1; }
+    .mr-stats .mr-stat:nth-child(2), .mr-scores .mr-score:nth-child(2) { grid-row: 2; }
+    .mr-stats .mr-stat:nth-child(3), .mr-scores .mr-score:nth-child(3) { grid-row: 3; }
+    .mr-stats .mr-stat:nth-child(4), .mr-scores .mr-score:nth-child(4) { grid-row: 4; }
+    .mr-score { display: flex; flex-direction: row; align-items: center; gap: 7px; }
+    .mr-score-circle { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 400; color: #fff; flex-shrink: 0; }
+    .mr-score-name { font-size: 13px; color: var(--text-secondary); font-weight: 500; text-align: left; white-space: nowrap; }
+    .mr-divider { margin: 10px 14px 0; border: none; border-top: 1px solid var(--border-standard); }
+    .mr-chart-tabs { display: flex; gap: 0; padding: 8px 14px 0; }
+    .mr-tab { flex: 1; padding: 3px 0; font-size: 12px; font-weight: 600; color: var(--text-secondary); background: none; border: none; cursor: pointer; border-radius: 4px; transition: all 0.15s; }
+    .mr-tab:hover { color: var(--text-primary); background: var(--stone-grey-light); }
+    .mr-tab.mr-tab-active { color: var(--brand-blue); background: rgba(71,118,186,0.08); }
+    .mr-chart { padding: 6px 14px 0; }
+    /* Drawn for a 240x52 box, so the element carries preserveAspectRatio="none" and
+       stretches to this height rather than letterboxing. */
+    .mr-chart svg { height: 82px; }
+    .mr-chart svg { width: 100%; display: block; }
+    .mr-actions { padding: 10px 14px 14px; display: flex; flex-direction: column; gap: 6px; }
+    .mr-btn-primary { display: block; text-align: center; background: var(--brand-blue); color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 0.03em; padding: 8px 12px; border-radius: 6px; text-decoration: none; transition: background 0.15s; }
+    .mr-btn-primary:hover { background: #3566a8; }
+    .mr-btn-pair { display: flex; gap: 6px; }
+    .mr-btn-secondary { flex: 1; text-align: center; background: none; border: 1px solid var(--border-input); color: var(--text-primary); font-size: 12px; font-weight: 600; padding: 7px 8px; border-radius: 6px; text-decoration: none; transition: all 0.15s; }
+    .mr-btn-secondary:hover { background: var(--stone-grey-light); border-color: var(--border-standard); }
+
+
+
+
+  </style>
+</head>
+<body>
+<!-- GLOBAL RAIL -->
+<nav class="global-rail">
+    <div class="rail-item">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span class="rail-label">Today</span>
+    </div>
+    <div class="rail-item">
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 10h10M4 14h12M4 18h8"/></svg>
+      <span class="rail-label">Browse</span>
+    </div>
+    <div class="rail-item">
+      <svg viewBox="0 0 24 24"><path d="M4 6h4M4 12h4M4 18h4M10 6h10M10 12h10M10 18h10"/></svg>
+      <span class="rail-label">Screens</span>
+    </div>
+    <div class="rail-item">
+      <svg viewBox="0 0 24 24"><path d="M3 7h18M6 7V5a1 1 0 011-1h10a1 1 0 011 1v2M19 7v13a1 1 0 01-1 1H6a1 1 0 01-1-1V7"/></svg>
+      <span class="rail-label">Folios</span>
+    </div>
+    <div class="rail-item active">
+      <div class="rail-accent-bar"></div>
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      <span class="rail-label">Discuss</span>
+    </div>
+    <div class="rail-item">
+      <svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      <span class="rail-label">Learn</span>
+    </div>
+  </nav>
+  <!-- LOCAL NAV -->
+  <nav class="local-nav">
+    <div class="local-nav-header">
+      <span class="local-nav-title">Discuss</span>
+      <button class="local-nav-icon-btn" aria-label="Pin sidebar">
+        <svg viewBox="0 0 24 24"><path d="M12 17v5M8 3h8l-1 6 3 3H6l3-3-1-6z"/></svg>
+      </button>
+    </div>
+    <div class="local-nav-body">
+      <div class="local-nav-group">
+        <span class="local-nav-group-label">Daily Market Report</span>
+        <a class="local-nav-link active" href="index.html?state=pm">Today's Report</a>
+        <a class="local-nav-link" href="previous-reports.html">All Previous Reports</a>
+      </div>
+      <div class="local-nav-divider"></div>
+      <div class="local-nav-group">
+        <span class="local-nav-group-label">Stockopedia Research</span>
+        <a class="local-nav-link" href="#">All research</a>
+        <a class="local-nav-sublink" href="#">Stock Pitches</a>
+        <a class="local-nav-sublink" href="#">The Week Ahead</a>
+        <a class="local-nav-sublink" href="#">Screening</a>
+        <a class="local-nav-sublink" href="#">StockRank Strategies</a>
+        <a class="local-nav-sublink" href="#">NAPS - No Admin Portfolio</a>
+        <a class="local-nav-sublink" href="#">Stock in Focus Portfolio</a>
+        <a class="local-nav-sublink" href="#">Data Insights</a>
+      </div>
+      <div class="local-nav-divider"></div>
+      <div class="local-nav-group">
+        <span class="local-nav-group-label">Community Discussion</span>
+        <a class="local-nav-link" href="#">All posts</a>
+      </div>
+    </div>
+  </nav>
+<!-- APP HEADER -->
+<header class="site-header">
+<div class="header-inner">
+<a class="header-logo" href="index.html?state=pm#restore">
+<svg width="32" height="18" viewBox="0 0 42 24" fill="none">
+        <path d="M16.7323 13.1896L7.73795 22.1168C6.04266 23.7704 3.21167 23.811 1.55681 22.1162C-0.0967649 20.4202 -0.138425 17.4647 1.55626 15.8112L10.5505 6.88492C12.2458 5.23136 15.0773 5.1908 16.7316 6.88553C18.3858 8.58062 18.4276 11.5361 16.7323 13.1896Z" fill="#4776BA"/>
+        <path d="M40.2294 8.09229L26.1398 22.1314C24.4445 23.785 21.6135 23.8256 19.9587 22.1308C18.3051 20.4348 18.2634 17.4793 19.9581 15.8258L34.0476 1.78758C35.7429 0.134025 38.5744 0.0934641 40.2287 1.78819C41.883 3.48329 41.9247 6.43873 40.2294 8.09229Z" fill="#4776BA"/>
+        <path d="M16.8597 7.0362L26.0211 15.9704C27.6837 17.6571 27.7188 20.4672 26.0079 22.1056C24.2959 23.7428 21.3181 23.777 19.6558 22.091L10.4952 13.1568C8.83273 11.4701 8.79766 8.6596 10.5084 7.02172C12.2196 5.38385 15.1972 5.34952 16.8597 7.0362Z" fill="#4776BA"/>
+      </svg>
+      <span class="header-wordmark">Stockopedia</span>
+</a>
+<div class="header-search">
+<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+<input type="text" placeholder="Search our database of over 63,000 stocks">
+</div>
+<div class="header-right">
+<button class="region-btn">🇬🇧 United Kingdom <svg viewBox="0 0 24 24" width="11" height="11" stroke="currentColor" fill="none" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+<button class="header-icon-btn"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 01-3.46 0"></path></svg></button>
+<div class="header-avatar">GJ</div>
+</div>
+</div>
+</header>
+<!-- APP MAIN -->
+<div class="app-main">
+<nav class="article-local-nav">
+  <div class="article-local-nav-inner">
+    <a class="back-link" href="index.html?state=pm#restore">
+      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      Back to Daily Market Report
+    </a>
+  </div>
+</nav>
+<div class="page-canvas">
+
+<div class="content-card">
+<div class="article-wrap">
+<main class="article-main">
+<div class="article-chips">
+<span class="chip chip-grey">Trading update</span>
+<span class="chip chip-beat">Beat</span>
+</div>
+<h1 class="article-title">Brave Bison: H1 beats expectations as social and commerce divisions both deliver</h1>
+<div class="author-card">
+<img class="author-photo" src="img/graham-neary.jpg" alt="Author photo">
+<div class="author-info">
+<div class="author-name-row">Analysis by <strong>Graham Neary, CFA</strong>&nbsp;&nbsp;·&nbsp;&nbsp;Senior Financial Writer</div>
+<p class="author-bio">A full-time investor and CFA charterholder since 2009, with a background ranging from hedge fund analysis to institutional portfolio management. I treat every investment as a long-term partnership, focusing on quality businesses at sensible prices. <a href="#">Learn more</a></p>
+</div>
+</div>
+<div class="article-meta-bar">
+<span class="article-pub-date">17 Jun 2026 · 13:21pm</span>
+<div class="meta-right-stats"><a class="meta-stat" href="#discussion"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span id="meta-comments-count">7</span> comments</a>
+<span class="meta-stat"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>276 reads</span>
+<span class="meta-likes"><svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14zM7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>14</span>
+</div>
+</div>
+<div class="analyst-view-card cautious-pos">
+<div class="analyst-view-header">
+<span class="analyst-view-label">Analyst's view:</span>
+<span class="analyst-rating-pill analyst-pill-cautious-pos">Cautiously positive<span class="analyst-rating-dir">−</span></span>
+<span class="analyst-unchanged">Unchanged from Apr 2026</span>
+</div>
+<p class="analyst-view-text">Brave Bison is a digital media agency that has been quietly building a quality client base in sport, entertainment and consumer brands. Today's H1 trading update shows revenue ahead of both the prior year and internal expectations — encouraging from a business that has historically struggled to build consistent momentum. The combination of a Social division (contracted recurring revenue from social media management) and a Commerce division (performance marketing) gives two growth engines. I'm rating CAUTIOUSLY POSITIVE and watching for evidence of margin improvement in the H1 numbers when they are published in full.</p>
+</div><div class="article-section">
+<h2>Background</h2>
+<p><a href="#">Brave Bison</a> (BBSN) is an AIM-listed digital media group formed through a series of acquisitions since 2020. The company has consolidated several digital agencies to create a mid-sized operator with genuine capabilities across social media strategy, content production, and performance marketing.</p>
+<p>The agency sector has historically been fragmented and low-margin, but Brave Bison's management team argues that combining complementary disciplines creates cross-selling opportunities and makes the group more valuable to enterprise clients who want joined-up digital strategies.</p>
+</div>
+<div class="article-section">
+<h2>H1 2026 trading update</h2>
+<p>The company provided a positive trading update for the six months ended 31 March 2026:</p>
+<ul><li>H1 revenue ahead of the prior year and ahead of the board's internal expectations</li><li>Social division (social media management) growing — benefiting from new client wins in sport and entertainment</li><li>Commerce division (performance marketing) also delivering growth</li><li>New clients won in the football, motorsport and consumer entertainment sectors</li><li>Full year results in line with board expectations</li><li>Full interim results to be published in September 2026</li></ul>
+<p>The update is deliberately light on detail — no specific revenue or margin figures provided — which is typical for Brave Bison at the half-year trading update stage. The qualitative language ("ahead of expectations") is the key signal, and it is positive.</p>
+</div>
+<div class="article-section">
+<h2>Financial review</h2>
+<p><p>Brave Bison's financial profile is typical of a small-cap agency business: revenue is relatively lumpy (particularly in Commerce), margins are thin but improving, and the balance sheet requires careful monitoring given the acquisition-led growth strategy.</p><p>The Social division's contracted revenue model is the more attractive part of the business from a financial quality perspective. Long-term contracts with enterprise clients provide revenue visibility and reduce the quarterly volatility inherent in performance marketing businesses.</p><p>At a market cap of £108m and trading at roughly 1x revenue for a growing digital agency, the valuation is not demanding. The key question is whether management can sustain the momentum shown in H1 and expand margins towards the 10–12% EBITDA range that would make the business genuinely attractive to larger acquirers. For now, CAUTIOUSLY POSITIVE reflects the improving trajectory with appropriate caution about the inherent unpredictability of agency revenue.</p></p>
+</div>
+<div class="source-tag">
+            Original RNS published: 17 Jun 2026 ·
+            <a href="#">Read full announcement</a>
+<span class="rns-chip">RNS ↗</span>
+</div>
+<div class="disclaimer">
+        <p><strong>Disclaimer:</strong> This is not financial advice. Our content is intended to be used and
+        must be used for information and education purposes only. Please read our <a href="#">disclaimer</a>
+        and <a href="#">terms and conditions</a> to understand our obligations.</p>
+      </div></main>
+<aside class="article-sidebar">
+<div class="sidebar-card">
+        <div class="sc-body">
+          <div class="coll-kicker">Part of</div>
+          <div class="coll-name">Daily Market Report</div>
+          <div class="coll-date">Tuesday 17 June 2026</div>
+          <p class="coll-what">Our analysts read every UK announcement, every weekday morning, and analyse the ones that matter.</p>
+          <a class="dmr-link" href="index.html?state=pm#restore">Read today&rsquo;s report</a>
+          <div class="coll-stats"><strong>28</strong> announcements &middot; <strong>8</strong> analyst notes</div>
+        </div>
+      </div>
+
+<div class="sidebar-sticky-group">
+<div class="sidebar-card">
+<div class="sc-body mr-body">
+<div class="mr-breadcrumb">Technology · Digital Media</div>
+<div class="mr-name-row">
+<span class="mr-company-name">Brave Bison</span>
+</div>
+<div class="mr-price-row">
+<span class="mr-exchange-ticker">AIM: BBSN</span>
+<span class="mr-price">9.8p</span>
+<span class="mr-change mr-up">▲ +0.6p +6.5%</span>
+</div>
+<div class="mr-descriptors">Speculative · Micro Cap · Cautiously positive</div>
+<p class="mr-desc">Social and digital commerce group providing media, marketing, and technology services to global brands. <a class="mr-read-more" href="#">Read more</a></p>
+<div class="mr-data-row">
+<div class="mr-stats">
+<div class="mr-stat"><span class="mr-stat-lbl">Mkt Cap</span><span class="mr-stat-val">£28m</span></div>
+<div class="mr-stat"><span class="mr-stat-lbl">Sales</span><span class="mr-stat-val">£62m</span></div>
+<div class="mr-stat"><span class="mr-stat-lbl">P/E (ttm)</span><span class="mr-stat-val">14.2x</span></div>
+<div class="mr-stat"><span class="mr-stat-lbl">Yield (ttm)</span><span class="mr-stat-val">—</span></div>
+</div>
+<div class="mr-scores">
+<div class="mr-score"><div class="mr-score-circle" style="background:var(--neutral-grey)">32</div><div class="mr-score-name">Quality</div></div>
+<div class="mr-score"><div class="mr-score-circle" style="background:var(--neutral-grey)">58</div><div class="mr-score-name">Value</div></div>
+<div class="mr-score"><div class="mr-score-circle" style="background:var(--neutral-grey)">69</div><div class="mr-score-name">Momentum</div></div>
+<div class="mr-score"><div class="mr-score-circle" style="background:var(--neutral-grey)">42</div><div class="mr-score-name">StockRank</div></div>
+</div>
+</div>
+<hr class="mr-divider">
+<div class="mr-chart-tabs">
+<button class="mr-tab">1m</button>
+<button class="mr-tab">3m</button>
+<button class="mr-tab">YTD</button>
+<button class="mr-tab mr-tab-active">1y</button>
+<button class="mr-tab">3y</button>
+<button class="mr-tab">All</button>
+</div>
+<div class="mr-chart">
+<svg preserveAspectRatio="none" viewBox="0 0 240 52">
+<defs><linearGradient id="sg" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#4776BA" stop-opacity="0.12"></stop><stop offset="100%" stop-color="#4776BA" stop-opacity="0"></stop></linearGradient></defs>
+<path d="M0,42 L20,39 L40,36 L60,33 L80,30 L100,27 L120,25 L140,20 L160,16 L180,13 L200,15 L220,10 L240,6" fill="none" stroke="#4776BA" stroke-linecap="round" stroke-width="1.5"></path>
+<path d="M0,42 L20,39 L40,36 L60,33 L80,30 L100,27 L120,25 L140,20 L160,16 L180,13 L200,15 L220,10 L240,6 L240,52 L0,52 Z" fill="url(#sg)"></path>
+</svg>
+</div>
+<div class="mr-actions">
+<a href="https://app.stockopedia.com/share-prices/brave-bison-LON:BBSN?source=Search" target="_blank" rel="noopener" class="mr-btn-primary">StockReport™</a>
+<div class="mr-btn-pair">
+<a href="#" class="mr-btn-secondary">Chart</a>
+<a href="#" class="mr-btn-secondary">Add to Folio</a>
+</div>
+</div>
+</div>
+</div>
+<div class="outcome-box beat">
+<div class="outcome-box-title">Why earnings beats matter</div>
+<p class="outcome-box-body">Beating analyst expectations often signals stronger underlying performance. Research shows these stocks tend to keep outperforming in the weeks after — a pattern known as post-earnings announcement drift.</p>
+<a class="outcome-box-link" href="https://www.stockopedia.com/learn/" target="_blank">Learn more <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+</div>
+</div>
+</aside>
+
+</div>
+</div>
+<div class="article-discussion" id="discussion">
+<div class="disc-header">
+<svg fill="none" height="20" stroke="var(--brand-blue)" stroke-linecap="round" stroke-width="1.5" viewBox="0 0 24 24" width="20"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg>
+<h2 class="disc-title">Discussion on Brave Bison</h2>
+<span class="disc-count" id="disc-count"></span>
+</div>
+<div class="disc-dmr-notice">
+  Comments here are also visible in the <a href="index.html?state=pm">Daily Market Report</a>
+</div>
+<div class="disc-compose-card">
+<div class="disc-compose-identity">Signed in as <strong>Greg Jackson</strong></div>
+<div class="disc-pretag">
+  <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><circle cx="7" cy="7" r="1" fill="currentColor"/></svg>
+  BBSN · Brave Bison
+</div>
+<div class="disc-field-wrap">
+<textarea class="disc-textarea" id="disc-input" maxlength="4000" oninput="discAutoExpand(this); discUpdateSubmit()" placeholder="Share your thoughts on Brave Bison…" rows="3"></textarea>
+</div>
+<div class="disc-footer">
+<button class="disc-submit-btn" disabled="" id="disc-submit" onclick="discSubmit()">Submit</button>
+</div>
+</div>
+<div class="disc-controls">
+        <label class="disc-control">Sort by
+          <select id="disc-sort" onchange="setDiscSort(this.value)">
+            <option value="popular">Most popular</option>
+            <option value="latest" selected>Latest</option>
+            <option value="oldest">Oldest</option>
+          </select>
+        </label>
+        <label class="disc-control">Replies
+          <select id="disc-thread" onchange="setDiscThread(this.value)">
+            <option value="threaded" selected>Threaded</option>
+            <option value="flat">Unthreaded</option>
+          </select>
+        </label>
+      </div>
+      <div class="disc-comment-list" id="disc-comment-list"></div>
+</div>
+</div>
+</div>
+<script>
+  document.querySelectorAll('.callout-header').forEach(h => {
+    h.addEventListener('click', () => {
+      const body = h.nextElementSibling;
+      const btn = h.querySelector('.callout-toggle');
+      const open = body.style.display === 'block';
+      body.style.display = open ? 'none' : 'block';
+      btn.textContent = open ? '+' : '−';
+    });
+  });
+
+let discSort = 'latest', discThread = 'threaded';
+  function setDiscSort(v)   { discSort = v;   discRender(); }
+  function setDiscThread(v) { discThread = v; discRender(); }
+  function discMins(t) {
+    if (/just now/i.test(t)) return 0;
+    const n = parseInt(t, 10) || 0;
+    return /h\b|hour/i.test(t) ? n * 60 : n;
+  }
+  const discComments = [
+  {av:'SJ', bg:'#3A7D8A', name:'Sophie Johnson', time:'13min ago', likes:5, text:`Brave Bison is an interesting digital play. The social media management contracts are sticky and recurring — rare in the agency world.`},
+  {av:'AW', bg:'#9478AB', name:'Alex Wilson', time:'30min ago', likes:18, replyTo:0, text:`Small cap digital agencies are hard to value but the contracted revenue base is genuinely reassuring. Not all revenue is project-based.`},
+  {av:'KB', bg:'#CC4752', name:'Katie Brown', time:'50min ago', likes:15, text:`The sport and entertainment client wins are smart positioning. These clients want cross-platform campaigns and Brave Bison can deliver that now.`}
+];
+
+  function discAutoExpand(el) {
+    el.style.height = 'auto';
+    el.style.height = el.scrollHeight + 'px';
+  }
+  function discUpdateSubmit() {
+    const btn = document.getElementById('disc-submit');
+    const ta  = document.getElementById('disc-input');
+    if (btn) btn.disabled = !ta || ta.value.trim().length === 0;
+  }
+  function discSubmit() {
+    const ta = document.getElementById('disc-input');
+    const text = ta.value.trim();
+    if (!text) return;
+    discComments.unshift({av:'GJ', bg:'#1B6E38', name:'Greg Jackson', time:'just now', text});
+    discRender();
+    ta.value = '';
+    ta.style.height = 'auto';
+    discUpdateSubmit();
+    document.getElementById('disc-comment-list').scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+  function discRender() {
+    const list = document.getElementById('disc-comment-list');
+    const countEl = document.getElementById('disc-count');
+    if (countEl) countEl.textContent = '(' + discComments.length + ')';
+    const metaCountEl = document.getElementById('meta-comments-count');
+    if (metaCountEl) metaCountEl.textContent = discComments.length;
+    const order = a => {
+      const x = [...a];
+      if (discSort === 'popular') x.sort((p, q) => (q.likes || 0) - (p.likes || 0));
+      else if (discSort === 'oldest') x.sort((p, q) => discMins(q.time) - discMins(p.time));
+      else x.sort((p, q) => discMins(p.time) - discMins(q.time));
+      return x;
+    };
+    // Threaded sorts conversations, not posts: a reply stays under what it answers.
+    let rows;
+    if (discThread === 'threaded') {
+      rows = [];
+      order(discComments.filter(c => c.replyTo === undefined)).forEach(t => {
+        rows.push(t);
+        discComments.filter(c => c.replyTo !== undefined && discComments[c.replyTo] === t)
+                    .forEach(k => { k._isReply = true; rows.push(k); });
+      });
+    } else {
+      discComments.forEach(c => { c._isReply = false; });
+      rows = order(discComments);
+    }
+    list.innerHTML = rows.map(c => `
+      <div class="disc-comment-item${c._isReply ? ' is-reply' : ''}">
+        <div class="disc-av" style="background:${c.bg}">${c.av}</div>
+        <div class="disc-body">
+          <div class="disc-name-row">
+            <span class="disc-name">${c.name}</span>
+            <span class="disc-time">${c.time}</span>
+          </div>
+          <div class="disc-text">${c.text}</div>
+          <div class="disc-actions">
+            <button class="disc-reply-btn">Reply</button>
+            <span class="disc-likes"><svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14zM7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>${c.likes || 0}</span>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+  discRender();
+
+</script>
+</body>
+</html>
