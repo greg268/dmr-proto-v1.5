@@ -96,24 +96,15 @@ body {
 .disclaimer strong { color:var(--text-primary); font-weight:700; }
 .disclaimer a { color:var(--brand-blue); }
 
-/* Sort and threading, matching the live discussion. Filter by stock is the tab row
-   above, so it is not duplicated here. */
-/* 14px matches .discuss-filter-label and .discuss-tab, so the three rows share a left
-   edge inside the card. Without it this was the only row flush to the border. */
+/* Sort, threading and stock filter — the live discussion's three dropdowns. */
 .discuss-controls { display:flex; align-items:center; gap:18px; flex-wrap:wrap;
-                    margin:0; padding:14px 14px 2px; }
+                    margin:0; padding:14px 20px 12px; border-bottom:1px solid var(--border-standard); }
 .discuss-control { display:inline-flex; align-items:center; gap:8px;
                    font-size:13px; line-height:19px; color:var(--text-secondary); }
 .discuss-control select { font-family:inherit; font-size:13px; line-height:19px; padding:5px 8px;
                           border:1px solid var(--steel-grey); border-radius:4px;
                           background:var(--brilliant-white); color:var(--text-primary); cursor:pointer; }
 /* A reply is indented and hung off a rule, so a conversation reads as one unit. */
-.comment-item.is-reply { margin-left:38px; padding-left:16px; border-left:2px solid var(--steel-grey-light); }
-.comment-actions { display:flex; align-items:center; gap:14px; }
-.comment-likes { display:inline-flex; align-items:center; gap:5px;
-                 font-size:12px; line-height:18px; color:var(--text-secondary); font-variant-numeric:tabular-nums; }
-.comment-likes svg { width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:1.6;
-                     stroke-linecap:round; stroke-linejoin:round; }
 
 /* ── SHELL ── */
 .shell { display: flex; min-height: 100vh; }
@@ -1039,25 +1030,116 @@ body {
 .comment-send-btn:hover { background: var(--brand-blue-dark); }
 .comment-send-btn svg { width: 14px; height: 14px; stroke: white; fill: none; stroke-width: 2; stroke-linecap: round; }
 
-/* Comment items */
-.comment-item { display: flex; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--steel-grey-light); }
-.comment-item:last-child { border-bottom: none; }
+/* Comment items — matching the live discussion (threaded and unthreaded views).
+   The one addition is the stock tag a comment carries when it was posted on an
+   atomic article: there the stock was obvious, so nobody typed a tag, but on the
+   report it needs one to be readable. */
+.comment-item { display:flex; gap:12px; padding:16px 20px 14px; }
 .comment-av {
-  width: 32px; height: 32px; border-radius: 50%;
+  width: 32px; height: 32px; border-radius: 50%; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 700; color: white; flex-shrink: 0; margin-top: 1px;
+  font-size: 11px; font-weight: 700; color: white; flex-shrink: 0;
 }
+.comment-av img { width:100%; height:100%; object-fit:cover; display:block; }
 .comment-body { flex: 1; min-width: 0; }
-.comment-name-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 3px; }
-.comment-name { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+.comment-head { display:flex; align-items:flex-start; gap:12px; }
+.comment-who { flex:1; min-width:0; }
+.comment-name-row { display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+.comment-name { font-size: 13px; line-height: 18px; font-weight: 700; color: var(--text-primary); }
+.comment-staff { display:inline-flex; align-items:center; gap:2px; font-size:12px; line-height:18px; color:var(--text-secondary); }
+.comment-staff .msym { font-size:14px; color:var(--brand-blue); }
+.comment-meta { font-size: 12px; line-height: 18px; color: var(--text-secondary); }
 .comment-time { font-size: 12px; line-height: 18px; color: var(--text-secondary); }
-.comment-stock-pill {
-  font-size: 12px; color: var(--brand-blue);
-  background: var(--cornflower-blue-light); border: 1px solid var(--cornflower-blue);
-  border-radius: 4px; padding: 1px 7px; cursor: pointer;
+/* Unthreaded only — threaded shows the same relationship by indenting. */
+.comment-reply-to { flex-shrink:0; font-size:12px; line-height:16px; color:var(--text-secondary);
+                    border:1px solid var(--steel-grey); border-radius:16px; padding:2px 9px; white-space:nowrap; }
+/* Stock tag uses the reply-to pill, so it reads as metadata rather than a repeat of
+   the inline @mention in the text. */
+.comment-chips { flex-shrink:0; display:flex; flex-wrap:wrap; justify-content:flex-end; gap:6px; max-width:55%; }
+.comment-stock-chip { font-size:12px; line-height:16px; color:var(--text-secondary); text-decoration:none;
+                      border:1px solid var(--steel-grey); border-radius:16px; padding:2px 9px; white-space:nowrap; }
+.comment-posted-on .comment-stock-link { color:var(--brand-blue); }
+/* A comment arrived at from a link: brief wash so the eye finds it. */
+.comment-item.is-target { animation: comment-target 2.4s ease-out; }
+@keyframes comment-target { 0%, 35% { background: var(--cornflower-blue-light); } 100% { background: transparent; } }
+.comment-empty { margin:0; padding:20px; font-size:13px; line-height:20px; color:var(--text-secondary); }
+.comment-stock-line { margin-top:8px; font-size:13px; line-height:20px; color:var(--text-secondary); }
+.comment-stock-link { color:var(--brand-blue); text-decoration:none; }
+.comment-stock-link:hover { text-decoration:underline; }
+.comment-stock-chip:hover, .comment-reply-to:hover { border-color:var(--brand-blue); color:var(--brand-blue); }
+/* Live opens the parent comment's thread on its own; not wired up in the prototype. */
+a.comment-reply-to { text-decoration:none; cursor:pointer; }
+/* Production pill: grey fill, darker rule, primary text (matches the live site). */
+.comment-reply-to, .comment-stock-chip { background:var(--stone-grey-light); border-color:var(--steel-grey-dark);
+                                         color:var(--text-primary); padding:3px 10px; }
+.comment-stock-chip:hover, .comment-reply-to:hover { background:var(--stone-grey); border-color:var(--brand-blue); color:var(--brand-blue); }
+.comment-text { margin-top:8px; font-size: 13px; line-height: 20px; color: var(--text-primary); }
+.comment-text p { margin:0; }
+.comment-text p + p { margin-top:8px; }
+.comment-foot { display:flex; align-items:center; gap:18px; margin-top:10px; }
+.comment-like { display:inline-flex; align-items:center; gap:6px; font-size:12px; line-height:18px;
+                color:var(--text-secondary); font-variant-numeric:tabular-nums; }
+.comment-like .msym { font-size:18px; color:var(--brand-blue); }
+.comment-replies { display:inline-flex; align-items:center; gap:2px; font-size:12px; line-height:18px;
+                   color:var(--brand-blue); background:none; border:none; padding:0; cursor:pointer; font-family:inherit; }
+.comment-replies .msym { font-size:16px; }
+.comment-tools { margin-left:auto; display:flex; align-items:center; gap:14px; }
+.comment-tool { display:inline-flex; align-items:center; gap:3px; color:var(--brand-blue); background:none; border:none;
+                padding:0; cursor:pointer; font-family:inherit; font-size:12px; line-height:18px; }
+.comment-tool .msym { font-size:18px; }
+/* A rule above each conversation, never between a comment and its replies. In the
+   unthreaded view every comment is top level, so each one gets the rule. */
+#comment-list .comment-item.is-top:not(:first-child) { border-top:1px solid var(--border-standard); }
+/* Inline @mentions, as live: company name links to its StockReport, ticker stays text. */
+.comment-text a { color:var(--brand-blue); text-decoration:none; }
+.comment-text a:hover { text-decoration:underline; }
+/* Threaded: each level steps in and hangs off a rule, as live. */
+.comment-item.is-nested { margin-left: calc(var(--depth, 1) * 44px); padding-left:16px;
+                          border-left:1px solid var(--steel-grey-light); }
+/* Chips, likes and actions share the text's right edge: the body is capped at the
+   744px measure, and nested replies lose their indent from it so every level ends on
+   the same line. */
+.comment-body { max-width:744px; }
+.comment-item.is-nested .comment-body { max-width:calc(744px - var(--depth, 1) * 44px + 4px); }
+/* Reply rule is drawn, not a border, so it can stop short: where a run of replies ends
+   it finishes level with the reply's action row instead of running into the divider. */
+.comment-item.is-nested { position:relative; border-left:none; }
+.comment-item.is-nested::before { content:''; position:absolute; left:0; top:0; bottom:0; width:1px;
+                                  background:var(--steel-grey-light); }
+.comment-item.is-nested.is-run-end::before { bottom:14px; }
+@media (max-width: 768px) {
+  .comment-item.is-nested .comment-body { max-width:none; }
+  .comment-item.is-nested.is-run-end::before { bottom:12px; }
 }
-.comment-text { font-size: 13px; line-height: 20px; color: #1D2226; }
-.comment-reply { font-size: 12px; color: var(--brand-blue); cursor: pointer; margin-top: 4px; display: inline-block; }
+@media (max-width: 768px) {
+  .comment-item { padding:14px 14px 12px; }
+  .comment-item.is-nested { margin-left: calc(var(--depth, 1) * 18px); padding-left:12px; }
+  .comment-tool .tool-label { display:none; }
+  /* Chips drop under the name rather than squeezing it. */
+  .comment-head { flex-wrap:wrap; gap:6px; }
+  .comment-chips { max-width:none; width:100%; justify-content:flex-start; }
+}
+
+/* Compose — live shell (identity, avatar, formatting bar, tip, ADD COMMENT) around the
+   prototype's optional stock picker, which stays for now. Declared after the older
+   .comment-input-field rules so these win. */
+.discussion-count-head { font-size:13px; line-height:20px; font-weight:400; color:var(--text-primary); margin:0 0 10px; }
+.compose-identity a { color:var(--brand-blue); text-decoration:none; }
+.compose-row { display:flex; gap:12px; align-items:flex-start; }
+.compose-av { width:32px; height:32px; border-radius:50%; background:#1B6E38; color:#fff; flex-shrink:0;
+              display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; }
+.compose-editor { flex:1; min-width:0; border:1px solid var(--border-input); border-radius:4px; background:var(--brilliant-white); }
+.compose-editor:focus-within { border-color:var(--brand-blue); }
+.compose-format-bar { display:flex; gap:2px; padding:4px 6px; border-bottom:1px solid var(--border-standard); }
+.compose-format-bar .format-btn .msym { font-size:18px; }
+.compose-editor .comment-input-field { border:none; border-radius:0; background:var(--brilliant-white);
+                                       padding:10px 12px; min-height:64px; font-size:13px; line-height:20px; }
+.compose-editor .comment-input-field:focus { background:var(--brilliant-white); }
+.comment-compose-card .compose-footer { display:flex; align-items:flex-start; justify-content:space-between; gap:16px;
+                                        margin-top:10px; padding-left:44px; }
+.compose-tip { display:flex; gap:6px; font-size:12px; line-height:16px; color:var(--text-secondary); max-width:320px; margin:0; }
+.compose-tip .msym { font-size:16px; }
+.compose-tip strong { color:var(--text-primary); }
 
 /* ── RNS MODAL BOTTOM SHEET ── */
 .modal-overlay {
@@ -1901,7 +1983,7 @@ body {
         <div class="report-meta">
           <span class="report-kicker">Daily Market Report</span>
           <span class="report-sep" id="report-datesep">&middot;</span>
-          <span class="report-date" id="report-date">Tuesday 17 June 2026</span>
+          <span class="report-date" id="report-date">Wednesday 17 June 2026</span>
           <span class="report-live" id="report-live"><span class="live-dot"></span>Live</span>
           <span class="report-updated" id="report-updated"></span>
         </div>
@@ -2051,35 +2133,31 @@ body {
 
       <!-- DISCUSSION -->
       <div class="discussion-section" id="discussion-section">
-        <div class="discussion-header">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand-blue)" stroke-width="1.5" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-          <h2 class="discussion-h2">Discussion</h2>
-          <span class="discussion-count" id="discuss-total-count">(50)</span>
-        </div>
+        <!-- As live: a plain count, then the compose card. -->
+        <h2 class="discussion-count-head"><span id="discuss-total-count">50</span> comments</h2>
         <div class="comment-compose-card">
           <div class="compose-identity">
-            <span>Signed in as <strong>Greg Jackson</strong></span>
+            <span>Posting as <a href="#">Greg J</a></span>
           </div>
-          <!-- Optional stock tagging -->
-        <p class="compose-label">Tag a stock you're commenting on (optional)</p>
-        <div class="compose-action-row">
-          <div class="compose-stock-wrap" id="compose-stock-wrap">
-            <div class="tagged-stock-chips" id="tagged-stock-chips"></div>
-            <div class="stock-search-field" id="stock-search-field">
-              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-              <input type="text" id="stock-search-input" placeholder="Tag a stock&hellip;" oninput="handleStockSearch(this)" onkeydown="handleStockKeydown(event)" autocomplete="off">
-            </div>
-            <div id="stock-typeahead" class="stock-typeahead" style="display:none"></div>
-          </div>
-        </div>
-
         <!-- Write + submit -->
           <div class="compose-write-step" id="compose-write-step">
-            <div class="compose-field-wrap">
-              <textarea class="comment-input-field" rows="3" placeholder="Post a comment…" id="comment-input" oninput="autoExpand(this); updateSubmitState()" maxlength="4000"></textarea>
+            <div class="compose-row">
+              <div class="compose-av" aria-hidden="true">GJ</div>
+              <div class="compose-editor">
+                <div class="compose-format-bar" aria-label="Formatting">
+                  <button class="format-btn" type="button" aria-label="Bold"><span class="msym" aria-hidden="true">format_bold</span></button>
+                  <button class="format-btn" type="button" aria-label="Italic"><span class="msym" aria-hidden="true">format_italic</span></button>
+                  <button class="format-btn" type="button" aria-label="Bulleted list"><span class="msym" aria-hidden="true">format_list_bulleted</span></button>
+                  <button class="format-btn" type="button" aria-label="Numbered list"><span class="msym" aria-hidden="true">format_list_numbered</span></button>
+                  <button class="format-btn" type="button" aria-label="Link"><span class="msym" aria-hidden="true">link</span></button>
+                  <button class="format-btn" type="button" aria-label="Image"><span class="msym" aria-hidden="true">image</span></button>
+                </div>
+                <textarea class="comment-input-field" rows="3" placeholder="What are your thoughts on this?" id="comment-input" oninput="autoExpand(this); updateSubmitState()" maxlength="4000"></textarea>
+              </div>
             </div>
             <div class="compose-footer">
-              <button class="compose-submit-btn" id="compose-submit-btn" disabled onclick="submitComment()">Submit</button>
+              <p class="compose-tip"><span class="msym" aria-hidden="true">info</span><span><strong>Helpful Tip:</strong> Type the @ symbol when mentioning a stock to link your comment to a StockReport</span></p>
+              <button class="compose-submit-btn" id="compose-submit-btn" disabled onclick="submitComment()">Add comment</button>
             </div>
           </div>
         </div>
@@ -2101,10 +2179,10 @@ body {
               <option value="flat">Unthreaded</option>
             </select>
           </label>
+          <label class="discuss-control">Filter by
+            <select id="discuss-filter" onchange="switchDiscuss(this.value)"></select>
+          </label>
         </div>
-          <div class="discuss-filter-label">Filter comments</div>
-          <div class="discuss-tabs" id="discuss-tabs"></div>
-        <div class="discuss-more-menu" id="discuss-more-menu"></div>
           <div id="comment-list"></div>
           <div class="view-all-row" id="view-all-comments" style="display:none">
             <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg> Show all comments
@@ -3201,6 +3279,15 @@ function setState(state) {
   currentState = state;
   const sel = document.getElementById('proto-state-select');
   if (sel) sel.value = state;
+  // Each state has its own address (?state=am|pm|done), so the URL in the address
+  // bar can be copied and shared in whichever state is showing.
+  try {
+    const url = new URL(window.location.href);
+    if (url.searchParams.get('state') !== state) {
+      url.searchParams.set('state', state);
+      history.replaceState(null, '', url);
+    }
+  } catch (e) {}
   // While the desk is still writing, the badge says Live and the timestamp is
   // relative — "Live" already implies today, so the date would be noise. Once
   // the report is finished it becomes a dated document: the date replaces the
@@ -3256,83 +3343,102 @@ function getCommentCounts() {
 // ── DISCUSS TABS ──
 // ── DISCUSSION DATA ──
 const allComments = [
-  // General
-  {stocks:[],   av:'RG', bg:'#4AA843', name:'Rachel Green',         time:'8min ago', likes:6,  text:'Strong set of results across the board today. The Iran peace news is doing a lot of heavy lifting for sentiment.'},
-  {stocks:[],   av:'ET', bg:'#CC4752', name:'Emma Thompson',        time:'14min ago', likes:32, text:'Nice to see smaller caps getting quality analysis. SNWS and AO. both look interesting at these levels.'},
-  {stocks:[],   av:'DW', bg:'#3A7D8A', name:'David Williams',       time:'21min ago', likes:14, text:'Good day for quality. Eight covered stocks and most of them beating expectations — that\'s unusual. Normally you\'d expect a couple of misses.'},
-  {stocks:[],   av:'SM', bg:'#9478AB', name:'Sarah Miller',         time:'29min ago', likes:9, text:'The breadth of coverage here is impressive. Really useful to have everything in one place rather than chasing individual RNS feeds.'},
-  {stocks:[],   av:'PH', bg:'#D97D30', name:'Peter Hughes',         time:'38min ago', likes:27, text:'Any thoughts on the broader consumer staples sector given today\'s PZC update? Interested whether the Nigerian recovery is sector-wide or specific to Cussons.'},
-  {stocks:[],   av:'AF', bg:'#4776BA', name:'Alice Foster',         time:'52min ago', likes:29, replyTo:4, text:'Solid morning overall. Macro backdrop finally cooperating for once. Iran deal would be a significant geopolitical de-risking event.'},
-  {stocks:[],   av:'MJ', bg:'#1B6E38', name:'Mark Johnson',         time:'1h ago', likes:4,    text:'How does today\'s reporting day compare to a typical June? I feel like there\'s more activity than usual for this time of year.'},
-  {stocks:[],   av:'CE', bg:'#5C4A6B', name:'Chris Evans',          time:'1h ago', likes:10,    text:'The SpaceX IPO at $3 trillion is the most extraordinary valuation I\'ve ever seen discussed seriously. More than Apple and Nvidia combined.'},
-  // Smiths News
-  {stocks:['Smiths News'], av:'JP', bg:'#9478AB', name:'James Patterson',    time:'6min ago', likes:1,  text:'Big contract win but the secular decline in print is real. Anyone have a view on how long the revenue runway actually is?'},
-  {stocks:['Smiths News'], av:'RC', bg:'#D97D30', name:'Robert Clarke',      time:'11min ago', likes:2, replyTo:8, text:'At 7x earnings with a 5% yield this is pricing in a lot of bad news. The News UK contract removes the single biggest bear case argument.'},
-  {stocks:['Smiths News'], av:'HS', bg:'#3A7D8A', name:'Helen Smith',        time:'19min ago', likes:7, text:'News UK was the key risk to the investment case for SNWS. This removes it completely for at least five years. Significant re-rating potential.'},
-  {stocks:['Smiths News'], av:'TW', bg:'#CC4752', name:'Tom Wilson',         time:'28min ago', likes:19, replyTo:10, text:'Interesting that they secured the renewal well before expiry. Management have clearly been working on this for a while. Good execution.'},
-  {stocks:['Smiths News'], av:'MB', bg:'#4776BA', name:'Michael Brown',      time:'41min ago', likes:32, text:'I\'ve held SNWS for three years waiting for exactly this kind of news. Hard to see why the market isn\'t reacting more strongly. Still looks cheap.'},
-  {stocks:['Smiths News'], av:'LD', bg:'#4AA843', name:'Laura Davis',        time:'57min ago', likes:3, text:'Does anyone know what the previous News UK contract was worth? Trying to understand if £125m is an increase or broadly the same.'},
-  {stocks:['Smiths News'], av:'GT', bg:'#5C4A6B', name:'Gary Taylor',        time:'1h ago', likes:32,    text:'51.5% national newspaper market share is a formidable position. Scale advantages make it very hard for a new entrant to compete credibly.'},
-  // Games Workshop
-  {stocks:['Games Workshop'], av:'TA', bg:'#4776BA', name:'Tom Anderson',      time:'4min ago', likes:5,  text:'Warhammer franchise just keeps growing. If the Amazon series gets a second season renewal this year it could be a major catalyst for licensing income.'},
-  {stocks:['Games Workshop'], av:'SW', bg:'#CC4752', name:'Sophie Williams',    time:'9min ago', likes:21, replyTo:15,  text:'90p per share as a single interim dividend is extraordinary. The company genuinely doesn\'t know what to do with all the cash it generates.'},
-  {stocks:['Games Workshop'], av:'BC', bg:'#3A7D8A', name:'Ben Clarke',         time:'16min ago', likes:17, text:'Space Marine 2 the video game was a massive hit. The IP licensing revenue from that partnership was clearly significant. Smart strategic move.'},
-  {stocks:['Games Workshop'], av:'AT', bg:'#1B6E38', name:'Andrew Taylor',      time:'25min ago', likes:20, text:'25x earnings isn\'t cheap but with 46% operating margins and a royalty stream that requires no capital, you get what you pay for here.'},
-  {stocks:['Games Workshop'], av:'FE', bg:'#D97D30', name:'Fiona Evans',        time:'34min ago', likes:11, text:'The royalty income line is really the story within the story. £42m per half year at essentially 100% margin is transformational for quality of earnings.'},
-  {stocks:['Games Workshop'], av:'JR', bg:'#9478AB', name:'James Roberts',      time:'48min ago', likes:20, text:'Held since 2019. Best performing stock in my portfolio by a significant margin. The management culture here is exceptional — they genuinely understand the hobby.'},
-  {stocks:['Games Workshop'], av:'CH', bg:'#5C4A6B', name:'Catherine Hughes',   time:'59min ago', likes:32, replyTo:20, text:'Has anyone seen confirmed news on whether the Amazon series gets a second season? That would be a meaningful catalyst for the royalty line.'},
-  {stocks:['Games Workshop'], av:'SP', bg:'#4AA843', name:'Simon Price',        time:'1h ago', likes:32,    text:'GAW has the most loyal and passionate customer base of any business I invest in. Pricing power is exceptional as a result.'},
-  // PZ Cussons
-  {stocks:['PZ Cussons'], av:'DW', bg:'#3A7D8A', name:'David Wilson',         time:'7min ago', likes:25,  text:'Nigeria risk has worried me about PZC for years. Good to finally see some stability in the naira. Let\'s see if it holds.'},
-  {stocks:['PZ Cussons'], av:'AB', bg:'#9478AB', name:'Alice Brown',           time:'18min ago', likes:16, text:'The Australian business is the unsung hero of PZ Cussons. Morning Fresh and Radiant are quietly growing market share in a stable market.'},
-  {stocks:['PZ Cussons'], av:'PS', bg:'#4776BA', name:'Peter Smith',           time:'31min ago', likes:29, text:'14x forward earnings looks reasonable if Nigeria really has turned a corner. The risk/reward feels more balanced than it has for a while.'},
-  {stocks:['PZ Cussons'], av:'JE', bg:'#CC4752', name:'Jane Edwards',          time:'44min ago', likes:11, replyTo:25, text:'Seen the private label pressure on Imperial Leather firsthand in the supermarkets. They need to invest in the brand to hold shelf space.'},
-  {stocks:['PZ Cussons'], av:'CM', bg:'#D97D30', name:'Chris Martin',          time:'1h ago', likes:22,    text:'Guidance upgrade is a genuine positive surprise. The market was expecting in-line at best. That\'s what\'s driving the share price reaction today.'},
-  // AO World
-  {stocks:['AO World'], av:'OB', bg:'#D97D30', name:'Oliver Brown',          time:'5min ago', likes:14,  text:'The cash flow turnaround at AO is remarkable. From net debt to net cash in one year — management have clearly changed how they run this business.'},
-  {stocks:['AO World'], av:'NC', bg:'#CC4752', name:'Natasha Clarke',        time:'12min ago', likes:6, replyTo:28, text:'Revenue up 11% in a market where everyone is struggling. Where is the share of wallet coming from? Currys? Or pure market growth?'},
-  {stocks:['AO World'], av:'RT', bg:'#9478AB', name:'Richard Taylor',        time:'22min ago', likes:3, text:'152% increase in free cash flow is the headline but the quality of earnings underneath is what really impresses me. This is structural not cyclical.'},
-  {stocks:['AO World'], av:'SJ', bg:'#4AA843', name:'Sarah Johnson',         time:'33min ago', likes:26, text:'NPS of 83 for an online retailer is exceptional. That\'s how they keep growing without huge marketing spend — word of mouth and repeat purchase.'},
-  {stocks:['AO World'], av:'MD', bg:'#5C4A6B', name:'Matthew Davis',         time:'43min ago', likes:31, replyTo:31, text:'Special dividend alongside a buyback shows the board has confidence in the sustainability of the cash generation. Not just a one-off.'},
-  {stocks:['AO World'], av:'LW', bg:'#3A7D8A', name:'Laura Williams',        time:'54min ago', likes:24, text:'I was sceptical on AO for years. These numbers have genuinely changed my view. The logistics moat is more durable than I gave it credit for.'},
-  {stocks:['AO World'], av:'DH', bg:'#4776BA', name:'Daniel Hughes',         time:'1h ago', likes:11,    text:'How does AO\'s margin profile compare to Currys at this stage? Curious whether they can get to 5-6% EBITDA given the cost base differences.'},
-  // Hargreaves Services
-  {stocks:['Hargreaves Services'], av:'HR', bg:'#1B6E38', name:'Helen Roberts',       time:'10min ago', likes:1, text:'Hargreaves is one of my favourite small cap holdings. Consistent, disciplined, and management never over-promises. Exactly what you want.'},
-  {stocks:['Hargreaves Services'], av:'SC', bg:'#D97D30', name:'Steven Clarke',        time:'24min ago', likes:19, text:'The Blindwells development is the catalyst nobody seems to be focusing on. 1,600 homes in East Lothian is a significant asset realisation pipeline.'},
-  {stocks:['Hargreaves Services'], av:'AW', bg:'#9478AB', name:'Anne Wilson',          time:'39min ago', likes:12, text:'StockRank of 98. Hard to find a better combination of value, quality and momentum in the small cap space. The discount to NAV is compelling.'},
-  {stocks:['Hargreaves Services'], av:'JM', bg:'#3A7D8A', name:'John Martin',          time:'55min ago', likes:7, text:'"Performing strongly" is notably more bullish language for Industrial Services than prior year equivalents. Worth reading between the lines.'},
-  // Castings
-  {stocks:['Castings'], av:'PE', bg:'#5C4A6B', name:'Paul Evans',             time:'9min ago', likes:30,  text:'Castings is a perfect example of why I love industrial small caps. Boring, unglamorous, and generating cash year after year for fifty years.'},
-  {stocks:['Castings'], av:'ED', bg:'#4AA843', name:'Emma Davis',             time:'20min ago', likes:21, replyTo:39, text:'50-year dividend record is extraordinary. Management culture here is almost unique — they run the business for longevity not short-term metrics.'},
-  {stocks:['Castings'], av:'RH', bg:'#CC4752', name:'Robert Hughes',          time:'35min ago', likes:26, text:'The EV risk to iron castings is real but massively overplayed for commercial vehicles. Trucks are 10+ years behind passenger cars on electrification.'},
-  {stocks:['Castings'], av:'CS', bg:'#D97D30', name:'Carol Smith',            time:'49min ago', likes:6, text:'Net cash, sub-10x earnings, 50-year dividend track record. I can\'t understand why more people don\'t own this. Too small? Too boring?'},
-  {stocks:['Castings'], av:'MT', bg:'#4776BA', name:'Michael Taylor',         time:'1h ago', likes:30,    text:'Management being cautious on FY27 is prudent not alarming in my view. They\'ve always guided conservatively and delivered consistently.'},
-  // Brave Bison
-  {stocks:['Brave Bison'], av:'SJ', bg:'#3A7D8A', name:'Sophie Johnson',        time:'13min ago', likes:29, text:'Brave Bison is an interesting digital play. The social media management contracts are sticky and recurring — rare in the agency world.'},
-  {stocks:['Brave Bison'], av:'AW', bg:'#9478AB', name:'Alex Wilson',           time:'30min ago', likes:20, replyTo:44, text:'Small cap digital agencies are hard to value but the contracted revenue base is genuinely reassuring. Not all revenue is project-based.'},
-  {stocks:['Brave Bison'], av:'KB', bg:'#CC4752', name:'Katie Brown',           time:'50min ago', likes:18, replyTo:44, text:'The sport and entertainment client wins are smart positioning. These clients want cross-platform campaigns and Brave Bison can deliver that now.'},
-  // Likewise
-  {stocks:['Likewise'], av:'JC', bg:'#4776BA', name:'Jason Clarke',           time:'15min ago', likes:6, text:'Likewise is a pure housing recovery play. Timing is everything. The question is whether you\'re early enough to benefit when transactions recover.'},
-  {stocks:['Likewise'], av:'HT', bg:'#4AA843', name:'Hannah Taylor',          time:'36min ago', likes:25, replyTo:47, text:'The operational leverage argument is compelling if rates keep coming down. Fixed cost base means incremental volume drops straight through to profit.'},
-  {stocks:['Likewise'], av:'WE', bg:'#5C4A6B', name:'William Evans',          time:'58min ago', likes:19, replyTo:47, text:'In line is fine but I want to see H2 numbers before getting excited. The housing market caveat is a real risk flag, not just boilerplate.'},
+  // Real comments from the live DSMR, Wed 17 June 2026 (62). `at` is minutes after
+  // midnight BST on the 17th (next day adds 1440). Threads about Smiths News, Castings,
+  // Frontier Developments and Oxford Metrics are treated as started on that stock's
+  // atomic article (origin 'article'); a leading @tag typed on the DSMR is dropped there.
+  // Simon's comment stays a DSMR comment: he named the stock himself.
+  {"id": "c0", "name": "rwh3ue", "at": 2016, "likes": 8, "text": "<p>I have two EV's, 6.8 kwh solar panels and a 4.6 kw battery. I'm currently on Intelligent Octopus Go fixed tariff that gives me 6 hours of cheap rate electricity overnight. This is enough to charge one of the cars which has a 32kw battery for about £1.50 which equates to about 1p per mile. The other EV is a 77 kWh battery so takes about 10 hours to fully charge from near zero. This is easily managed by successive sessions over two days.</p><p>I rarely use public chargers except on extended trips away from home. </p><p>Solar has been a complete game changer for our electricity and vehicle fuel bills. On average I use just over 12 kwh of electricity per day across all seasons. 80% of this is cheap rate and I export an average of 9 kwh for which I receive 12p per kwh. We don't have a gas supply so rely on oil fired heating but try to buy when prices are seasonally lower.</p><p>Prior to installing solar and changing cars, my electricity bill was £157 per month. Now I expect to pay less than £30.  A few behavioural changes like doing the washing overnight and generally maximising the advantages of the installation have made a huge difference. </p><p>Given the right location, and ours is far from ideal, solar can be very rewarding.</p>", "stocks": [], "origin": "report", "av": "R", "bg": "#4AA843"},
+  {"id": "c1", "name": "flashing blade", "at": 2039, "likes": 1, "text": "<p>And I guess £17 of that £30 are the standing charges </p>", "replyTo": 0, "stocks": [], "origin": "report", "av": "F", "bg": "#3A7D8A"},
+  {"id": "c2", "name": "rwh3ue", "at": 2044, "likes": 1, "text": "<p>indeed, £16.42 regardless of how much or how little I use. I guess it's fair to pay for the infrastructure that delivers my power but when it seems the government will ask me to pay per mile for driving my car, wouldn't it be fairer to base the standing charge on usage too?</p>", "replyTo": 1, "stocks": [], "origin": "report", "av": "R", "bg": "#4AA843"},
+  {"id": "c3", "name": "flashing blade", "at": 1374, "likes": 2, "text": "<p>We have 2  evs at home and charge via excess solar and have found that since March charging hasn’t cost anything through imported electricity so from our point of view charging at home via solar is a big thing and with a little planning we fully charge regularly. We also  use an overnight Ev tariff of which may be needed from October to February.</p><p>What would be helpful if the vat rate of 20% charged at supermarkets, services etc was reduced to the domestic rate of 5%<br></p>", "stocks": [], "origin": "report", "av": "F", "bg": "#3A7D8A"},
+  {"id": "c4", "name": "JASVFS", "at": 1058, "likes": 1, "text": "<p>Thank you for your comments on Castings Roland, we also hold and it was a pleasant surprise to read their more upbeat results and forecast this morning. Our holding started over ten years ago but by some judicious (reckless) adding, we're at break even, the dividends have helped of course.  We'll hold but no more adding!</p>", "stocks": ["Castings"], "ticks": ["CGS"], "origin": "article", "av": "J", "bg": "#1B6E38"},
+  {"id": "c5", "name": "Deegee Eff", "at": 855, "likes": 4, "text": "<p><span class=\"tagged-security\"><a href=\"#\">Daniel Thwaites</a> (OFEX:THW)</span> Stoncking figs from . Now at historic p/e of 7.5 and a 75% discount to NAV. !</p><p>Must be the cheapest stock in the sector, if not the market.</p>", "stocks": [], "origin": "report", "av": "D", "bg": "#CC4752"},
+  {"id": "c6", "name": "Simon", "at": 729, "likes": 24, "text": "<p><span class=\"tagged-security\"><a href=\"#\">Smiths News</a> (LON:SNWS)</span> “Declining circulation has therefore created a growth opportunity, through increased market share” - fun fact, this is a rare example of the Old Warhorse category in the extended Boston Matrix which includes shrinking or negative market growth. These can be hugely profitable opportunities - well done to holders! <br></p>", "stocks": [], "origin": "report", "av": "S", "bg": "#CC4752"},
+  {"id": "c7", "name": "Helvellyn", "at": 656, "likes": 6, "text": "<p>So, seemingly the beginning of an end to the ME conflict ( buy the rumour sell the news?) and UK inflation coming in better than expected yet main UK indices drop. A weaker pound would help the FTSE100 exporters and the FTSE250 CO’s should benefit. What am I missing??</p><p>TIA</p>", "stocks": [], "origin": "report", "av": "H", "bg": "#4AA843"},
+  {"id": "c8", "name": "The Boon Fund", "at": 672, "likes": 35, "text": "<p>If you discover the magic formula to predict how an index or market will perform, given a series of limited inputs such as geopolitics, economic indicators, currency, etc.</p><p>You'd win a Nobel Prize.</p><p>What are you missing? Oh... maybe a few hundred other factors. Ever changing weighting of said factors. Sentiment. Human buys and sells dictate the prices. Humans are fickle.</p><p>I've stopped trying to make \"sense\" of how an index, market moves day to day. It's like trying to figure out a unifying theory of the universe. Intellectually, it should be possible. Practically, you might go mad in the process.<br></p><p>One approach is just shut your eyes for the rest of the day, look again at 8am tomorrow :)</p><p>(Ignore all the above is your goal is to be Master of the Universe - whether its the stock market, or physics. Then I am rooting for you, as it would be really amazing if in my lifetime, someone discovers the magic formula for the stock market)</p>", "replyTo": 7, "stocks": [], "origin": "report", "av": "T", "bg": "#CC4752"},
+  {"id": "c9", "name": "Silver Moon", "at": 789, "likes": 5, "text": "<p>I entirely agree with you Boon, I'm giving up on looking for the holy grail and am sticking with what I know.</p>", "replyTo": 8, "stocks": [], "origin": "report", "av": "S", "bg": "#1B6E38"},
+  {"id": "c10", "name": "yiannos1", "at": 867, "likes": 12, "text": "<p>Wise words Boon regarding looking at the ticker all day.<br></p><p>It’s not even ethical to check your portfolio balance every 2 minutes while at work!</p><p>All the best </p>", "replyTo": 8, "stocks": [], "origin": "report", "av": "Y", "bg": "#5C4A6B"},
+  {"id": "c11", "name": "Lochinver", "at": 1212, "likes": 6, "text": "<p>Please just go away as you have previously promised </p>", "replyTo": 10, "stocks": [], "origin": "report", "av": "L", "bg": "#1B6E38"},
+  {"id": "c12", "name": "yiannos1", "at": 1224, "likes": 5, "text": "<p>My man<br></p><p>You are more obsessed about my posts than anyone here (even me).</p><p>That’s nice!</p>", "replyTo": 11, "stocks": [], "origin": "report", "av": "Y", "bg": "#5C4A6B"},
+  {"id": "c13", "name": "rhomboid1", "at": 1259, "likes": 8, "text": "<p>Personally I appreciate the widest breadth of views on this website ..I will however not follow Ben into <span class=\"tagged-security\"><a href=\"#\">Nanoco</a> (LON:NANO)</span> ..but.wish him the best</p>", "replyTo": 12, "stocks": [], "origin": "report", "av": "R", "bg": "#4AA843"},
+  {"id": "c14", "name": "Spider1234", "at": 846, "likes": 0, "text": "<p>June, not a great month...</p>", "replyTo": 7, "stocks": [], "origin": "report", "av": "S", "bg": "#4AA843"},
+  {"id": "c15", "name": "RDHOWARTH", "at": 972, "likes": 8, "text": "<p>Nothing really - be curious - it's interesting to think about why the market doesn't move how you expect. BUT it makes no difference to long term returns. Warren tells you to compound long term returns so daily - monthly - annual returns make virtually no difference. Long run averages are all that matter and staying invested. During conflicts and other events that could turn either way - there is so much hedging extreme movements in place - knowing how this unwinds is very difficult. So they often involve misleading moves. The reason I look at VIX and MOVE is they measure volatility which tells you when fear is very high....which it was a month or so ago. Actually markets have already recovered their poise before Trumps announced peace plan.... so had less room to spike on the news. I think most economists would tell you wars, catastrophes etc have very little long run impact on markets actually. So far the Iran conflict has had next to no impact. Yet only a few weeks ago this would have seemed a naive claim to make. So in answer, you aren't missing anything - equities are a long term compound game - not what happens next.  </p>", "replyTo": 7, "stocks": [], "origin": "report", "av": "R", "bg": "#1B6E38"},
+  {"id": "c16", "name": "Helvellyn", "at": 1026, "likes": 2, "text": "<p>Thank you RD . I was expecting a stronger start, mainly on the UK inflation numbers for the domestic CO’s in the 250 and exporters in the 100. So I thought I may have missed some relevant news. Obviously as soon as Wall St opens that is a different matter. </p>", "replyTo": 15, "stocks": [], "origin": "report", "av": "H", "bg": "#4AA843"},
+  {"id": "c17", "name": "Retail Punter", "at": 634, "likes": 2, "text": "<p>Mr Market apparently doesn't like the delayed revenues. The Non Exec Chairman has bought 33k worth. Would be nice to see the CEO and CFO buy some,</p>", "stocks": ["Oxford Metrics"], "ticks": ["OMG"], "origin": "article", "av": "R", "bg": "#D97D30"},
+  {"id": "c18", "name": "KBR", "at": 697, "likes": 0, "text": "<p>Optimistic I think.</p>", "replyTo": 17, "stocks": ["Oxford Metrics"], "ticks": ["OMG"], "origin": "article", "av": "K", "bg": "#9478AB"},
+  {"id": "c19", "name": "Martin Verlaine", "at": 593, "likes": 1, "text": "<p>ROAD </p><p>Am I alone in my sceptic's view of Roadside? Not sure I see the quality in buying up Petrol forecourts for redevelopment as what?  The board seems replete with property  ' heavyweights' and some high profile special situation investors seem on board</p>", "stocks": [], "origin": "report", "av": "M", "bg": "#4AA843"},
+  {"id": "c20", "name": "Rusty2", "at": 716, "likes": 0, "text": "<p>EV charging would be the obvious answer. Will EVs need more charging than fossil fuel vehicles? Takes longer for sure. There is still a shortage of EV charging points. </p>", "replyTo": 19, "stocks": [], "origin": "report", "av": "R", "bg": "#1B6E38"},
+  {"id": "c21", "name": "Charles Mitchell", "at": 964, "likes": 0, "text": "<p>Not much longer now- Cardiff gate I can get 200 miles in 15 mins. So by the time been to the Loo , bought a drink</p>", "replyTo": 20, "stocks": [], "origin": "report", "av": "C", "bg": "#D97D30"},
+  {"id": "c22", "name": "Rusty2", "at": 990, "likes": 0, "text": "<p>I see and how much do they charge?</p><p>My diesel would do well over 600 miles on a tank.</p><p>UK only 5.9% of cars are EV, that will change in the next 10 years, maybe these disused petrol stations will be needed. Or will batteries improve that they have 500 mile range and most people will charge at home using solar?</p>", "replyTo": 21, "stocks": [], "origin": "report", "av": "R", "bg": "#1B6E38"},
+  {"id": "c23", "name": "Charles Mitchell", "at": 996, "likes": 0, "text": "<p>It's 77p but with my Kia card get 15% off. Hope charging is 9p from 12:00-6.00am. I get up to 390 miles depending on driving conditions. Got from Laugharne to Manchester on 50%- regenerative braking helped with all the Welsh hills as we went cross country. 600 miles should be available soon- though might mean solid state batteries and not sure what the current infrastructure could support. Choice thing for me, as a well knowns supermarket says every little bit helps. And I am aware of the cost of batteries etc in terms of the planet. the guardian now publish this reading daily</p>", "replyTo": 22, "stocks": [], "origin": "report", "av": "C", "bg": "#D97D30"},
+  {"id": "c24", "name": "rmillaree", "at": 997, "likes": 0, "text": "<p>we certainly need more charging points for thats for sure.</p><p>i think there is perhaps though plenty of natural space at pressent though away from motorway networks at present.</p><p>perhaps there is scope in prime spots to have say  mini supermarket greggs - burger place - wash your clothes and charge your car - so perhaps some scope.</p><p>As range increases there is no doubt that more and more charging will be best done at home overnight - so whilst there is extra capacity needed for sure - it it soemthing that can make wonga from asite compared to say building 6 or 8 flats ?<br></p>", "replyTo": 22, "stocks": [], "origin": "report", "av": "R", "bg": "#1B6E38"},
+  {"id": "c25", "name": "af20001", "at": 1094, "likes": 0, "text": "<p>I don't think charging at home on Solar will ever be a big thing. Home chargers are already 'slow' at 7Kwh, not many people have a solar array of that size at home. A 3-4kwh charging rate (what a typical home solar array would be) is ok for a bit of topping up, but not full charging.</p><p>Assuming all the extra promised wind capacity comes online, then overnight charging should become very cheap, or even negative pricing if you're on the right tariff. There should be lots of surplus energy then.</p><p>Some of the pricing for EV charging is scandalous- the likes of BP Pulse &amp; Gridserve charge 90p plus at Motorway services. Somehow Tesla do it for a max of 55p for non Tesla owners. </p>", "replyTo": 22, "stocks": [], "origin": "report", "av": "A", "bg": "#4776BA"},
+  {"id": "c26", "name": "john2", "at": 1108, "likes": 3, "text": "<p>'A 3-4kwh charging rate (what a typical home solar array would be)'</p><p>How many days in a year do you see 3-4 kwh though? One thing I have never understood about my solar panels is that when it's really hot they only produce 2.5 kwh. For some reason, they don't like too much sun. And of course in winter, you can forget about getting meaningful quantities of electricity.</p>", "replyTo": 25, "stocks": [], "origin": "report", "av": "J", "bg": "#9478AB"},
+  {"id": "c27", "name": "af20001", "at": 1910, "likes": 0, "text": "<p>The efficiency of solar panels reduces with the hotter they get, plus it's the capacity of the inverter that dictates how much power you generate - these are usually sized smaller than the capacity of your panels.</p>", "replyTo": 26, "stocks": [], "origin": "report", "av": "A", "bg": "#4776BA"},
+  {"id": "c28", "name": "john2", "at": 2050, "likes": 0, "text": "<p>I understand that the efficiency of the panels declines as they get hotter, what I don't understand is the physics behind this.</p>", "replyTo": 27, "stocks": [], "origin": "report", "av": "J", "bg": "#9478AB"},
+  {"id": "c29", "name": "rwh3ue", "at": 2117, "likes": 0, "text": "<p>according to copilot</p><p>The short answer: solar panels produce less power at higher temperatures because heat reduces the voltage they can generate, even though the sunlight might be strong. Solar cells love light, but they don’t love heat.</p><p>roof mounted panels can get much hotter than the air temperature. However, mine can still generate impressive amounts of electricity even in hot weather so it's certainly not a reason to avoid roof mounted panels unless you have an empty field you can use instead.</p>", "replyTo": 28, "stocks": [], "origin": "report", "av": "R", "bg": "#4AA843"},
+  {"id": "c30", "name": "rmillaree", "at": 1121, "likes": 1, "text": "<p>the real dealbreaker for electric cars would be having charge points installed on streets where there is no off street parking - it cant and shouldnt be that hard to find a solution. note that should be done at equivalent price points to what your home rates would be - any infrastruicture costs should just be part of the highways budget.<br></p><p>slightly surprised there has been very little done in that area yet  - perhaps thats not the worst thing in the world though - if the entire tech and clever solutions are improving each year do you really want to splash out money now - if stuff will be dated and not fit for purpose in 5-7 years.<br></p><p>Heck in the meantime even a botch it channel cut in the in the pavemnt to allow cable top be fed through would get the job done for many - as others have said electircx cars are perfect to use up spare night time capacity.</p><p>i wouldnt poo poo solary and battery combo - albeit pehaps for most as we are now thats not gonna work and would be too expensive.</p><p>if i go in a busy bar on friday night i am gonna pay treble what i pay in spoons for my drink - so i dont think we can expect out and about charging to be cheap - not sure if the charging structure reflects the fact they want to get their capital costs back too quickly?  perhaps it would be up to the gov to sort something out if they want to make prices reasonable.</p><p>Not sure how long these charges last ? it alwqays used to be the fcat many would be out of order - so i expect the all in costs aint cheap - higher volumes might help.</p><p>I am huge electric car fan - i am quite happy with progress we have made - i think the original goals to get everyone electric uber quick were perhaps always doomed for failure.</p><p>is it just me or does it all seem to have gone quite ref doom and gloom ref end of the world - obviously its getting hotter and we have more co2 - and some areas wil obviously be hard hit (thats natural as climate changes) - but the polar bears dont seem to be dying  - and i think it was quoted that with global warming we would actually have more green land than before - perhaps the solution is to move half the population of africa to siberia as that area warms up <br><br></p>", "replyTo": 25, "stocks": [], "origin": "report", "av": "R", "bg": "#1B6E38"},
+  {"id": "c31", "name": "Fegger", "at": 1269, "likes": 1, "text": "<p>We have charging from lampposts in the London borough where I live. The council did a deal with a company to install these for free but then gets the revenue. Not cheap.</p>", "replyTo": 30, "stocks": [], "origin": "report", "av": "F", "bg": "#4776BA"},
+  {"id": "c32", "name": "rmillaree", "at": 1885, "likes": 0, "text": "<p>I kinda guess the niche solutions will never be cheap - if it’s for local residents it has to be cheap to work - presumably that either has to be power from house with access point - or just lay cable along the entire street - for someone parking near their house it’s no use if they pay double or treble the unit price they pay at home - if gonna mandate an electric car charging near home must be reasonable - powers that be aint done owt yet in that regard - hopefully solutions will be worked out sometime in next 5 years </p>", "replyTo": 31, "stocks": [], "origin": "report", "av": "R", "bg": "#1B6E38"},
+  {"id": "c33", "name": "FREng", "at": 588, "likes": 2, "text": "<p>FT says the IEA monthly report predicts an oil glut next year. </p>", "stocks": [], "origin": "report", "av": "F", "bg": "#3A7D8A"},
+  {"id": "c34", "name": "tony axon", "at": 553, "likes": 7, "text": "<p>Morning Graham ,I see another busy day for you!   I suspect you will be covering SNWS ,RNS , as it  seems to be a favourite  income share .     I hold ,but with the Iranian situation hav'nt  added ,as a major expense must be diesel fuel .    However that situation may be coming to an end ,thank goodness for all of us.                I wonder what your thoughts are on the seemingly excellent RNS . It would appear there are a number of upfront expenses ,I'm guessing that's the extra vehicles and depots ,that may be required ?  Although the fixed divi. seems to be safe ,do you think the 'special' will be used to cover the upfront 'new' expenses ,or have I read that wrong ?? thanks for your observation Tony</p>", "stocks": ["Smiths News"], "ticks": ["SNWS"], "origin": "article", "av": "T", "bg": "#4776BA"},
+  {"id": "c35", "name": "Graham Neary", "at": 905, "likes": 2, "text": "<p>Hi Tony! I don't think SNWS themselves have figured out that full ramifications of this contract yet.... apart from it being very positive for them! G</p>", "replyTo": 34, "stocks": ["Smiths News"], "ticks": ["SNWS"], "origin": "article", "av": "G", "bg": "#4776BA", "staff": true, "photo": "img/graham-neary.jpg"},
+  {"id": "c36", "name": "FREng", "at": 514, "likes": 8, "text": "<p>Iran won, it seems.   What will it now take to MAGA?</p>", "stocks": [], "origin": "report", "av": "F", "bg": "#3A7D8A"},
+  {"id": "c37", "name": "Silver Moon", "at": 528, "likes": 9, "text": "<p>Meanwhile we have a Russian guided missile destroyer mooching about in the English Channel with its friend or foe beacon switched off, determined not to allow even a yacht to approach closely.  Makes me wonder what those missile cross-hairs are targetted on right now.</p>", "replyTo": 36, "stocks": [], "origin": "report", "av": "S", "bg": "#1B6E38"},
+  {"id": "c38", "name": "peterg", "at": 2163, "likes": 5, "text": "<p>My immediate reading on this is that the story is overblown.  I've crossed the channel many times in a small yacht, one of the busiest shipping lines in the world. And one of the first rules of sensible sailing crossing major shipping lanes is you keep well out of the way of large ships,  regardless of any notions power gives way to sail rules. The second is that if you change course to keep out of the way you make a large correction, 20 degrees or more minimum, so there is no chance the other boat doesn't understand what you are doing. I've seen it  quoted twice, on separate occasions that the yacht changed course by 2 degrees. That's ridiculous. Far too small to be obvious that the yacht was taking avoiding action, it would hardly show, and well within margin of error with wave effects etc. So they were warned twice by conventional means, 5 horn blasts, and would have appeared to be taking no action. Warning shots as a back up certainly seems extreme, but for a Russian captain the possibility of a collision with a British yacht in the channel would have looked career ending, so it's not hard to see that given conventional means would have appeared to have failed to them, they tried something more extreme. </p>", "replyTo": 37, "stocks": [], "origin": "report", "av": "P", "bg": "#1B6E38"},
+  {"id": "c39", "name": "Harry Hindsight", "at": 535, "likes": 2, "text": "<p>MIGA</p>", "replyTo": 36, "stocks": [], "origin": "report", "av": "H", "bg": "#4776BA"},
+  {"id": "c40", "name": "Revs8", "at": 537, "likes": 16, "text": "<p>That is a very strange statement. There are other social media channels for political statements. I wonder if the Iranian people feel they won!</p>", "replyTo": 36, "stocks": [], "origin": "report", "av": "R", "bg": "#CC4752"},
+  {"id": "c41", "name": "FREng", "at": 567, "likes": 2, "text": "<p>Apologies,I should have been clearer.  It seems likely that changing perceptions of US power will have an effect  on many areas that will affect investors.  I would welcome views on how this might play out over the next few years. </p>", "replyTo": 40, "stocks": [], "origin": "report", "av": "F", "bg": "#3A7D8A"},
+  {"id": "c42", "name": "Martin Verlaine", "at": 587, "likes": 10, "text": "<p>Trumps venture into the Middle East has been nothing short of disasterous and history will not be kind. Trump will spin this as US making the world a safer place to his fan base who either have no idea where Iran is or care even less. Most Republicans only think about the price of Gas and if they can cook it on their Grill. Nothing now matters until the mid terms elections and the ' hell' that would break loose if Trump becomes a ' lame duck' president. Wait for the increase in ' executive orders' ahead of Nov if the Democrats are likely to take control </p>", "replyTo": 41, "stocks": [], "origin": "report", "av": "M", "bg": "#4AA843"},
+  {"id": "c43", "name": "eggbaconandbubble", "at": 544, "likes": 7, "text": "<p>Their cross-hairs will be firmly fixed on <span class=\"tagged-security\"><a href=\"#\">Lancashire Holdings</a> (LON:LRE)</span> as the US/Iran peace deal becomes effective thus removing the maritime insurance threat and they want a high teens yield!!!</p>", "replyTo": 36, "stocks": [], "origin": "report", "av": "E", "bg": "#4776BA"},
+  {"id": "c44", "name": "Silver Moon", "at": 557, "likes": 0, "text": "<p>I like that eggsbaconandbubble, I hold <span class=\"tagged-security\"><a href=\"#\">Lancashire Holdings</a> (LON:LRE),</span>  having put the crosshairs on them earlier this year.</p>", "replyTo": 43, "stocks": [], "origin": "report", "av": "S", "bg": "#1B6E38"},
+  {"id": "c45", "name": "Rusty2", "at": 633, "likes": 1, "text": "<p>War risks, have been very profitable for Underwriters, in the past. Now the rates will fall.</p>", "replyTo": 43, "stocks": [], "origin": "report", "av": "R", "bg": "#1B6E38"},
+  {"id": "c46", "name": "Brucie5", "at": 972, "likes": 3, "text": "<p>Can you expand on this comment please with more explicit comment on the investment proposition at <span class=\"tagged-security\"><a href=\"#\">Lancashire Holdings</a> (LON:LRE)</span> ?  \"In the cross hairs\" could be understood in various ways.  While I think I understand where you're coming from concerning Hormuz risk and contingent premiums, presumably there is  more to  the company than the straits?   My shallow understanding of LRE is that it specialises in  catastrophic risk; which carries a double risk/reward.  Higher incidence of insurance claims following disasters push up premiums, and the converse - which is no doubt what you are referring to?  In short, do you see this therefore as a buy or a sell?  I'd add that one is no doubt also buying not just the geopolitical risk but the company's expertise in assessing and underwriting, and its shareholder friendly dividend policy?  </p>", "replyTo": 43, "stocks": [], "origin": "report", "av": "B", "bg": "#9478AB"},
+  {"id": "c47", "name": "RDHOWARTH", "at": 483, "likes": 27, "text": "<p>Bond yields have pretty much fallen across the board and MOVE remains extremely well behaved by recent standards sub 70. The TIP spread over conventional Treasuries has not moved and so Oil weakness has had no impact despite falling 30%. All the action was in spot however, Bulls were waiting for forward curves to rise to reflect shortages but bears expected spot to fall. So spots fall relieves some pressure but has little impact on financial markets thus far. For now I think rate expectations are in no mans land but lean up not down. All very dependent on whether the treaty holds and the straight does open, and thus remains open. The market is assuming it will. </p><p>However supplies and stocks are already low so we are more exposed to a deterioration than the first time....so it would be reasonable to expect Oil to remain a little higher than pre war. Net net that would be a small negative for the economy to absorb but nothing like as bad as the straight remaining closed. Seems to me, it's not been that straight forward to trade even though index levels are reclaiming highs. Id be happy enough lightening the load around here .... esp with Vix very normal at 16 ..... since risks to the economy remain in place.  </p>", "stocks": [], "origin": "report", "av": "R", "bg": "#1B6E38"},
+  {"id": "c48", "name": "GloucesterBob", "at": 481, "likes": 13, "text": "<p>With regards to <span class=\"tagged-security\"><a href=\"#\">Frontier Developments</a> (LON:FDEV)</span>  has does it go literally overnight from a 96 Super Stock all the way down to a 63 High Flyer?  How does this algorithm work?</p><p>Trying to work out if its a glitch and will be back up tomorrow, or sign of something going seriously wrong.</p>", "stocks": ["Frontier Developments"], "ticks": ["FDEV"], "origin": "article", "av": "G", "bg": "#D97D30"},
+  {"id": "c49", "name": "FederalReverse", "at": 488, "likes": 13, "text": "<p>The market cap is wrong. I wish it was £633m. I reported it so hopefully will be fixed. <span class=\"tagged-security\"><a href=\"#\">Frontier Developments</a> (LON:FDEV)</span> FDEV</p>", "replyTo": 48, "stocks": ["Frontier Developments"], "ticks": ["FDEV"], "origin": "article", "av": "F", "bg": "#1B6E38"},
+  {"id": "c50", "name": "CharlieT", "at": 490, "likes": 5, "text": "<p>I suspect it is linked to an error with the Market Cap. Currently showing as £633m when I think it should be closer £150m which seems to have severely hit the Value score. </p>", "replyTo": 48, "stocks": ["Frontier Developments"], "ticks": ["FDEV"], "origin": "article", "av": "C", "bg": "#3A7D8A"},
+  {"id": "c51", "name": "GloucesterBob", "at": 505, "likes": 6, "text": "<p>Thanks CharlieT and FederalReserve, I was close to hitting the sell (under 70 STOCKRANK) but will watch with interest.</p>", "replyTo": 50, "stocks": ["Frontier Developments"], "ticks": ["FDEV"], "origin": "article", "av": "G", "bg": "#D97D30"},
+  {"id": "c52", "name": "Revs8", "at": 539, "likes": 5, "text": "<p>Its just undergoing an ABC correction IMO. I'm looking for the buying opportunity. Around 410p IMO.</p>", "replyTo": 48, "stocks": ["Frontier Developments"], "ticks": ["FDEV"], "origin": "article", "av": "R", "bg": "#CC4752"},
+  {"id": "c53", "name": "jmallin1972", "at": 453, "likes": 0, "text": "<p>Rockwood Strategic seems to be duplicated on the table with the same RNS comment.</p>", "stocks": [], "origin": "report", "av": "J", "bg": "#9478AB"},
+  {"id": "c54", "name": "Graham Neary", "at": 458, "likes": 0, "text": "<p>Fixed that, thanks!</p>", "replyTo": 53, "stocks": [], "origin": "report", "av": "G", "bg": "#4776BA", "staff": true, "photo": "img/graham-neary.jpg"},
+  {"id": "c55", "name": "bensummers", "at": 438, "likes": 2, "text": "<p>FINAL CALL for AGAINST voters: Nanoco PLC (NANO).</p><p><strong>Proxy Voting Deadline:</strong> Wednesday, 17 June 2026, at 10:30 a.m. BST <em>(This is the final deadline to submit electronic proxy appointments or Forms of Proxy).</em></p><p>Folks I know I've made a few of these posts but this one might be the most important of all.<br><br>We really are looking at the final opportunity to vote now.  HL have a voting deadline of later on today. Other brokers will be similar.  <strong>Whether you have 10,000 shares or many more than that it all counts. Collectively we have real power here.</strong><br><br>We know we are rapidly closing in on the GM day now.  HL shareholders alone hold 21% of the shares here. Imagine the difference that makes to the outcome. We can easily defeat this.  To vote with HL, just go to Investor Inbox or this link when logged in <a href=\"#\">https://online.hl.co.uk/my-accounts/investor-mailbox</a> If anyone isn't sure about how to vote with their own broker, please ask I'm sure somebody can help.</p><p><strong>VOTE AGAINST TO STOP THIS HEIST AND KEEP THESE SHARES LISTED.</strong><br></p><p><strong>Nanoco PLC are trying to delist their company and take it private when it is more than 90% owned by retail shareholders. The market has voted about it by slashing its market cap to less than half its account balance. Nanoco PLC still has a cash balance of £10.1 million as at 19 May 2026. Hargreaves sent a note to its clients yesterday alerting them about this but they didn't tell them about the cash balance so some could have been frightened into selling. Please help us get the word out - if you have a following I would appreciate you tweeting this message.</strong></p>", "stocks": [], "origin": "report", "av": "B", "bg": "#3A7D8A"},
+  {"id": "c56", "name": "Graham Neary", "at": 449, "likes": 98, "text": "<p>Ben, I edited your message to make it shorter. Several readers have been unhappy with your posting re: Nanoco. In future, if you're going to make repeated calls for action, a shorter message would suffice. Thank you!</p>", "replyTo": 55, "stocks": [], "origin": "report", "av": "G", "bg": "#4776BA", "staff": true, "photo": "img/graham-neary.jpg"},
+  {"id": "c57", "name": "bensummers", "at": 458, "likes": 15, "text": "<p>thanks but I hope you understand my mission.  Nanoco PLC is mostly owned by retail investors and I'm trying to rally as many troops as possible to stop the delisting.</p>", "replyTo": 56, "stocks": [], "origin": "report", "av": "B", "bg": "#3A7D8A"},
+  {"id": "c58", "name": "ken mitchell", "at": 509, "likes": 69, "text": "<p>Doubt that there are many Stockopedia subscribers still wasting their money on <span class=\"tagged-security\"><a href=\"#\">Nanoco</a> (LON:NANO)</span> . It’s down 99%from the all time high,, and down 77% over 1 year. So constantly posting the same thing about Nanoco on this quality thread is likely to influence a tiny number of subscribers. Why not start a separate <span class=\"tagged-security\"><a href=\"#\">Nanoco</a> (LON:NANO)</span> thread instead? </p>", "replyTo": 57, "stocks": [], "origin": "report", "av": "K", "bg": "#5C4A6B"},
+  {"id": "c59", "name": "bensummers", "at": 585, "likes": 0, "text": "<p>too late now - most nominee accounts will close voting today.</p>", "replyTo": 58, "stocks": [], "origin": "report", "av": "B", "bg": "#3A7D8A"},
+  {"id": "c60", "name": "The Boon Fund", "at": 593, "likes": 45, "text": "<p>Yes, but yours is not the ONLY topic of interest to the Stocko community, and by <strong>reposting a long lengthy post every day... isn't that just selfish spamming?</strong></p><p>Especially when viewing this Report on a mobile device, where you have to scroll loads to get past your daily copy+paste.</p><p>Sorry for the harsh words. I know that Nanoco is a very important subject to you. But be aware that its one of tens of topics daily that people want to discuss on this Report.</p><p>Here's a suggestion. <strong>Keep posting daily to raise awareness. But keep it to 3-4 lines</strong>. If the topic is so compelling, find a way to tell it succinctly. <strong>And provide a link out</strong> to a previous comment in a previous Report, with the longer story (use the link button you see below each comment to generate that deeplink).</p>", "replyTo": 57, "stocks": [], "origin": "report", "av": "T", "bg": "#CC4752"},
+  {"id": "c61", "name": "bensummers", "at": 669, "likes": 4, "text": "<p>Is the market smelling that the delisting will be defeated?  Stock is up today.  Voting online has closed now.   My questions.  Was Glass Lewis genuinely acting in the best interests of Nanoco shareholders when it recommended support for this delisting? What due diligence did it actually carry out? And crucially, was Glass Lewis paid, directly or indirectly, by Nanoco or its advisers in connection with this recommendation?  Shareholders deserve to know whether this was an independent assessment or just another piece of board-friendly cover.</p><p>Secondly, if the board uses the votes attached to the Nanoco Group PLC Employee Benefit Trust to push through delisting, then in my view that should trigger an immediate vote of no confidence in the board.<br></p>", "replyTo": 55, "stocks": [], "origin": "report", "av": "B", "bg": "#3A7D8A"},
 ];
 
-const AM_COMMENT_LIMIT = 20;
+// replyTo is an index into the seed list; resolve it to an object once, so comments
+// prepended by the compose demo don't shift every reply onto the wrong parent.
+// Seeded stock comments are the ones on each atomic article (see ao.html etc.).
+// The comment that started a conversation sets its topic and where it lives.
+function rootOf(c) { while (c.parent) c = c.parent; return c; }
+// A conversation belongs to a stock if it started on that stock's atomic article, or
+// its first comment @mentions the stock. Replies come with it; a passing mention deep
+// in an unrelated thread doesn't pull that thread in.
+function aboutStock(c, stock) {
+  const r = rootOf(c);
+  return (r.origin === 'article' && r.stocks.includes(stock)) || r.mentions.includes(stock);
+}
+function mentionsIn(html) {
+  return [...new Set([...html.matchAll(/class="tagged-security"><a[^>]*>([^<]+)<\/a>/g)].map(m => m[1]))];
+}
+allComments.forEach(c => {
+  c.mentions = mentionsIn(c.text);
+  if (c.replyTo !== undefined) c.parent = allComments[c.replyTo];
+  if (!c.origin) c.origin = c.stocks.length ? 'article' : 'report';
+});
 
-// Fewer people have commented by 8:30am than by 13:54, so the AM state shows
-// a realistic subset rather than the full end-of-day discussion. Rather than
-// an arbitrary slice, show whichever comments have existed longest (oldest
-// "time ago" first) — that spreads naturally across every stock instead of
-// wiping some out entirely. Anything just posted via the live "post a
-// comment" demo is always included too, regardless of state, so the demo
-// still gives immediate feedback.
+// Each state shows only what had been posted by its clock; complete shows the full thread.
+const STATE_CLOCK = { am: 8*60+30, pm: 12*60+30, done: Infinity };
+function ageOf(c) { return c.time === 'just now' ? -Infinity : -c.at; }
 function visibleComments() {
-  if (currentState !== 'am') return allComments;
-  const byAge = [...allComments].sort((a, b) => parseMinutesAgo(b.time) - parseMinutesAgo(a.time));
-  const oldest = byAge.slice(0, AM_COMMENT_LIMIT);
-  const oldestSet = new Set(oldest);
-  const justPosted = allComments.filter(c => c.time === 'just now' && !oldestSet.has(c));
-  return [...oldest, ...justPosted];
+  const cut = STATE_CLOCK[currentState] ?? Infinity;
+  return allComments.filter(c => c.time === 'just now' || c.at <= cut);
 }
 
 const DISCUSS_STOCKS = ['Smiths News','Games Workshop','PZ Cussons','AO World','Hargreaves Services','Castings','Brave Bison','Likewise'];
@@ -3354,78 +3460,29 @@ const TICKER_TO_STOCK = {
 const TOP_STOCK_TABS = 4; // stocks with the most comments get a tab; the rest go in "More"
 
 function buildDiscussTabs() {
-  const tabs = document.getElementById('discuss-tabs');
-  if (!tabs) return;
   const visible = visibleComments();
   const allCount = visible.length;
-  const genCount = visible.filter(c => c.stocks.length === 0).length;
-
-  // Keep every on-page comment count (meta-bar link + discussion heading)
-  // in sync with the real data, rather than the hardcoded numbers they
-  // started life as.
+  // Keep every on-page comment count (meta-bar link + discussion heading) in sync.
   const totalEl = document.getElementById('discuss-total-count');
-  if (totalEl) totalEl.textContent = `(${allCount})`;
+  if (totalEl) totalEl.textContent = allCount;
   const metaEl = document.getElementById('meta-comments-count');
   if (metaEl) metaEl.textContent = allCount;
 
-  // Rank covered stocks by comment volume. The busiest few get a tab;
-  // the long tail (often just 1-2 comments) collapses into "More" so the
-  // strip doesn't grow with every extra stock the report covers.
-  const stockCounts = DISCUSS_STOCKS
-    .map(s => ({ name: s, count: visible.filter(c => c.stocks.includes(s)).length }))
-    .filter(s => s.count > 0)
-    .sort((a, b) => b.count - a.count);
-  const topStocks = stockCounts.slice(0, TOP_STOCK_TABS);
-  const overflowStocks = stockCounts.slice(TOP_STOCK_TABS);
-
-  let html = `<div class="discuss-tab active" data-stock="" onclick="switchDiscuss('')">All <span class="discuss-tab-count">${allCount}</span></div>`;
-  topStocks.forEach(s => {
-    html += `<div class="discuss-tab" data-stock="${s.name}" onclick="switchDiscuss('${s.name}')">${s.name} <span class="discuss-tab-count">${s.count}</span></div>`;
-  });
-  // "No stock tag" always lives in the dropdown — it's a different axis
-  // from stock popularity, not something competing for a top-line tab.
-  html += `<div class="discuss-tab discuss-tab-more" id="discuss-more-tab" onclick="toggleMoreMenu(event)">
-    <span id="discuss-more-label">More</span>
-    <svg class="discuss-more-caret" viewBox="0 0 24 24" width="11" height="11" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-  </div>`;
-  tabs.innerHTML = html;
-
-  // The dropdown itself lives outside .discuss-tabs (which scrolls
-  // horizontally) so it never gets clipped — just refresh its contents here.
-  // "No stock tag" is appended last, after the ranked long-tail stocks.
-  const menu = document.getElementById('discuss-more-menu');
-  if (menu) {
-    let menuHtml = overflowStocks.map(s =>
-      `<div class="discuss-more-item" onclick="switchDiscuss('${s.name}'); closeMoreMenu();">${s.name} <span class="discuss-more-count">${s.count}</span></div>`
-    ).join('');
-    menuHtml += `<div class="discuss-more-item" onclick="switchDiscuss('General'); closeMoreMenu();">No stock tag <span class="discuss-more-count">${genCount}</span></div>`;
-    menu.innerHTML = menuHtml;
-  }
-
+  const sel = document.getElementById('discuss-filter');
+  if (!sel) return;
+  // Live lists the stocks the authors tagged on the DSMR, not what commenters mention.
+  // Mock: the 8 atomic-article stocks, plus Frontier Developments and Oxford Metrics,
+  // which this mock treats as having atomic articles.
+  const names = [...new Set([...DISCUSS_STOCKS, ...allComments.filter(c => c.origin === 'article').flatMap(c => c.stocks)])]
+    .sort((x, y) => x.localeCompare(y));
+  sel.innerHTML = `<option value="">All stocks</option>` +
+    names.map(n => `<option value="${n}">${n}</option>`).join('');
   updateDiscussTabActiveState();
 }
 
 function updateDiscussTabActiveState() {
-  let matched = false;
-  document.querySelectorAll('.discuss-tab[data-stock]').forEach(t => {
-    const isMatch = t.dataset.stock === activeDiscussTab;
-    t.classList.toggle('active', isMatch);
-    if (isMatch) matched = true;
-  });
-  // If the active filter is tucked away in "More" (a long-tail stock, or
-  // "No stock tag"), reflect that on the trigger itself rather than
-  // leaving it looking unselected.
-  const moreTab = document.getElementById('discuss-more-tab');
-  const moreLabel = document.getElementById('discuss-more-label');
-  if (moreTab) {
-    const isOverflowActive = !matched && activeDiscussTab !== '';
-    moreTab.classList.toggle('active', isOverflowActive);
-    if (moreLabel) {
-      moreLabel.textContent = isOverflowActive
-        ? (activeDiscussTab === 'General' ? 'No stock tag' : activeDiscussTab)
-        : 'More';
-    }
-  }
+  const sel = document.getElementById('discuss-filter');
+  if (sel) sel.value = activeDiscussTab;
 }
 
 function toggleMoreMenu(e) {
@@ -3477,60 +3534,139 @@ function renderComments(filter) {
   const visible = visibleComments();
   const filtered = filter === ''
     ? visible
-    : filter === 'General'
-    ? visible.filter(c => c.stocks.length === 0)
-    : visible.filter(c => c.stocks.includes(filter));
+    : visible.filter(c => aboutStock(c, filter));
   const order = (arr) => {
     const a = [...arr];
     if (discussSort === 'popular') a.sort((x, y) => (y.likes || 0) - (x.likes || 0));
-    else if (discussSort === 'oldest') a.sort((x, y) => parseMinutesAgo(y.time) - parseMinutesAgo(x.time));
-    else a.sort((x, y) => parseMinutesAgo(x.time) - parseMinutesAgo(y.time));
+    else if (discussSort === 'oldest') a.sort((x, y) => ageOf(y) - ageOf(x));
+    else a.sort((x, y) => ageOf(x) - ageOf(y));
     return a;
   };
   // Threaded: sort the top-level comments, then hang each reply under its parent in
   // the order it was written — a reply only makes sense after what it answers, so the
   // sort applies to conversations rather than to individual posts.
   let sorted;
+  const inView = new Set(filtered);
   if (discussThread === 'threaded') {
-    const idx = new Map(allComments.map((c, i) => [c, i]));
-    const inView = new Set(filtered);
+    // Replies nest under what they answer, at any depth, as live.
     const kids = new Map();
     const tops = [];
     filtered.forEach(c => {
-      const parent = c.replyTo !== undefined ? allComments[c.replyTo] : null;
+      const parent = c.parent;
       if (parent && inView.has(parent)) {
         if (!kids.has(parent)) kids.set(parent, []);
         kids.get(parent).push(c);
       } else tops.push(c);
     });
     sorted = [];
-    order(tops).forEach(t => {
-      sorted.push(t);
-      (kids.get(t) || [])
-        .sort((a, b) => parseMinutesAgo(b.time) - parseMinutesAgo(a.time))
-        .forEach(k => { k._isReply = true; sorted.push(k); });
-    });
+    const walk = (c, d) => {
+      c._depth = d; sorted.push(c);
+      (kids.get(c) || [])
+        .sort((a, b) => ageOf(b) - ageOf(a))
+        .forEach(k => walk(k, d + 1));
+    };
+    order(tops).forEach(t => walk(t, 0));
+    // A run of replies at one level ends where the next comment sits at another level.
+    sorted.forEach((c, i) => { c._runEnd = !sorted[i + 1] || sorted[i + 1]._depth !== c._depth; });
   } else {
-    filtered.forEach(c => { c._isReply = false; });
+    filtered.forEach(c => { c._depth = 0; });
     sorted = order(filtered);
   }
 
-  list.innerHTML = sorted.map(c => `
-    <div class="comment-item${c._isReply ? ' is-reply' : ''}">
-      <div class="comment-av" style="background:${c.bg}">${c.av}</div>
+  list.innerHTML = sorted.length
+    ? sorted.map(c => renderCommentItem(c, inView)).join('')
+    : `<p class="comment-empty">No comments on ${filter} yet.</p>`;
+}
+
+// ── Comment item, as the live discussion draws it ──
+// Display time is absolute, like live: the "x min ago" seed data is resolved
+// against the prototype state's clock: "Today" while the report is live, dated once complete.
+function commentClock(c) {
+  if (c.time === 'just now') return 'Just now';
+  const day = Math.floor(c.at / 1440), m = c.at % 1440, h = Math.floor(m / 60);
+  const clock = `${((h + 11) % 12) + 1}:${String(m % 60).padStart(2,'0')} ${h < 12 ? 'am' : 'pm'}`;
+  return currentState === 'done' ? `${17 + day} Jun, ${clock}` : `Today ${clock}`;
+}
+// Seed members a join year and post count that stay stable between renders.
+function memberMeta(c) {
+  if (c.staff) return '3,183 posts';
+  let h = 0; for (const ch of c.name) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return `Joined ${2009 + h % 15} &middot; ${(20 + h % 3600).toLocaleString('en-GB')} posts`;
+}
+const STOCK_TO_TICKER = Object.fromEntries(Object.entries(TICKER_TO_STOCK).map(([t, n]) => [n, t]));
+// The atomic article each covered stock's comments are posted on.
+const STOCK_PAGE = { 'AO.':'ao.html', 'BBSN':'bbsn.html', 'CGS':'cgs.html', 'GAW':'gaw.html',
+                     'HSP':'hsp.html', 'LIKE':'like.html', 'PZC':'pzc.html', 'SNWS':'snws.html' };
+// "Posted on X" — shown only on comments written on a stock's article, because those
+// never needed an @mention. It says where the comment came from, as "In reply to" says
+// where it sits; clicking goes to that article's discussion. @mentions stay inline.
+// The prototype header switches between the two treatments under review.
+// 'meta' puts it beside the timestamp — when and where it was posted, read together.
+let tagStyle = 'meta';
+function setTagStyle(v) { tagStyle = v; renderComments(currentDiscussFilter); }
+function stockTags(c, cls, targetId) {
+  return c.stocks.map((name, i) => {
+    const tick = (c.ticks && c.ticks[i]) || STOCK_TO_TICKER[name] || '';
+    // Goes to this comment on the atomic article. Frontier Developments and Oxford
+    // Metrics have no atomic article page in the prototype, so theirs go nowhere.
+    const page = STOCK_PAGE[tick];
+    const attrs = page ? `href="${page}#${targetId}"` : `href="#" onclick="return false"`;
+    return cls === 'comment-stock-chip'
+      ? `<a class="${cls}" ${attrs} title="Go to the discussion on the ${name} article">Posted on ${name}</a>`
+      : `Posted on <a class="${cls}" ${attrs} title="Go to the discussion on the ${name} article">${name}</a>`;
+  }).join('');
+}
+function renderCommentItem(c, inView) {
+  const flat = discussThread !== 'threaded';
+  const depth = flat ? 0 : (c._depth || 0);
+  const parent = c.parent;
+  // "Posted on [stock]": the conversation started on that stock's atomic article.
+  // Threaded shows it once, on the top-level comment; unthreaded on every comment.
+  const root = rootOf(c);
+  const posted = root.origin === 'article' && (flat || depth === 0) ? root : null;
+  const replyTo = flat && parent ? `<a class="comment-reply-to" href="#" onclick="return false" title="View this conversation">In reply to ${parent.name}</a>` : '';
+  const kids = allComments.filter(k => k.parent === c && inView.has(k)).length;
+  const repliesLink = flat && kids
+    ? `<button class="comment-replies" type="button" onclick="showThread()"><span class="msym" aria-hidden="true">subdirectory_arrow_right</span>${kids} ${kids === 1 ? 'Reply' : 'Replies'}</button>` : '';
+  const av = c.photo
+    ? `<div class="comment-av"><img src="${c.photo}" alt=""></div>`
+    : `<div class="comment-av" style="background:${c.bg}">${c.av}</div>`;
+  return `
+    <div class="comment-item${depth ? ' is-nested' + (c._runEnd ? ' is-run-end' : '') : ' is-top'}" id="${c.id}"${depth ? ` style="--depth:${Math.min(depth, 3)}"` : ''}>
+      ${av}
       <div class="comment-body">
-        <div class="comment-name-row">
-          <span class="comment-name">${c.name}</span>
-          <span class="comment-time">${c.time}</span>
-          ${c.stocks.map(s => `<span class="comment-stock-pill">${s}</span>`).join('')}
+        <div class="comment-head">
+          <div class="comment-who">
+            <div class="comment-name-row">
+              <span class="comment-name">${c.name}</span>
+              ${c.staff ? '<span class="comment-staff"><span class="msym is-filled" aria-hidden="true">verified</span>Staff</span>' : ''}
+              <span class="comment-meta">${memberMeta(c)}</span>
+            </div>
+            <div class="comment-time">${commentClock(c)}${tagStyle === 'meta' && posted ? ` <span class="comment-posted-on">&middot; ${stockTags(posted, 'comment-stock-link', c.id)}</span>` : ''}</div>
+          </div>
+          ${(tagStyle === 'chip' && posted) || replyTo
+            ? `<div class="comment-chips">${tagStyle === 'chip' && posted ? stockTags(posted, 'comment-stock-chip', c.id) : ''}${replyTo}</div>` : ''}
         </div>
+        ${tagStyle === 'line' && posted ? `<div class="comment-stock-line">${stockTags(posted, 'comment-stock-link', c.id)}</div>` : ''}
         <div class="comment-text">${c.text}</div>
-        <div class="comment-actions">
-          <span class="comment-reply">Reply</span>
-          <span class="comment-likes"><svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14zM7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>${c.likes || 0}</span>
+        <div class="comment-foot">
+          <span class="comment-like"><span class="msym" aria-hidden="true">thumb_up</span>${c.likes || 0}</span>
+          ${repliesLink}
+          <div class="comment-tools">
+            <button class="comment-tool" type="button" aria-label="Edit"><span class="msym" aria-hidden="true">edit</span></button>
+            <button class="comment-tool" type="button" aria-label="Report"><span class="msym" aria-hidden="true">flag</span></button>
+            <button class="comment-tool" type="button" aria-label="Copy link"><span class="msym" aria-hidden="true">link</span></button>
+            <button class="comment-tool" type="button"><span class="msym" aria-hidden="true">reply</span><span class="tool-label">Reply</span></button>
+          </div>
         </div>
       </div>
-    </div>`).join('');
+    </div>`;
+}
+// "N Replies" in the unthreaded view opens the conversation in the threaded view.
+function showThread() {
+  const sel = document.getElementById('discuss-thread');
+  if (sel) sel.value = 'threaded';
+  setDiscussThread('threaded');
 }
 
 function jumpToDiscussion(tick) {
@@ -3539,8 +3675,7 @@ function jumpToDiscussion(tick) {
   const stock = TICKER_TO_STOCK[tick] || tick;
   // Falls back to "All" if the stock has no comments yet (whether it's a
   // top tab or tucked away in "More" is handled inside switchDiscuss).
-  const hasComments = !!stock && visibleComments().some(c => c.stocks.includes(stock));
-  switchDiscuss(hasComments ? stock : '');
+  switchDiscuss(stock || '');
   // Scroll to discussion section
   const disc = document.getElementById('discussion-section');
   if (disc) disc.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -3557,7 +3692,9 @@ function switchDiscuss(stock) {
 function syncPreviewCommentCounts() {
   document.querySelectorAll('.jump-discuss[data-tick]').forEach(el => {
     const stock = TICKER_TO_STOCK[el.dataset.tick] || el.dataset.tick;
-    const n = visibleComments().filter(c => c.stocks.includes(stock)).length;
+    // Matches the count on the atomic article: its own threads plus DSMR threads that
+    // @mention the stock (copied onto it, as live).
+    const n = visibleComments().filter(c => aboutStock(c, stock)).length;
     const countEl = el.querySelector('.jump-discuss-count');
     if (countEl) countEl.textContent = n + (n === 1 ? ' comment' : ' comments');
   });
@@ -3685,33 +3822,29 @@ function submitComment() {
   const text = ta.value.trim();
   if (!text) return;
 
-  const stockNames = taggedStocks.map(s => s.name);
-
   // Prepend new comment so it appears at the top. One record holds every
   // tagged stock — it appears once in "All" and once under each tag's tab.
   allComments.unshift({
-    stocks: stockNames,
-    av:     'GJ',
+    stocks: [],
+    origin: 'report',
+    av:     'G',
     bg:     '#1B6E38',
     name:   'Greg Jackson',
+    id:     'new' + Date.now(),
     time:   'just now',
-    text:   text
+    text:   text,
+    mentions: []
   });
 
   // Tab counts have changed, so rebuild them, then jump to wherever the
   // comment landed: its first tagged stock, or General if untagged.
   buildDiscussTabs();
-  const targetStock = stockNames.length ? stockNames[0] : 'General';
-  switchDiscuss(targetStock);
+  switchDiscuss('');
   syncPreviewCommentCounts();
 
   // Reset compose area
   ta.value = '';
   ta.style.height = 'auto';
-  taggedStocks = [];
-  renderTaggedChips();
-  document.getElementById('stock-search-input').value = '';
-  hideTypeahead();
   updateSubmitState();
 
   // Scroll comment list into view
@@ -3983,13 +4116,26 @@ function closeModalOnOverlay(e) {
 // Disable Analysts Reviewed chip on load (AM state, no ratings yet)
 
 renderAgenda();
-setState(currentState);
-
-// ── Deep-link to a specific AM/PM state (e.g. index.html?state=pm) ───────
+// ── Open in the state the address asks for (index.html?state=am|pm|done) ──
+// Read before the first setState, which writes the current state back into the URL.
 const _urlState = new URLSearchParams(window.location.search).get('state');
-if (_urlState === 'am' || _urlState === 'pm') {
-  setState(_urlState);
-}
+setState(['am', 'pm', 'done'].includes(_urlState) ? _urlState : currentState);
+
+// ── Deep link to one comment (from "Posted on the daily report" on an atomic
+// article). Lands on it in whichever view is set, highlighted; if it has gone
+// (deleted or moderated), falls back to the top of the discussion. ─────────
+(function focusLinkedComment() {
+  const id = window.location.hash.slice(1);
+  if (!/^c\d+$/.test(id)) return;
+  // After the page has finished rendering, since later setup re-draws the list.
+  window.addEventListener('load', () => setTimeout(() => {
+    switchDiscuss('');
+    const el = document.getElementById(id);
+    const target = el || document.getElementById('discussion-section');
+    target.scrollIntoView({ block: el ? 'center' : 'start', behavior: 'instant' });
+    if (el) el.classList.add('is-target');
+  }, 100));
+})();
 
 // ── Scroll position save/restore ─────────────────────────────────────────
 let _scrollSaveTimer;

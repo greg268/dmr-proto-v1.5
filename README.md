@@ -39,6 +39,8 @@ The two tiers differ in **depth, not just layout**: the stream carries the analy
 
 The selector top-right is prototype scaffolding, labelled `v1.5` so it can't be confused with v2 in a session. Hide or ignore it when framing.
 
+Each state has its own link, so you can share the page in a given state: `?state=am` (08:30), `?state=pm` (12:30), `?state=done` (17:05). The address bar updates when you change the selector.
+
 | State | Stream | Table |
 | --- | --- | --- |
 | **08:30** | Empty — "No analyst notes yet. The first are filed mid-morning" | All 28, every one summarised |
@@ -54,9 +56,17 @@ At 08:30 the page is essentially today's live report — a complete table — wi
 - **View analysis** → the atomic article (`gaw.html`, `pzc.html`, etc.)
 - The stream's headline is **not** a link — View analysis is the route
 
+## Comments
+
+The comments match the live site, so only one element is new: **"Posted on"**, next to the timestamp, on comments shown away from where their conversation started. The rule is in the Jira card. Everything else in the comments section is out of scope.
+
+To see it: `?state=done`, tony axon's Smiths News thread (switch Replies to Unthreaded to see it on each reply), and Simon's comment on `snws.html`.
+
 ## Data
 
-Placeholder content only — **nothing here reflects real Stockopedia data.**
+The **comments are real**, taken from the live DSMR of 17 June 2026. Threads about Smiths News, Castings, Frontier Developments and Oxford Metrics are treated as posted on that stock's atomic article. Frontier Developments and Oxford Metrics have no atomic article in the prototype, so their links go nowhere.
+
+Everything else is placeholder: the company list, market caps and StockRanks match the day, but the announcement summaries and analyst notes do not.
 
 28 announcements, 8 with an analyst note, 4 held in the reader's portfolios. Coverage is limited to the eight items that have an article behind them, which matches the live report (8 of 29 carried a view on 17 June 2026).
 

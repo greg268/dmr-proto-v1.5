@@ -275,23 +275,87 @@
     .disc-control select { font-family:inherit; font-size:13px; line-height:19px; padding:5px 8px;
                            border:1px solid var(--steel-grey); border-radius:4px;
                            background:var(--brilliant-white); color:var(--text-primary); cursor:pointer; }
-    .disc-actions { display:flex; align-items:center; gap:14px; }
-    .disc-likes { display:inline-flex; align-items:center; gap:5px; font-size:12px; line-height:18px;
-                  color:var(--text-secondary); font-variant-numeric:tabular-nums; }
-    .disc-likes svg { width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:1.6; stroke-linecap:round; }
-    .disc-comment-item { display:flex; gap:12px; padding:16px 0; border-bottom:1px solid var(--border-standard); }
-    .disc-comment-item:last-child { border-bottom:none; }
-    /* After the base rule, so the padding shorthand there cannot swallow the inset. */
-    .disc-comment-item.is-reply { margin-left:46px; padding-left:18px;
-                                 border-left:2px solid var(--steel-grey-light); }
-    .disc-av { width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:white; flex-shrink:0; }
-    .disc-body { flex:1; min-width:0; }
-    .disc-name-row { display:flex; align-items:center; gap:8px; margin-bottom:4px; }
-    .disc-name { font-size:13px; font-weight:700; color:var(--text-primary); }
-    .disc-time { font-size:12px; color:var(--text-secondary); }
-    .disc-text { font-size:14px; line-height:21px; color:#1D2226; margin-bottom:6px; }
-    .disc-reply-btn { font-size:12px; font-weight:700; color:var(--brand-blue); cursor:pointer; background:none; border:none; font-family:'Lato',sans-serif; padding:0; }
-    .disc-reply-btn:hover { color:var(--brand-blue-dark, #2f5a9e); text-decoration:underline; }
+    /* Comment items — matching the live discussion, threaded and unthreaded. No stock
+       tag here: on the article the stock is obvious. The report adds it (see index.html). */
+    .disc-comment-list { padding:0 24px; }
+    .comment-item { display:flex; gap:12px; padding:16px 0 14px; }
+    .comment-av { width:32px; height:32px; border-radius:50%; overflow:hidden; display:flex; align-items:center; justify-content:center;
+                  font-size:11px; font-weight:700; color:white; flex-shrink:0; }
+    .comment-av img { width:100%; height:100%; object-fit:cover; display:block; }
+    .comment-body { flex:1; min-width:0; }
+    .comment-head { display:flex; align-items:flex-start; gap:12px; }
+    .comment-who { flex:1; min-width:0; }
+    .comment-name-row { display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+    .comment-name { font-size:13px; line-height:18px; font-weight:700; color:var(--text-primary); }
+    .comment-staff { display:inline-flex; align-items:center; gap:2px; font-size:12px; line-height:18px; color:var(--text-secondary); }
+    .comment-staff .msym { font-size:14px; color:var(--brand-blue); }
+    .comment-meta, .comment-time { font-size:12px; line-height:18px; color:var(--text-secondary); }
+    .comment-reply-to { flex-shrink:0; font-size:12px; line-height:16px; color:var(--text-secondary);
+                        border:1px solid var(--steel-grey); border-radius:16px; padding:2px 9px; white-space:nowrap; }
+    /* Live opens the parent comment's thread on its own; not wired up in the prototype. */
+    a.comment-reply-to { text-decoration:none; cursor:pointer; }
+    .comment-reply-to:hover { border-color:var(--brand-blue); color:var(--brand-blue); }
+    /* Production pill: grey fill, darker rule, primary text (matches the live site). */
+    .comment-reply-to { background:var(--stone-grey-light); border-color:var(--steel-grey-dark); color:var(--text-primary); padding:3px 10px; }
+    .comment-reply-to:hover { background:var(--stone-grey); border-color:var(--brand-blue); color:var(--brand-blue); }
+    .comment-posted-on .comment-stock-link { color:var(--brand-blue); text-decoration:none; }
+    .comment-posted-on .comment-stock-link:hover { text-decoration:underline; }
+    .comment-item.is-target { animation: comment-target 2.4s ease-out; }
+    @keyframes comment-target { 0%, 35% { background: var(--cornflower-blue-light); } 100% { background: transparent; } }
+    .comment-text p { margin:0; }
+    .comment-text p + p { margin-top:8px; }
+    .comment-text { margin-top:8px; font-size:13px; line-height:20px; color:var(--text-primary); max-width:744px; }
+    .comment-foot { display:flex; align-items:center; gap:18px; margin-top:10px; }
+    .comment-like { display:inline-flex; align-items:center; gap:6px; font-size:12px; line-height:18px;
+                    color:var(--text-secondary); font-variant-numeric:tabular-nums; }
+    .comment-like .msym { font-size:18px; color:var(--brand-blue); }
+    .comment-replies { display:inline-flex; align-items:center; gap:2px; font-size:12px; line-height:18px; color:var(--brand-blue);
+                       background:none; border:none; padding:0; cursor:pointer; font-family:inherit; }
+    .comment-replies .msym { font-size:16px; }
+    .comment-tools { margin-left:auto; display:flex; align-items:center; gap:14px; }
+    .comment-tool { display:inline-flex; align-items:center; gap:3px; color:var(--brand-blue); background:none; border:none;
+                    padding:0; cursor:pointer; font-family:inherit; font-size:12px; line-height:18px; }
+    .comment-tool .msym { font-size:18px; }
+    /* A rule above each conversation, never between a comment and its replies. */
+    .disc-comment-list .comment-item.is-top:not(:first-child) { border-top:1px solid var(--border-standard); }
+    .comment-item.is-nested { margin-left:calc(var(--depth, 1) * 44px); padding-left:16px; border-left:1px solid var(--steel-grey-light); }
+    /* Compose — live shell */
+    .disc-title { font-size:13px; line-height:20px; font-weight:400; }
+    .disc-compose-identity a { color:var(--brand-blue); text-decoration:none; }
+    .compose-row { display:flex; gap:12px; align-items:flex-start; }
+    .compose-av { width:32px; height:32px; border-radius:50%; background:#1B6E38; color:#fff; flex-shrink:0;
+                  display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; }
+    .compose-row .disc-field-wrap { flex:1; min-width:0; border-radius:4px; margin-bottom:0; }
+    .compose-row .disc-field-wrap:focus-within { border-color:var(--brand-blue); }
+    .compose-format-bar { display:flex; gap:2px; padding:4px 6px; border-bottom:1px solid var(--border-standard); }
+    .format-btn { width:30px; height:28px; border-radius:4px; border:none; background:none; cursor:pointer; color:var(--text-secondary);
+                  display:flex; align-items:center; justify-content:center; }
+    .format-btn:hover { background:var(--steel-grey-light); color:var(--text-primary); }
+    .format-btn .msym { font-size:18px; }
+    .compose-row .disc-textarea { font-size:13px; line-height:20px; padding:10px 12px; min-height:64px; }
+    .disc-compose-card .disc-footer { justify-content:space-between; align-items:flex-start; gap:16px; margin-top:10px; padding-left:44px; }
+    .compose-tip { display:flex; gap:6px; font-size:12px; line-height:16px; color:var(--text-secondary); max-width:320px; margin:0; }
+    .compose-tip .msym { font-size:16px; }
+    .compose-tip strong { color:var(--text-primary); }
+/* Chips, likes and actions share the text's right edge: the body is capped at the
+   744px measure, and nested replies lose their indent from it so every level ends on
+   the same line. */
+    .comment-body { max-width:744px; }
+    .comment-item.is-nested .comment-body { max-width:calc(744px - var(--depth, 1) * 44px - 16px); }
+/* Reply rule is drawn, not a border, so it can stop short: where a run of replies ends
+   it finishes level with the reply's action row instead of running into the divider. */
+    .comment-item.is-nested { position:relative; border-left:none; }
+    .comment-item.is-nested::before { content:''; position:absolute; left:0; top:0; bottom:0; width:1px;
+                                      background:var(--steel-grey-light); }
+    .comment-item.is-nested.is-run-end::before { bottom:14px; }
+    @media (max-width: 768px) {
+      .comment-item.is-nested .comment-body { max-width:none; }
+      .comment-item.is-nested.is-run-end::before { bottom:12px; }
+    }
+    @media (max-width: 768px) {
+      .comment-item.is-nested { margin-left:calc(var(--depth, 1) * 18px); padding-left:12px; }
+      .comment-tool .tool-label { display:none; }
+    }
     /* ── AUTHOR CARD ── */
     .author-card { display:flex; align-items:flex-start; gap:14px; background:var(--stone-grey-light); border:1px solid var(--border-standard); border-radius:10px; padding:14px 16px; margin-bottom:20px; }
     .author-photo { width:64px; height:64px; border-radius:8px; object-fit:cover; flex-shrink:0; }
@@ -639,24 +703,27 @@
 </div>
 <div class="article-discussion" id="discussion">
 <div class="disc-header">
-<svg fill="none" height="20" stroke="var(--brand-blue)" stroke-linecap="round" stroke-width="1.5" viewBox="0 0 24 24" width="20"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg>
-<h2 class="disc-title">Discussion on Brave Bison</h2>
-<span class="disc-count" id="disc-count"></span>
+<h2 class="disc-title"><span id="disc-count"></span> comments</h2>
 </div>
 <div class="disc-dmr-notice">
   Comments here are also visible in the <a href="index.html?state=pm">Daily Market Report</a>
 </div>
 <div class="disc-compose-card">
-<div class="disc-compose-identity">Signed in as <strong>Greg Jackson</strong></div>
+<div class="disc-compose-identity">Posting as <a href="#">Greg J</a></div>
 <div class="disc-pretag">
   <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><circle cx="7" cy="7" r="1" fill="currentColor"/></svg>
   BBSN · Brave Bison
 </div>
+<div class="compose-row">
+<div class="compose-av" aria-hidden="true">GJ</div>
 <div class="disc-field-wrap">
-<textarea class="disc-textarea" id="disc-input" maxlength="4000" oninput="discAutoExpand(this); discUpdateSubmit()" placeholder="Share your thoughts on Brave Bison…" rows="3"></textarea>
+<div class="compose-format-bar" aria-label="Formatting"><button class="format-btn" type="button" aria-label="Bold"><span class="msym" aria-hidden="true">format_bold</span></button><button class="format-btn" type="button" aria-label="Italic"><span class="msym" aria-hidden="true">format_italic</span></button><button class="format-btn" type="button" aria-label="Bulleted list"><span class="msym" aria-hidden="true">format_list_bulleted</span></button><button class="format-btn" type="button" aria-label="Numbered list"><span class="msym" aria-hidden="true">format_list_numbered</span></button><button class="format-btn" type="button" aria-label="Link"><span class="msym" aria-hidden="true">link</span></button><button class="format-btn" type="button" aria-label="Image"><span class="msym" aria-hidden="true">image</span></button></div>
+<textarea class="disc-textarea" id="disc-input" maxlength="4000" oninput="discAutoExpand(this); discUpdateSubmit()" placeholder="What are your thoughts on this?" rows="3"></textarea>
+</div>
 </div>
 <div class="disc-footer">
-<button class="disc-submit-btn" disabled="" id="disc-submit" onclick="discSubmit()">Submit</button>
+<p class="compose-tip"><span class="msym" aria-hidden="true">info</span><span><strong>Helpful Tip:</strong> Type the @ symbol when mentioning a stock to link your comment to a StockReport</span></p>
+<button class="disc-submit-btn" disabled="" id="disc-submit" onclick="discSubmit()">Add comment</button>
 </div>
 </div>
 <div class="disc-controls">
@@ -698,9 +765,10 @@ let discSort = 'latest', discThread = 'threaded';
     return /h\b|hour/i.test(t) ? n * 60 : n;
   }
   const discComments = [
-  {av:'SJ', bg:'#3A7D8A', name:'Sophie Johnson', time:'13min ago', likes:5, text:`Brave Bison is an interesting digital play. The social media management contracts are sticky and recurring — rare in the agency world.`},
-  {av:'AW', bg:'#9478AB', name:'Alex Wilson', time:'30min ago', likes:18, replyTo:0, text:`Small cap digital agencies are hard to value but the contracted revenue base is genuinely reassuring. Not all revenue is project-based.`},
-  {av:'KB', bg:'#CC4752', name:'Katie Brown', time:'50min ago', likes:15, text:`The sport and entertainment client wins are smart positioning. These clients want cross-platform campaigns and Brave Bison can deliver that now.`}
+  // Real comments from the 17 June 2026 DSMR about this stock: threads started here
+  // (origin 'article') and DSMR threads whose first comment @mentions the stock, which
+  // live copies onto the atomic article (origin 'dsmr'). Ids match the DSMR's.
+
 ];
 
   function discAutoExpand(el) {
@@ -716,7 +784,7 @@ let discSort = 'latest', discThread = 'threaded';
     const ta = document.getElementById('disc-input');
     const text = ta.value.trim();
     if (!text) return;
-    discComments.unshift({av:'GJ', bg:'#1B6E38', name:'Greg Jackson', time:'just now', text});
+    discComments.unshift({id:'new' + Date.now(), origin:'article', av:'G', bg:'#1B6E38', name:'Greg Jackson', time:'just now', text});
     discRender();
     ta.value = '';
     ta.style.height = 'auto';
@@ -726,46 +794,104 @@ let discSort = 'latest', discThread = 'threaded';
   function discRender() {
     const list = document.getElementById('disc-comment-list');
     const countEl = document.getElementById('disc-count');
-    if (countEl) countEl.textContent = '(' + discComments.length + ')';
+    if (countEl) countEl.textContent = discComments.length;
     const metaCountEl = document.getElementById('meta-comments-count');
     if (metaCountEl) metaCountEl.textContent = discComments.length;
     const order = a => {
       const x = [...a];
       if (discSort === 'popular') x.sort((p, q) => (q.likes || 0) - (p.likes || 0));
-      else if (discSort === 'oldest') x.sort((p, q) => discMins(q.time) - discMins(p.time));
-      else x.sort((p, q) => discMins(p.time) - discMins(q.time));
+      else if (discSort === 'oldest') x.sort((p, q) => discAge(q) - discAge(p));
+      else x.sort((p, q) => discAge(p) - discAge(q));
       return x;
     };
-    // Threaded sorts conversations, not posts: a reply stays under what it answers.
-    let rows;
+    // Threaded sorts conversations, not posts: replies nest under what they answer, at any depth.
+    let rows = [];
     if (discThread === 'threaded') {
-      rows = [];
-      order(discComments.filter(c => c.replyTo === undefined)).forEach(t => {
-        rows.push(t);
-        discComments.filter(c => c.replyTo !== undefined && discComments[c.replyTo] === t)
-                    .forEach(k => { k._isReply = true; rows.push(k); });
-      });
+      const walk = (c, d) => {
+        c._depth = d; rows.push(c);
+        discComments.filter(k => k.parent === c)
+          .sort((a, b) => discAge(b) - discAge(a))
+          .forEach(k => walk(k, d + 1));
+      };
+      order(discComments.filter(c => !c.parent)).forEach(t => walk(t, 0));
+      rows.forEach((c, i) => { c._runEnd = !rows[i + 1] || rows[i + 1]._depth !== c._depth; });
     } else {
-      discComments.forEach(c => { c._isReply = false; });
+      discComments.forEach(c => { c._depth = 0; });
       rows = order(discComments);
     }
-    list.innerHTML = rows.map(c => `
-      <div class="disc-comment-item${c._isReply ? ' is-reply' : ''}">
-        <div class="disc-av" style="background:${c.bg}">${c.av}</div>
-        <div class="disc-body">
-          <div class="disc-name-row">
-            <span class="disc-name">${c.name}</span>
-            <span class="disc-time">${c.time}</span>
+    const flat = discThread !== 'threaded';
+    list.innerHTML = rows.map(c => {
+      const kids = discComments.filter(k => k.parent === c).length;
+      // "Posted on the daily report": the conversation started on the DSMR. Threaded
+      // shows it once, on the top-level comment; unthreaded on every comment.
+      let root = c; while (root.parent) root = root.parent;
+      const posted = root.origin === 'dsmr' && (flat || !c._depth)
+        ? ` <span class="comment-posted-on">&middot; Posted on <a class="comment-stock-link" href="index.html?state=done#${c.id}" title="Go to this comment on the Daily Stock Market Report">the daily report</a></span>` : '';
+      const av = c.photo ? `<div class="comment-av"><img src="${c.photo}" alt=""></div>`
+                         : `<div class="comment-av" style="background:${c.bg}">${c.av}</div>`;
+      return `
+      <div class="comment-item${c._depth ? ' is-nested' + (c._runEnd ? ' is-run-end' : '') : ' is-top'}" id="${c.id}"${c._depth ? ` style="--depth:${Math.min(c._depth, 3)}"` : ''}>
+        ${av}
+        <div class="comment-body">
+          <div class="comment-head">
+            <div class="comment-who">
+              <div class="comment-name-row">
+                <span class="comment-name">${c.name}</span>
+                ${c.staff ? '<span class="comment-staff"><span class="msym is-filled" aria-hidden="true">verified</span>Staff</span>' : ''}
+                <span class="comment-meta">${discMemberMeta(c)}</span>
+              </div>
+              <div class="comment-time">${discClock(c)}${posted}</div>
+            </div>
+            ${flat && c.parent ? `<a class="comment-reply-to" href="#" onclick="return false" title="View this conversation">In reply to ${c.parent.name}</a>` : ''}
           </div>
-          <div class="disc-text">${c.text}</div>
-          <div class="disc-actions">
-            <button class="disc-reply-btn">Reply</button>
-            <span class="disc-likes"><svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14zM7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>${c.likes || 0}</span>
+          <div class="comment-text">${c.text}</div>
+          <div class="comment-foot">
+            <span class="comment-like"><span class="msym" aria-hidden="true">thumb_up</span>${c.likes || 0}</span>
+            ${flat && kids ? `<button class="comment-replies" type="button" onclick="discShowThread()"><span class="msym" aria-hidden="true">subdirectory_arrow_right</span>${kids} ${kids === 1 ? 'Reply' : 'Replies'}</button>` : ''}
+            <div class="comment-tools">
+              <button class="comment-tool" type="button" aria-label="Edit"><span class="msym" aria-hidden="true">edit</span></button>
+              <button class="comment-tool" type="button" aria-label="Report"><span class="msym" aria-hidden="true">flag</span></button>
+              <button class="comment-tool" type="button" aria-label="Copy link"><span class="msym" aria-hidden="true">link</span></button>
+              <button class="comment-tool" type="button"><span class="msym" aria-hidden="true">reply</span><span class="tool-label">Reply</span></button>
+            </div>
           </div>
         </div>
-      </div>`).join('');
+      </div>`;
+    }).join('');
   }
+  // Absolute times, as live — resolved against the report's completed state (17:05).
+  function discAge(c) { return c.time === 'just now' ? -Infinity : -c.at; }
+  function discClock(c) {
+    if (c.time === 'just now') return 'Just now';
+    const day = Math.floor(c.at / 1440), m = c.at % 1440, h = Math.floor(m / 60);
+    return `${17 + day} Jun, ${((h + 11) % 12) + 1}:${String(m % 60).padStart(2, '0')} ${h < 12 ? 'am' : 'pm'}`;
+  }
+  // Same seeded join year / post count as the report, so a member reads the same on both.
+  function discMemberMeta(c) {
+    if (c.staff) return '3,183 posts';
+    let h = 0; for (const ch of c.name) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+    return `Joined ${2009 + h % 15} &middot; ${(20 + h % 3600).toLocaleString('en-GB')} posts`;
+  }
+  function discShowThread() {
+    const sel = document.getElementById('disc-thread');
+    if (sel) sel.value = 'threaded';
+    setDiscThread('threaded');
+  }
+  // replyTo is a seed index; resolve to objects once so a new comment can't shift replies.
+  discComments.forEach(c => { if (c.replyTo !== undefined) c.parent = discComments[c.replyTo]; });
   discRender();
+  // Deep link to one comment (from "Posted on [stock]" on the DSMR): land on it,
+  // highlighted; if it has gone, fall back to the top of the discussion.
+  (function focusLinkedComment() {
+    const id = window.location.hash.slice(1);
+    if (!/^c\d+$/.test(id)) return;
+    const el = document.getElementById(id);
+    const target = el || document.getElementById('discussion');
+    setTimeout(() => {
+      target.scrollIntoView({ block: el ? 'center' : 'start', behavior: 'instant' });
+      if (el) el.classList.add('is-target');
+    }, 50);
+  })();
 
 </script>
 </body>
